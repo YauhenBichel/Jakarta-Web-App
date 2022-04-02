@@ -1,16 +1,10 @@
 package com.holidaysystem.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-
 @MappedSuperclass
-@Setter
-@Getter
 public class AuditEntity {
 
     private static final long serialVersionUID = 1L;
@@ -20,4 +14,17 @@ public class AuditEntity {
 
     @Column(name = "modified")
     private LocalDateTime modified;
+    
+    public void setCreated(LocalDateTime created) {
+    	this.created = created;
+    }
+    public LocalDateTime getCreated() {
+    	return this.created;
+    }
+    public void setModified(LocalDateTime modified) {
+    	this.modified = modified;
+    }
+    public LocalDateTime getModified() {
+    	return this.modified;
+    }
 }

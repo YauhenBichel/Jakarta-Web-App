@@ -31,5 +31,6 @@ Database: dfejis77nibjdr
 User: qexdvxvgdqtdgh
 Port: 5432
 Password: bf7f8df51b60c17d1fcc333c3f7b63e57df7300022deb67d60eb6cee2bd4e5dd
+jdbc:postgresql://ec2-52-214-125-106.eu-west-1.compute.amazonaws.com:5432/dfejis77nibjdr
 URI: postgres://qexdvxvgdqtdgh:bf7f8df51b60c17d1fcc333c3f7b63e57df7300022deb67d60eb6cee2bd4e5dd@ec2-52-214-125-106.eu-west-1.compute.amazonaws.com:5432/dfejis77nibjdr
 Heroku CLI: heroku pg:psql postgresql-infinite-73558 --app holiday-system

@@ -8,11 +8,15 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UserRequest implements Serializable {
-     
+public class EmployeeResponse implements Serializable {
+    
+	private UUID id;
+	
     @NotBlank
     private String firstName;
     
@@ -23,6 +27,16 @@ public class UserRequest implements Serializable {
     @NotBlank
     private String email;
     
+    private String modified;
+    
+    private String created;
+    
+    public UUID getId() {
+    	return this.id;
+    }
+    public void setId(UUID id) {
+    	this.id = id;
+    }
     public String getFirstName() {
     	return this.firstName;
     }
@@ -40,5 +54,17 @@ public class UserRequest implements Serializable {
     }
     public void setEmail(String email) {
     	this.email = email;
+    }
+    public String getCreated() {
+    	return this.created;
+    }
+    public void setCreated(String created) {
+    	this.created = created;
+    }
+    public String getModified() {
+    	return this.modified;
+    }
+    public void setModified(String modified) {
+    	this.modified = modified;
     }
 }
