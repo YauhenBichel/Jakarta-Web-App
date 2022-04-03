@@ -27,26 +27,30 @@ public class EmployeeRepository implements IEmployeeRepository {
 		        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).toFormatter();
 	
 	@Override
-	public EmployeeEntity findById(UUID userId) {
+	public EmployeeEntity findById(UUID employeeId) {
 		try {
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
 			Connection conn = ds.getConnection();
 			
-			String sql = "SELECT id, firstname, lastname, email FROM employee where id = ?";
+			String sql = "SELECT id, firstname, lastname, role, department, accountid, created, modified FROM employee where id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setObject(1, userId);
+			stmt.setObject(1, employeeId);
 			
-			EmployeeEntity user = new EmployeeEntity();
+			EmployeeEntity employee = new EmployeeEntity();
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
-				user.setId(UUID.fromString(rs.getString("id")));
-				user.setFirstname(rs.getString("firstname"));
-				user.setLastname(rs.getString("lastname"));
-				user.setEmail(rs.getString("email"));
+				employee.setId(UUID.fromString(rs.getString("id")));
+				employee.setFirstName(rs.getString("firstname"));
+				employee.setLastName(rs.getString("lastname"));
+				employee.setRole(rs.getString("role"));
+				employee.setDepartment(rs.getString("department"));
+				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+				employee.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
+				employee.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
 			}
 			
-			return user;
+			return employee;
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -62,22 +66,24 @@ public class EmployeeRepository implements IEmployeeRepository {
 			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
 			Connection conn = ds.getConnection();
 			
-			String sql = "Select id, firstname, lastname, email, created, modified from employee where email = ?";
+			String sql = "Select id, firstname, lastname, role, department, accountid, created, modified from employee where email = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, email);
 			
-			EmployeeEntity user = new EmployeeEntity();
+			EmployeeEntity employee = new EmployeeEntity();
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
-				user.setId(UUID.fromString(rs.getString("id")));
-				user.setFirstname(rs.getString("firstname"));
-				user.setLastname(rs.getString("lastname"));
-				user.setEmail(rs.getString("email"));
-				user.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
-				user.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				employee.setId(UUID.fromString(rs.getString("id")));
+				employee.setFirstName(rs.getString("firstname"));
+				employee.setLastName(rs.getString("lastname"));
+				employee.setRole(rs.getString("role"));
+				employee.setDepartment(rs.getString("department"));
+				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+				employee.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
+				employee.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
 			}
 			
-			return user;
+			return employee;
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -87,21 +93,23 @@ public class EmployeeRepository implements IEmployeeRepository {
 	}
 
 	@Override
-	public boolean save(EmployeeEntity user) {
+	public boolean save(EmployeeEntity employee) {
 		try {
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
 			Connection conn = ds.getConnection();
 			
-			String query = "INSERT INTO user (id, firstname, lastname, email, created, modified) "
-					+ "VALUES (?,?,?,?,?,?);";
+			String query = "INSERT INTO employee (id, firstname, lastname, role, department, accountid, created, modified) "
+					+ "VALUES (?,?,?,?,?,?,?,?);";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setObject(1, user.getId());
-			ps.setString(2, user.getFirstname());
-			ps.setString(3, user.getLastname());
-			ps.setString(4, user.getEmail());
-			ps.setObject(5, LocalDateTime.now());
-			ps.setObject(6, LocalDateTime.now());
+			ps.setObject(1, employee.getId());
+			ps.setString(2, employee.getFirstName());
+			ps.setString(3, employee.getLastName());
+			ps.setObject(4, employee.getRole());
+			ps.setObject(5, employee.getDepartment());
+			ps.setObject(6, employee.getAccountId());
+			ps.setObject(7, employee.getCreated());
+			ps.setObject(8, employee.getModified());
 			
 			if (ps.executeUpdate() == 1) {
 			     return true;
@@ -117,31 +125,32 @@ public class EmployeeRepository implements IEmployeeRepository {
 	}
 
 	@Override
-	public List<EmployeeEntity> getUsers() {
+	public List<EmployeeEntity> getEmployees() {
 		try {
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
 			Connection conn = ds.getConnection();
 			
-			String sql = "SELECT u.id, u.firstname, u.lastname, u.email, u.accountid, u.created, u.modified FROM employee u;";
+			String sql = "SELECT id, firstname, lastname, role, department, accountid, created, modified FROM employee;";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			
-			List<EmployeeEntity> users = new ArrayList<>();
+			List<EmployeeEntity> employees = new ArrayList<>();
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
-				EmployeeEntity user = new EmployeeEntity();
-				user.setId(UUID.fromString(rs.getString("id")));
-				user.setFirstname(rs.getString("firstname"));
-				user.setLastname(rs.getString("lastname"));
-				user.setEmail(rs.getString("email"));
-				//user.setAccountId(UUID.fromString(rs.getString("accountid")));
-				user.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
-				user.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				EmployeeEntity employee = new EmployeeEntity();
+				employee.setId(UUID.fromString(rs.getString("id")));
+				employee.setFirstName(rs.getString("firstname"));
+				employee.setLastName(rs.getString("lastname"));
+				employee.setRole(rs.getString("role"));
+				employee.setDepartment(rs.getString("department"));
+				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+				employee.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
+				employee.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
 				
-				users.add(user);
+				employees.add(employee);
 			}
 			
-			return users;
+			return employees;
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();

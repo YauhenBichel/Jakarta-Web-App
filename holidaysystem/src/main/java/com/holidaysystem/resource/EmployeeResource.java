@@ -10,11 +10,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.holidaysystem.entity.EmployeeEntity;
+import com.holidaysystem.mapper.EmployeeMapper;
 import com.holidaysystem.model.EmployeeRequest;
 import com.holidaysystem.model.EmployeeResponse;
 import com.holidaysystem.repository.EmployeeRepository;
@@ -22,55 +24,44 @@ import com.holidaysystem.repository.EmployeeRepository;
 @Path("/employee")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-//@Stateless
 public class EmployeeResource {
 
     @Inject
     EmployeeRepository employeeRepository;
+    @Inject
+    EmployeeMapper employeeMapper;
 
     @GET
     @Path("/all")
-    public Response getUsers() {
-    	List<EmployeeEntity> entities = employeeRepository.getUsers();
+    public Response getEmployees() {
+    	List<EmployeeEntity> entities = employeeRepository.getEmployees();
     	List<EmployeeResponse> employees = new ArrayList<>();
     	for(EmployeeEntity entity: entities) {
-    		EmployeeResponse employee = new EmployeeResponse();
-    		employee.setId(entity.getId());
-    		employee.setFirstName(entity.getFirstname());
-    		employee.setLastName(entity.getLastname());
-    		employee.setCreated(entity.getCreated().toString());
-    		employee.setModified(entity.getModified().toString());
-    		
+    		EmployeeResponse employee = employeeMapper.toResponse(entity);
     		employees.add(employee);
     	}
     	
         return Response.ok(employees).build();
     }
     
-    
     @GET()
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") UUID id) {
-    	System.out.println("userId = " + id);
-    	EmployeeEntity user = employeeRepository.findById(id);
-        return Response.ok(user).build();
+    public Response getEmployee(@PathParam("id") UUID id) {
+    	EmployeeEntity entity = employeeRepository.findById(id);
+    	EmployeeResponse employee = employeeMapper.toResponse(entity);
+        return Response.ok(employee).build();
     }
     
     @POST()
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(EmployeeRequest userRequest) {
+    public Response createEmployee(EmployeeRequest employeeRequest) {    	
+    	EmployeeEntity entity = employeeMapper.toEntity(employeeRequest);
+    	employeeRepository.save(entity);
+    	EmployeeResponse employee = employeeMapper.toResponse(entity);
     	
-    	EmployeeEntity user = new EmployeeEntity();
-    	user.setId(UUID.randomUUID());
-    	user.setEmail(userRequest.getEmail());
-    	user.setFirstname(userRequest.getFirstName());
-    	user.setLastname(userRequest.getLastName());
-    	
-    	employeeRepository.save(user);
-    	
-        return Response.ok(user).build();
+        return Response.ok(employee).build();
     }
 }

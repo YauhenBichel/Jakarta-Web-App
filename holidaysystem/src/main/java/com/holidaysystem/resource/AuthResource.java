@@ -1,7 +1,6 @@
 package com.holidaysystem.resource;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,14 +12,10 @@ import com.holidaysystem.model.RegistrationRequest;
 import com.holidaysystem.repository.AccountRepository;
 import com.holidaysystem.repository.EmployeeRepository;
 
-import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
-
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
-
-import static javax.ws.rs.core.Response.status;
 
 @Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
@@ -38,12 +33,13 @@ public class AuthResource {
     public Response register(RegistrationRequest registrationRequest) {
         
     	final String hashedPassWithSalt = generateHash(registrationRequest.getPassword());
-    	System.out.println(hashedPassWithSalt);
     	
     	AccountEntity account = new AccountEntity();
     	account.setId(UUID.randomUUID());
     	account.setEmail(registrationRequest.getEmail());
     	account.setPassword(hashedPassWithSalt);
+    	account.setCreated(LocalDateTime.now());
+		account.setModified(LocalDateTime.now());
     	
     	accountRepository.save(account);
     	

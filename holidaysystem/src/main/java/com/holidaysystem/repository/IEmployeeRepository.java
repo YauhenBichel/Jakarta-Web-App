@@ -12,5 +12,5 @@ public interface IEmployeeRepository {
     
     boolean save(EmployeeEntity user);
     
-    List<EmployeeEntity> getUsers();
+    List<EmployeeEntity> getEmployees();
 }
