@@ -13,102 +13,50 @@ import javax.sql.DataSource;
 
 import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.entity.EmployeeEntity;
+import com.holidaysystem.entity.HolidayRequestEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class AccountRepository implements IAccountRepository {
+public class HolidayRequestRepository implements IHolidayRequestRepository {
 
-	@Override
-	public AccountEntity findById(UUID accountId) {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
-			Connection conn = ds.getConnection();
-			
-			String sql = "Select id, password, email from account where id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setObject(1, accountId);
-			
-			AccountEntity account = new AccountEntity();
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				account.setId(UUID.fromString(rs.getString("id")));
-				account.setPassword(rs.getString("password"));
-				account.setEmail(rs.getString("email"));
-			}
-			
-			return account;
-			
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return null;
-	}
-
-	@Override
-	public AccountEntity findByEmail(String email) {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
-			Connection conn = ds.getConnection();
-			
-			String sql = "Select id, email, password, created, modified from account where email = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, email);
-			
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			
-			AccountEntity account = new AccountEntity();
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				account.setId(UUID.fromString(rs.getString("id")));
-				account.setPassword(rs.getString("password"));
-				account.setEmail(rs.getString("email"));
-				account.setCreated(LocalDateTime.parse(rs.getString("created"), formatter));
-				account.setModified(LocalDateTime.parse(rs.getString("modified"), formatter));
-			}
-			
-			return account;
-			
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return null;
-	}
+	private static final String BASE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	private static final DateTimeFormatter FORMATTER = 
+		    new DateTimeFormatterBuilder().appendPattern(BASE_PATTERN)
+		        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).toFormatter();
 	
 	@Override
-	public AccountEntity findByEmailAndPassword(String email, String hashedPassword) {
+	public HolidayRequestEntity findById(UUID holidayRequestId) {
 		try {
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
 			Connection conn = ds.getConnection();
 			
-			String sql = "Select id, email, password, created, modified from account where email = ?";
+			String sql = "SELECT id, employeeid, status, startdate, enddate, created, modified FROM holiday_request WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, email);
+			stmt.setObject(1, holidayRequestId);
 			
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			
-			AccountEntity account = new AccountEntity();
+			HolidayRequestEntity entity = new HolidayRequestEntity();
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
-				account.setId(UUID.fromString(rs.getString("id")));
-				account.setPassword(rs.getString("password"));
-				account.setEmail(rs.getString("email"));
-				account.setCreated(LocalDateTime.parse(rs.getString("created"), formatter));
-				account.setModified(LocalDateTime.parse(rs.getString("modified"), formatter));
+				entity.setId(UUID.fromString(rs.getString("id")));
+				entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
+				entity.setStatus(rs.getString("status"));
+				entity.setStartDate(LocalDateTime.parse(rs.getString("startdate"), FORMATTER));
+				entity.setEndDate(LocalDateTime.parse(rs.getString("enddate"), FORMATTER));
+				entity.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
+				entity.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
 			}
 			
-			return account;
+			return entity;
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -117,21 +65,24 @@ public class AccountRepository implements IAccountRepository {
 		return null;
 	}
 
+	
 	@Override
-	public boolean save(AccountEntity account) {
+	public boolean save(HolidayRequestEntity holidayRequestEntity) {
 		try {
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
 			Connection conn = ds.getConnection();
 			
-			String query = "INSERT INTO account (id, email, password, created, modified) "
-					+ "VALUES (?,?,?,?,?);";
+			String query = "INSERT INTO holiday_request (id, employeeid, status, startdate, enddate, created, modified) "
+					+ "VALUES (?,?,?,?,?,?,?);";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setObject(1, account.getId());
-			ps.setString(2, account.getEmail());
-			ps.setString(3, account.getPassword());
-			ps.setObject(4, account.getCreated());
-			ps.setObject(5, account.getModified());
+			ps.setObject(1, holidayRequestEntity.getId());
+			ps.setObject(2, holidayRequestEntity.getEmployeeId());
+			ps.setString(3, holidayRequestEntity.getStatus());
+			ps.setObject(4, holidayRequestEntity.getStartDate());
+			ps.setObject(5, holidayRequestEntity.getEndDate());
+			ps.setObject(6, holidayRequestEntity.getCreated());
+			ps.setObject(7, holidayRequestEntity.getModified());
 			
 			if (ps.executeUpdate() == 1) {
 			     return true;
@@ -146,25 +97,33 @@ public class AccountRepository implements IAccountRepository {
 		return false;
 	}
 
-    public String generateHashedPassword(String password) {
+
+	@Override
+	public List<HolidayRequestEntity> getHolidayRequests() {
 		try {
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
 			Connection conn = ds.getConnection();
 			
-			String sql = "SELECT crypt(?, gen_salt('bf', 8))";
+			String sql = "SELECT id, employeeid, status, startdate, enddate, created, modified FROM holiday_request";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setObject(1, password);
 			
+			List<HolidayRequestEntity> holidayRequests = new ArrayList<>();
 			ResultSet rs = stmt.executeQuery();
-			
-			String hashedPass = "";
-			
 			while(rs.next()) {
-				hashedPass = rs.getString(1);
+				HolidayRequestEntity entity = new HolidayRequestEntity();
+				entity.setId(UUID.fromString(rs.getString("id")));
+				entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
+				entity.setStatus(rs.getString("status"));
+				entity.setStartDate(LocalDateTime.parse(rs.getString("startdate"), FORMATTER));
+				entity.setEndDate(LocalDateTime.parse(rs.getString("enddate"), FORMATTER));
+				entity.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
+				entity.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				
+				holidayRequests.add(entity);
 			}
 			
-			return hashedPass;
+			return holidayRequests;
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -172,4 +131,6 @@ public class AccountRepository implements IAccountRepository {
 		
 		return null;
 	}
+
+	
 }
