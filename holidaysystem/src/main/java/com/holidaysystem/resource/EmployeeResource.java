@@ -46,7 +46,6 @@ public class EmployeeResource {
     
     @GET()
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getEmployee(@PathParam("id") UUID id) {
     	EmployeeEntity entity = employeeRepository.findById(id);
     	EmployeeResponse employee = employeeMapper.toResponse(entity);
@@ -54,9 +53,6 @@ public class EmployeeResource {
     }
     
     @POST()
-    @Path("/create")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createEmployee(EmployeeRequest employeeRequest) {    	
     	EmployeeEntity entity = employeeMapper.toEntity(employeeRequest);
     	employeeRepository.save(entity);

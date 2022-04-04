@@ -3,16 +3,9 @@ package com.holidaysystem.repository;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.naming.InitialContext;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
-import com.holidaysystem.entity.AccountEntity;
-import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.entity.HolidayRequestEntity;
 
 import java.sql.Connection;
@@ -124,6 +117,37 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 			}
 			
 			return holidayRequests;
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return null;
+	}
+
+
+	@Override
+	public HolidayRequestEntity update(UUID id, HolidayRequestEntity holidayRequestEntity) {
+		try {
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			Connection conn = ds.getConnection();
+			
+			String query = "UPDATE holiday_request SET status = ?, startdate = ?, enddate = ?, modified = ?, employeeid = ? where id= ?;";
+			PreparedStatement ps = conn.prepareStatement(query);
+
+			ps.setString(1, holidayRequestEntity.getStatus());
+			ps.setObject(2, holidayRequestEntity.getStartDate());
+			ps.setObject(3, holidayRequestEntity.getEndDate());
+			ps.setObject(4, holidayRequestEntity.getModified());
+			ps.setObject(5, holidayRequestEntity.getEmployeeId());
+			ps.setObject(6, id);
+			
+			if (ps.executeUpdate() == 1) {
+			     return holidayRequestEntity;
+			} else {
+			     return null;
+			}
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();

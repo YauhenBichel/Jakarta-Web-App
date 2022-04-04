@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -54,12 +55,29 @@ public class HolidayRequestResource {
     }
     
     @POST()
-    @Path("/create")
-    public Response createHolidayRequest(HolidayRequest holidayRequest) {    	
-    	HolidayRequestEntity entity = holidayRequestMapper.toEntity(holidayRequest);
+    public Response createHolidayRequest(HolidayRequest holidayRequest) { 
+    	UUID id = UUID.randomUUID();
+    	HolidayRequestEntity entity = holidayRequestMapper.toEntity(id, holidayRequest);
     	holidayRequestRepository.save(entity);
     	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
     	
         return Response.ok(holidayRequestResp).build();
+    }
+    
+    @PUT()
+    @Path("/{id}")
+    public Response updateHolidayRequest(@PathParam("id") UUID id, HolidayRequest holidayRequest) {
+    	HolidayRequestEntity dbEntity = holidayRequestRepository.findById(id);
+    	
+    	if(dbEntity != null) {
+    		HolidayRequestEntity entity = holidayRequestMapper.toEntity(holidayRequest, dbEntity);
+        	holidayRequestRepository.update(id, entity);
+        	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
+        	
+        	return Response.ok(holidayRequestResp).build();
+    	}
+    	
+    	return Response.ok(null).build();
+        
     }
 }

@@ -8,4 +8,5 @@ public interface IHolidayRequestRepository {
 	List<HolidayRequestEntity> getHolidayRequests();
 	HolidayRequestEntity findById(UUID holidayRequestId);
 	boolean save(HolidayRequestEntity holidayRequestEntity); 
+	HolidayRequestEntity update(UUID id, HolidayRequestEntity holidayRequestEntity); 
   }

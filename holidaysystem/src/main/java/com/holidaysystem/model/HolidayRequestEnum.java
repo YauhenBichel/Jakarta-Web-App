@@ -1,6 +1,6 @@
 package com.holidaysystem.model;
 
-public enum RequestEnum {
+public enum HolidayRequestEnum {
 	PENDING,
 	APPROVED,
 	DECLINED,
