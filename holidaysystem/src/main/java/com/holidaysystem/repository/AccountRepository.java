@@ -3,24 +3,17 @@ package com.holidaysystem.repository;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.naming.InitialContext;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
+import com.holidaysystem.Constants;
 import com.holidaysystem.entity.AccountEntity;
-import com.holidaysystem.entity.EmployeeEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @ApplicationScoped
 public class AccountRepository implements IAccountRepository {
@@ -29,7 +22,7 @@ public class AccountRepository implements IAccountRepository {
 	public AccountEntity findById(UUID accountId) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "Select id, password, email from account where id = ?";
@@ -57,7 +50,7 @@ public class AccountRepository implements IAccountRepository {
 	public AccountEntity findByEmail(String email) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "Select id, email, password, created, modified from account where email = ?";
@@ -89,7 +82,7 @@ public class AccountRepository implements IAccountRepository {
 	public AccountEntity findByEmailAndPassword(String email, String hashedPassword) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "Select id, email, password, created, modified from account where email = ?";
@@ -121,7 +114,7 @@ public class AccountRepository implements IAccountRepository {
 	public boolean save(AccountEntity account) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String query = "INSERT INTO account (id, email, password, created, modified) "
@@ -149,7 +142,7 @@ public class AccountRepository implements IAccountRepository {
     public String generateHashedPassword(String password) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "SELECT crypt(?, gen_salt('bf', 8))";

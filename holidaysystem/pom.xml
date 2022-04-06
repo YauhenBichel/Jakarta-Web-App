@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+	http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>com.comp1610</groupId>
@@ -6,7 +9,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   
-   <properties>
+  <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>11</maven.compiler.release>
@@ -31,7 +34,6 @@
         <jersey.version>2.28</jersey.version>
         <eclipselink.version>2.7.10</eclipselink.version>
 
-        <wildfly.version>23.0.2.Final</wildfly.version>
         <wildfly-maven-plugin.version>2.1.0.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>2.2.0.Final</wildfly-arquillian.version>
         <undertow-websockets-jsr.version>2.0.26.Final</undertow-websockets-jsr.version>
@@ -40,7 +42,8 @@
         <!-- By default, skip tests -->
         <skipTests>true</skipTests>
     </properties>
-    
+        
+  
     <dependencies>
             <dependency>
                 <groupId>jakarta.platform</groupId>
@@ -67,6 +70,53 @@
 			    <artifactId>javax.persistence-api</artifactId>
 			    <version>2.2</version>
 			</dependency>
+			
+			 
+	        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
+			<dependency>
+			    <groupId>org.glassfish.jersey.media</groupId>
+			    <artifactId>jersey-media-json-jackson</artifactId>
+			    <version>3.0.4</version>
+			</dependency>
+			
+			<dependency>
+		   		 <groupId>javax.jms</groupId>
+		   		 <artifactId>jms-api</artifactId>
+		   		 <version>1.1-rev-1</version>
+		   		 <scope>provided</scope>
+		   	 </dependency>
+		   	 <dependency>
+		   		 <groupId>javax.ejb</groupId>
+		   		 <artifactId>ejb-api</artifactId>
+		   		 <version>3.0</version>
+		   	 </dependency>
+		   	 <dependency>
+		   		 <groupId>org.wildfly</groupId>
+		   		 <artifactId>wildfly-jms-client-bom</artifactId>
+		   		 <version>18.0.0.Final</version>
+		   		 <type>pom</type>
+		   	 </dependency>
+
+			<!-- https://mvnrepository.com/artifact/javax.ejb/javax.ejb-api -->
+<dependency>
+    <groupId>javax.ejb</groupId>
+    <artifactId>javax.ejb-api</artifactId>
+    <version>3.2.2</version>
+</dependency>
+			<!-- https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>jcl-over-slf4j</artifactId>
+    <version>1.7.36</version>
+</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.36</version>
+</dependency>
+			
 
 			<dependency>
 			    <groupId>com.fasterxml.jackson.module</groupId>
@@ -516,5 +566,6 @@
                 <version>${maven-surefire-report-plugin.version}</version>
             </plugin>
         </plugins>
-    </reporting>
+    </reporting>  
+  
 </project>

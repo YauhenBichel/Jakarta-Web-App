@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.holidaysystem.entity.AccountEntity;
-import com.holidaysystem.model.RegistrationRequest;
+import com.holidaysystem.vo.RegistrationRequest;
 import com.holidaysystem.repository.AccountRepository;
 import com.holidaysystem.repository.EmployeeRepository;
 
@@ -43,7 +43,9 @@ public class AuthResource {
     	
     	accountRepository.save(account);
     	
-    	return Response.ok(account).build();
+    	return Response.ok(account)
+    			.header("Access-Control-Allow-Origin", "*")
+    			.build();
     }
     
     private String generateHash(String password) {

@@ -10,15 +10,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.mapper.EmployeeMapper;
-import com.holidaysystem.model.EmployeeRequest;
-import com.holidaysystem.model.EmployeeResponse;
+import com.holidaysystem.vo.EmployeeRequest;
+import com.holidaysystem.vo.EmployeeResponse;
 import com.holidaysystem.repository.EmployeeRepository;
 
 @Path("/employee")
@@ -41,7 +40,9 @@ public class EmployeeResource {
     		employees.add(employee);
     	}
     	
-        return Response.ok(employees).build();
+        return Response.ok(employees)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
     }
     
     @GET()
@@ -49,7 +50,9 @@ public class EmployeeResource {
     public Response getEmployee(@PathParam("id") UUID id) {
     	EmployeeEntity entity = employeeRepository.findById(id);
     	EmployeeResponse employee = employeeMapper.toResponse(entity);
-        return Response.ok(employee).build();
+        return Response.ok(employee)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
     }
     
     @POST()
@@ -58,6 +61,8 @@ public class EmployeeResource {
     	employeeRepository.save(entity);
     	EmployeeResponse employee = employeeMapper.toResponse(entity);
     	
-        return Response.ok(employee).build();
+        return Response.ok(employee)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
     }
 }

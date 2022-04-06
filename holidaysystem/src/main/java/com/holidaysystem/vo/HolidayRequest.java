@@ -1,4 +1,4 @@
-package com.holidaysystem.model;
+package com.holidaysystem.vo;
 
 import javax.validation.constraints.NotBlank;
 
@@ -11,11 +11,8 @@ import java.util.UUID;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HolidayResponse implements Serializable {
-    
-	@NotBlank
-    private UUID id;
-	
+public class HolidayRequest implements Serializable {
+     
     @NotBlank
     private UUID employeeId;
 
@@ -27,17 +24,6 @@ public class HolidayResponse implements Serializable {
     
     @NotBlank
     private String endDate;
-    
-    private String modified;
-    
-    private String created;
-    
-    public UUID getId() {
-    	return this.id;
-    }
-    public void setId(UUID id) {
-    	this.id = id;
-    }
     
     public UUID getEmployeeId() {
     	return this.employeeId;
@@ -63,16 +49,5 @@ public class HolidayResponse implements Serializable {
     public void setStartDate(String startDate) {
     	this.startDate = startDate;
     }
-    public String getCreated() {
-    	return this.created;
-    }
-    public void setCreated(String created) {
-    	this.created = created;
-    }
-    public String getModified() {
-    	return this.modified;
-    }
-    public void setModified(String modified) {
-    	this.modified = modified;
-    }
+    
 }

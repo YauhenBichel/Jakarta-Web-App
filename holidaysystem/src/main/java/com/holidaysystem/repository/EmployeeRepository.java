@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.holidaysystem.Constants;
 import com.holidaysystem.entity.EmployeeEntity;
 
 import java.sql.Connection;
@@ -30,7 +31,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 	public EmployeeEntity findById(UUID employeeId) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "SELECT id, firstname, lastname, role, department, accountid, created, modified FROM employee where id = ?";
@@ -63,7 +64,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 	public EmployeeEntity findByEmail(String email) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "Select id, firstname, lastname, role, department, accountid, created, modified from employee where email = ?";
@@ -96,7 +97,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 	public boolean save(EmployeeEntity employee) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String query = "INSERT INTO employee (id, firstname, lastname, role, department, accountid, created, modified) "
@@ -128,7 +129,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 	public List<EmployeeEntity> getEmployees() {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "SELECT id, firstname, lastname, role, department, accountid, created, modified FROM employee;";

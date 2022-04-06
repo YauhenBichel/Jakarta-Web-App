@@ -17,6 +17,9 @@ public class HelloResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get() {
-		return Response.status(Response.Status.OK).entity("Vacation system is running").build();
+		return Response.status(Response.Status.OK)
+				.entity("Vacation system is running")
+				.header("Access-Control-Allow-Origin", "*")
+				.build();
 	}
 }

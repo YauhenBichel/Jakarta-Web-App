@@ -6,8 +6,8 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 
 import com.holidaysystem.entity.EmployeeEntity;
-import com.holidaysystem.model.EmployeeRequest;
-import com.holidaysystem.model.EmployeeResponse;
+import com.holidaysystem.vo.EmployeeRequest;
+import com.holidaysystem.vo.EmployeeResponse;
 
 @ApplicationScoped
 public class EmployeeMapper {

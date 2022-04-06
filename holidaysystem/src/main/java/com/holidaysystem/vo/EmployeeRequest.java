@@ -1,4 +1,4 @@
-package com.holidaysystem.model;
+package com.holidaysystem.vo;
 
 import javax.validation.constraints.NotBlank;
 
@@ -11,14 +11,8 @@ import java.util.UUID;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EmployeeResponse implements Serializable {
-    
-	@NotBlank
-	private UUID id;
-	
-	@NotBlank
-	private UUID accountId;
-	
+public class EmployeeRequest implements Serializable {
+     
     @NotBlank
     private String firstName;
     
@@ -26,27 +20,14 @@ public class EmployeeResponse implements Serializable {
     private String lastName;
 
     @NotBlank
+    private UUID accountId;
+    
+    @NotBlank
     private String role;
     
     @NotBlank
     private String department;
     
-    private String modified;
-    
-    private String created;
-    
-    public UUID getId() {
-    	return this.id;
-    }
-    public void setId(UUID id) {
-    	this.id = id;
-    }
-    public UUID getAccountId() {
-    	return this.accountId;
-    }
-    public void setAccountId(UUID accountId) {
-    	this.accountId = accountId;
-    }
     public String getFirstName() {
     	return this.firstName;
     }
@@ -59,6 +40,12 @@ public class EmployeeResponse implements Serializable {
     public void setLastName(String lastName) {
     	this.lastName = lastName;
     }
+    public UUID getAccountId() {
+    	return this.accountId;
+    }
+    public void setAccountId(UUID accountId) {
+    	this.accountId = accountId;
+    }
     public String getRole() {
     	return this.role;
     }
@@ -70,17 +57,5 @@ public class EmployeeResponse implements Serializable {
     }
     public void setDepartment(String department) {
     	this.department = department;
-    }
-    public String getCreated() {
-    	return this.created;
-    }
-    public void setCreated(String created) {
-    	this.created = created;
-    }
-    public String getModified() {
-    	return this.modified;
-    }
-    public void setModified(String modified) {
-    	this.modified = modified;
     }
 }

@@ -1,31 +1,15 @@
-package com.holidaysystem.entity;
+package com.holidaysystem.message;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "holiday-request", schema = "public")
-public class HolidayRequestEntity extends AuditEntity {
+public class HolidayRequestMessage {
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
-	@Column(name = "employeeid")
     private UUID employeeId;
-	@Column(name = "startdate")
 	private LocalDateTime startDate;
-	@Column(name = "enddate")
 	private LocalDateTime endDate;
-	@Column(name = "status")
 	private String status;
 
     public void setId(UUID id) {this.id = id; }

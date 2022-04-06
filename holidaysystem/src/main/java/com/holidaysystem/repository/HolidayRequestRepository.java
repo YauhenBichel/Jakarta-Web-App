@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.holidaysystem.Constants;
 import com.holidaysystem.entity.HolidayRequestEntity;
 
 import java.sql.Connection;
@@ -30,7 +31,7 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 	public HolidayRequestEntity findById(UUID holidayRequestId) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "SELECT id, employeeid, status, startdate, enddate, created, modified FROM holiday_request WHERE id = ?";
@@ -63,7 +64,7 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 	public boolean save(HolidayRequestEntity holidayRequestEntity) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String query = "INSERT INTO holiday_request (id, employeeid, status, startdate, enddate, created, modified) "
@@ -95,7 +96,7 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 	public List<HolidayRequestEntity> getHolidayRequests() {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String sql = "SELECT id, employeeid, status, startdate, enddate, created, modified FROM holiday_request";
@@ -130,7 +131,7 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 	public HolidayRequestEntity update(UUID id, HolidayRequestEntity holidayRequestEntity) {
 		try {
 			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup("java:/PostgresDS");
+			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
 			String query = "UPDATE holiday_request SET status = ?, startdate = ?, enddate = ?, modified = ?, employeeid = ? where id= ?;";

@@ -15,12 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.mapper.HolidayRequestMapper;
-import com.holidaysystem.model.EmployeeResponse;
-import com.holidaysystem.model.HolidayRequest;
-import com.holidaysystem.model.HolidayResponse;
+import com.holidaysystem.vo.HolidayRequest;
+import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.repository.HolidayRequestRepository;
 
 @Path("holiday-request")
@@ -43,7 +41,9 @@ public class HolidayRequestResource {
     		holidayRequestResponses.add(holidayResponse);
     	}
     	
-        return Response.ok(holidayRequestResponses).build();
+        return Response.ok(holidayRequestResponses)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
     }
     
     @GET()
@@ -51,7 +51,9 @@ public class HolidayRequestResource {
     public Response getHolidayRequestById(@PathParam("id") UUID id) {
     	HolidayRequestEntity entity = holidayRequestRepository.findById(id);
     	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
-        return Response.ok(holidayRequestResp).build();
+        return Response.ok(holidayRequestResp)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
     }
     
     @POST()
@@ -61,7 +63,9 @@ public class HolidayRequestResource {
     	holidayRequestRepository.save(entity);
     	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
     	
-        return Response.ok(holidayRequestResp).build();
+        return Response.ok(holidayRequestResp)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
     }
     
     @PUT()
@@ -74,10 +78,14 @@ public class HolidayRequestResource {
         	holidayRequestRepository.update(id, entity);
         	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
         	
-        	return Response.ok(holidayRequestResp).build();
+        	return Response.ok(holidayRequestResp)
+        			.header("Access-Control-Allow-Origin", "*")
+        			.build();
     	}
     	
-    	return Response.ok(null).build();
+    	return Response.ok(null)
+    			.header("Access-Control-Allow-Origin", "*")
+    			.build();
         
     }
 }

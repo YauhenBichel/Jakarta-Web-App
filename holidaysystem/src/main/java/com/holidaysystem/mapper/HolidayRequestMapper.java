@@ -9,8 +9,8 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 
 import com.holidaysystem.entity.HolidayRequestEntity;
-import com.holidaysystem.model.HolidayRequest;
-import com.holidaysystem.model.HolidayResponse;
+import com.holidaysystem.vo.HolidayRequest;
+import com.holidaysystem.vo.HolidayResponse;
 
 @ApplicationScoped
 public class HolidayRequestMapper {
