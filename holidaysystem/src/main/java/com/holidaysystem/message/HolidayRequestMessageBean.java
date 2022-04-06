@@ -11,6 +11,7 @@ import javax.jms.MessageListener;
 
 import com.holidaysystem.Constants;
 import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.mail.MailService;
 import com.holidaysystem.mapper.HolidayRequestMapper;
 import com.holidaysystem.repository.HolidayRequestRepository;
 
@@ -29,6 +30,8 @@ public class HolidayRequestMessageBean implements MessageListener {
     private HolidayRequestRepository holidayRequestRepository;
 	@Inject
 	private HolidayRequestMapper holidayRequestMapper;
+	@Inject
+	private MailService mailService;
 	
     public void onMessage(Message message) {
     	System.out.println("Message received from message queue");
@@ -42,6 +45,9 @@ public class HolidayRequestMessageBean implements MessageListener {
 			HolidayRequestEntity entity = holidayRequestMapper.toEntity(holidayRequestMessage);
 			
 			holidayRequestRepository.save(entity);
+			
+			mailService.send();
+			
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}catch (Exception e) {

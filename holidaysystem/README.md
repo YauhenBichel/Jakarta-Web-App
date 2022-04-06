@@ -32,6 +32,10 @@ http://127.0.0.1:9990/console/index.html
 ### Logging
 Level is DEBUG
 
+### Mail
+help.holiday.request@gmail.com
+1Vaction2!Request%
+
 ### Message system
 For the Message Broker, we use ActiveMQ Artemis 
 that comes embedded within WildFly.

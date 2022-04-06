@@ -15,55 +15,44 @@ import javax.mail.internet.MimeMessage;
 public class MailService implements IMailService {
 	public void send() {
 	      //provide recipient's email ID
-	      String to = "jakartato@example.com";
+	      String to = "yb3129h@gre.ac.uk";
 
-	      //provide sender's email ID
-	      String from = "jakartafrom@example.com";
-	      final String username = "Holiday System Admin";
-	      //provide Mailtrap's password
-	      final String password = "82a851fcf4aa33";
+	      String from = "help.holiday.request@gmail.com";
+	      final String username = "Holiday Request System";
+	      final String password = "1Vaction2!Request%";
 
-	      //provide Mailtrap's host address
-	      String host = "smtp.mailtrap.io";
-	      //configure Mailtrap's SMTP server details
-	      Properties props = new Properties();
-	      props.put("mail.smtp.auth", "true");
-	      props.put("mail.smtp.starttls.enable", "true");
-	      props.put("mail.smtp.host", host);
-	      props.put("mail.smtp.port", "587");
 
-	      //create the Session object
-	      Session session = Session.getInstance(props,
-	         new javax.mail.Authenticator() {
-	            protected PasswordAuthentication getPasswordAuthentication() {
-	               return new PasswordAuthentication(username, password);
-	    }
-	         });
+	      Properties prop = new Properties();
+	        prop.put("mail.smtp.host", "smtp.gmail.com");
+	        prop.put("mail.smtp.port", "587");
+	        prop.put("mail.smtp.auth", "true");
+	        prop.put("mail.smtp.starttls.enable", "true");
+	        prop.put("mail.smtp.starttls.required", "true");
 
-	      try {
-	    //create a MimeMessage object
-	    Message message = new MimeMessage(session);
+	        Session session = Session.getInstance(prop,
+	                new javax.mail.Authenticator() {
+	                    protected PasswordAuthentication getPasswordAuthentication() {
+	                        return new PasswordAuthentication(from, password);
+	                    }
+	                });
 
-	    //set From email field
-	    message.setFrom(new InternetAddress(from));
+	        try {
 
-	    //set To email field
-	    message.setRecipients(Message.RecipientType.TO,
-	               InternetAddress.parse(to));
+	            Message message = new MimeMessage(session);
+	            message.setFrom(new InternetAddress(from));
+	            message.setRecipients(Message.RecipientType.TO,
+			               InternetAddress.parse(to));
+	            
+	            message.setSubject("COMP1610 Group 5 Notification for Admin!");
+			    message.setText("There is a new request!");
 
-	    //set email subject field
-	    message.setSubject("Here comes Jakarta Mail!");
+	            //Transport.send(message, username, password);
+			    Transport.send(message);
 
-	    //set the content of the email message
-	    message.setText("Just discovered that Jakarta Mail is fun and easy to use");
+	            System.out.println("Email Message Sent Successfully");
 
-	    //send the email message
-	    Transport.send(message);
-
-	    System.out.println("Email Message Sent Successfully");
-
-	      } catch (MessagingException e) {
-	         throw new RuntimeException(e);
-	      }
+	        } catch (MessagingException e) {
+	            e.printStackTrace();
+	        }	      
 	   }
 }
