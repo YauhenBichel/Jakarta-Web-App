@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.mapper.HolidayRequestMapper;
+import com.holidaysystem.message.HolidayRequestMQProducer;
 import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.repository.HolidayRequestRepository;
@@ -30,6 +31,8 @@ public class HolidayRequestResource {
     private HolidayRequestRepository holidayRequestRepository;
     @Inject
     private HolidayRequestMapper holidayRequestMapper;
+    @Inject
+    private HolidayRequestMQProducer holidayRequestMQProducer;
     
     @GET
     @Path("/all")
@@ -59,11 +62,10 @@ public class HolidayRequestResource {
     @POST()
     public Response createHolidayRequest(HolidayRequest holidayRequest) { 
     	UUID id = UUID.randomUUID();
-    	HolidayRequestEntity entity = holidayRequestMapper.toEntity(id, holidayRequest);
-    	holidayRequestRepository.save(entity);
-    	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
     	
-        return Response.ok(holidayRequestResp)
+    	holidayRequestMQProducer.publish(id, holidayRequest);
+        
+        return Response.ok(id)
         		.header("Access-Control-Allow-Origin", "*")
         		.build();
     }

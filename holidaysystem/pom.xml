@@ -98,24 +98,24 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 		   	 </dependency>
 
 			<!-- https://mvnrepository.com/artifact/javax.ejb/javax.ejb-api -->
-<dependency>
-    <groupId>javax.ejb</groupId>
-    <artifactId>javax.ejb-api</artifactId>
-    <version>3.2.2</version>
-</dependency>
-			<!-- https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j -->
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>jcl-over-slf4j</artifactId>
-    <version>1.7.36</version>
-</dependency>
-			
-			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.36</version>
-</dependency>
+				<dependency>
+				    <groupId>javax.ejb</groupId>
+				    <artifactId>javax.ejb-api</artifactId>
+				    <version>3.2.2</version>
+				</dependency>
+							<!-- https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j -->
+				<dependency>
+				    <groupId>org.slf4j</groupId>
+				    <artifactId>jcl-over-slf4j</artifactId>
+				    <version>1.7.36</version>
+				</dependency>
+							
+							<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+				<dependency>
+				    <groupId>org.slf4j</groupId>
+				    <artifactId>slf4j-api</artifactId>
+				    <version>1.7.36</version>
+				</dependency>
 			
 
 			<dependency>
@@ -135,6 +135,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 			    <artifactId>jackson-datatype-jdk8</artifactId>
 			    <version>2.13.2</version>
 			</dependency>
+
+			<dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>jakarta.mail</artifactId>
+                <version>1.6.4</version>
+            </dependency>
 
         	<dependency>
 	            <groupId>org.flywaydb</groupId>

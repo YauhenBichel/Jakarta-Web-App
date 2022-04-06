@@ -1,6 +1,5 @@
 package com.holidaysystem.message;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class HolidayRequestMessage {
@@ -8,8 +7,8 @@ public class HolidayRequestMessage {
 	
     private UUID id;
     private UUID employeeId;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private String startDate;
+	private String endDate;
 	private String status;
 
     public void setId(UUID id) {this.id = id; }
@@ -18,8 +17,8 @@ public class HolidayRequestMessage {
     public UUID getEmployeeId() {return this.employeeId;}
     public void setStatus(String status) {this.status = status; }
     public String getStatus() {return this.status;}
-    public void setStartDate(LocalDateTime startDate) {this.startDate = startDate; }
-    public LocalDateTime getStartDate() {return this.startDate;}
-    public void setEndDate(LocalDateTime endDate) {this.endDate = endDate; }
-    public LocalDateTime getEndDate() {return this.endDate;}
+    public void setStartDate(String startDate) {this.startDate = startDate; }
+    public String getStartDate() {return this.startDate;}
+    public void setEndDate(String endDate) {this.endDate = endDate; }
+    public String getEndDate() {return this.endDate;}
 }

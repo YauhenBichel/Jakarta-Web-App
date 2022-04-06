@@ -1,7 +1,9 @@
 package com.holidaysystem.message;
 
-import java.io.PrintWriter;
+import java.util.UUID;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -14,9 +16,19 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import com.holidaysystem.Constants;
+import com.holidaysystem.mapper.HolidayRequestMapper;
+import com.holidaysystem.vo.HolidayRequest;
 
-public class HolidayRequestProducer {
-	public void publish() {
+@ApplicationScoped
+public class HolidayRequestMQProducer {
+	
+	@Inject
+    private HolidayRequestMapper holidayRequestMapper;
+	
+	public void publish(UUID id, HolidayRequest request) {
+		
+    	String jsonEntity = holidayRequestMapper.toJson(id, request);
+		
 		try {
 			Context jndiContext = new InitialContext();
 			ConnectionFactory factory = (ConnectionFactory) jndiContext.lookup(Constants.JNDI_CONNECTION_FACTORY);
@@ -26,21 +38,16 @@ public class HolidayRequestProducer {
 			Session session = connect.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
 			MessageProducer sender = session.createProducer(calculationQueue);
-			String name = "";
 			MapMessage message = session.createMapMessage();
-			message.setString("title", name);
+			message.setString(Constants.QUEUE_KEY_MESSAGE, jsonEntity);
 			System.out.println("Sending message");
 			sender.send(message);
 			connect.close();
 		} catch (NamingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		catch (Exception e) {
-			// TODO Auto-generated catch block
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

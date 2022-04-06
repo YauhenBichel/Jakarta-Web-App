@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 1 999;
+	font-style: normal;
+	src: url('/public/fonts/inter.var.woff2') format('woff2');
+}
