@@ -9,6 +9,11 @@ import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.vo.EmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 public class EmployeeMapper {
 	public EmployeeEntity toEntity(EmployeeRequest request) {

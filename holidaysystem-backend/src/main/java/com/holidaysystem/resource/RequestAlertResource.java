@@ -18,6 +18,11 @@ import com.holidaysystem.mapper.RequestAlertMapper;
 import com.holidaysystem.vo.RequestAlertResponse;
 import com.holidaysystem.repository.RequestAlertRepository;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @Path("/request-alert")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

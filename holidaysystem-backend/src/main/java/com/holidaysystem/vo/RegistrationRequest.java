@@ -9,6 +9,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegistrationRequest implements Serializable {

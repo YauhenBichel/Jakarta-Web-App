@@ -9,6 +9,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EmployeeResponse implements Serializable {

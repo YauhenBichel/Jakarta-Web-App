@@ -10,6 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @Entity
 @Table(name = "holiday-request", schema = "public")
 public class HolidayRequestEntity extends AuditEntity {

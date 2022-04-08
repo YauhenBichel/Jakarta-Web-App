@@ -22,6 +22,11 @@ import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.repository.HolidayRequestRepository;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @Path("/holiday-request")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

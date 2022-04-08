@@ -8,6 +8,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @Path("/hello")
 public class HelloResource {
 

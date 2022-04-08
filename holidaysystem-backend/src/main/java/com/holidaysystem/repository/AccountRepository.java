@@ -15,6 +15,11 @@ import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 public class AccountRepository implements IAccountRepository {
 

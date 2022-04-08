@@ -20,6 +20,11 @@ import com.holidaysystem.mapper.RequestAlertMapper;
 import com.holidaysystem.repository.HolidayRequestRepository;
 import com.holidaysystem.repository.RequestAlertRepository;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 @MessageDriven(
 		activationConfig = { @ActivationConfigProperty(

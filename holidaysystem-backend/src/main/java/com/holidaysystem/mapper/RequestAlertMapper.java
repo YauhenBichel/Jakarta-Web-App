@@ -22,6 +22,11 @@ import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.vo.RequestAlertResponse;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 public class RequestAlertMapper {
 	

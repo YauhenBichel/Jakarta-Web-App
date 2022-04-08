@@ -2,6 +2,11 @@ package com.holidaysystem.message;
 
 import java.util.UUID;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 public class HolidayRequestMessage {
 	private static final long serialVersionUID = 1L;
 	

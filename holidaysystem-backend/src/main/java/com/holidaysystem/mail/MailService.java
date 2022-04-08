@@ -11,6 +11,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 public class MailService implements IMailService {
 	public void send() {

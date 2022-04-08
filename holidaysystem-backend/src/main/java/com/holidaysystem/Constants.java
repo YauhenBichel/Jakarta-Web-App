@@ -1,5 +1,10 @@
 package com.holidaysystem;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 public final class Constants {
 	public static final String JMS_PREFIX = "java:/jms/";
 	public static final String MESSAGE_QUEUE = "HolidayRequestQueue";

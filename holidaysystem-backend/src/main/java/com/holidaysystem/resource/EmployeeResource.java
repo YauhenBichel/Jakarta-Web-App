@@ -20,6 +20,11 @@ import com.holidaysystem.vo.EmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
 import com.holidaysystem.repository.EmployeeRepository;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @Path("/employee")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

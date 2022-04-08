@@ -10,6 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @Entity
 @Table(name = "employee", schema = "public")
 public class EmployeeEntity extends AuditEntity {

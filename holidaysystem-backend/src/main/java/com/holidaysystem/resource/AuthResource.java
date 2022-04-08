@@ -17,6 +17,11 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

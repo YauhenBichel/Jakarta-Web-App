@@ -21,6 +21,11 @@ import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 public class RequestAlertRepository implements IRequestAlertRepository {
 

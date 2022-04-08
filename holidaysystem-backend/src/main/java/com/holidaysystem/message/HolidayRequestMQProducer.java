@@ -19,6 +19,11 @@ import com.holidaysystem.Constants;
 import com.holidaysystem.mapper.HolidayRequestMapper;
 import com.holidaysystem.vo.HolidayRequest;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 public class HolidayRequestMQProducer {
 	

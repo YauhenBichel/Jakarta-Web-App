@@ -6,6 +6,11 @@ import java.util.List;
 import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.entity.EmployeeEntity;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 public interface IAccountRepository {
 	
 	AccountEntity findById(UUID userId);

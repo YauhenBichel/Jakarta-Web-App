@@ -20,6 +20,11 @@ import com.holidaysystem.message.HolidayRequestMessage;
 import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 @ApplicationScoped
 public class HolidayRequestMapper {
 	public HolidayRequestEntity toEntity(UUID id, HolidayRequest request) {

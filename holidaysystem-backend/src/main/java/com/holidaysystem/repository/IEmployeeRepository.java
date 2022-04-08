@@ -4,6 +4,11 @@ import java.util.UUID;
 import java.util.List;
 import com.holidaysystem.entity.EmployeeEntity;
 
+/**
+ * 
+ * @author yauhen bichel
+ *
+ */
 public interface IEmployeeRepository {
 	
 	EmployeeEntity findById(UUID userId);
