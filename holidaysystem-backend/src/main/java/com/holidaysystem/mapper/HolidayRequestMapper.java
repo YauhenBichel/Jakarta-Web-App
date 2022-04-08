@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.holidaysystem.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.message.HolidayRequestMessage;
 import com.holidaysystem.vo.HolidayRequest;
@@ -21,19 +22,13 @@ import com.holidaysystem.vo.HolidayResponse;
 
 @ApplicationScoped
 public class HolidayRequestMapper {
-	
-	private static final String BASE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	private static final DateTimeFormatter FORMATTER = 
-		    new DateTimeFormatterBuilder().appendPattern(BASE_PATTERN)
-		        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).toFormatter();
-	
 	public HolidayRequestEntity toEntity(UUID id, HolidayRequest request) {
 		HolidayRequestEntity entity = new HolidayRequestEntity();
     	entity.setId(id);
     	entity.setEmployeeId(request.getEmployeeId());
     	entity.setStatus(request.getStatus());
-    	entity.setStartDate(LocalDateTime.parse(request.getStartDate(), FORMATTER));
-    	entity.setEndDate(LocalDateTime.parse(request.getEndDate(), FORMATTER));
+    	entity.setStartDate(LocalDateTime.parse(request.getStartDate(), DateUtils.FORMATTER));
+    	entity.setEndDate(LocalDateTime.parse(request.getEndDate(), DateUtils.FORMATTER));
     	entity.setCreated(LocalDateTime.now());
     	entity.setModified(LocalDateTime.now());
     	
@@ -45,8 +40,8 @@ public class HolidayRequestMapper {
     	entity.setId(holidayRequestMessage.getId());
     	entity.setEmployeeId(holidayRequestMessage.getEmployeeId());
     	entity.setStatus(holidayRequestMessage.getStatus());
-    	entity.setStartDate(LocalDateTime.parse(holidayRequestMessage.getStartDate(), FORMATTER));
-    	entity.setEndDate(LocalDateTime.parse(holidayRequestMessage.getEndDate(), FORMATTER));
+    	entity.setStartDate(LocalDateTime.parse(holidayRequestMessage.getStartDate(), DateUtils.FORMATTER));
+    	entity.setEndDate(LocalDateTime.parse(holidayRequestMessage.getEndDate(), DateUtils.FORMATTER));
     	entity.setCreated(LocalDateTime.now());
     	entity.setModified(LocalDateTime.now());
     	
@@ -113,8 +108,8 @@ public class HolidayRequestMapper {
     	entity.setId(db.getId());
     	entity.setEmployeeId(updated.getEmployeeId());
     	entity.setStatus(updated.getStatus());
-    	entity.setStartDate(LocalDateTime.parse(updated.getStartDate(), FORMATTER));
-    	entity.setEndDate(LocalDateTime.parse(updated.getEndDate(), FORMATTER));
+    	entity.setStartDate(LocalDateTime.parse(updated.getStartDate(), DateUtils.FORMATTER));
+    	entity.setEndDate(LocalDateTime.parse(updated.getEndDate(), DateUtils.FORMATTER));
     	entity.setCreated(db.getCreated());
     	entity.setModified(LocalDateTime.now());
     	

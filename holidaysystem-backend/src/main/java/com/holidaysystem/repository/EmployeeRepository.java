@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.holidaysystem.Constants;
+import com.holidaysystem.DateUtils;
 import com.holidaysystem.entity.EmployeeEntity;
 
 import java.sql.Connection;
@@ -22,11 +23,6 @@ import java.util.List;
 @ApplicationScoped
 public class EmployeeRepository implements IEmployeeRepository {
 
-	private static final String BASE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	private static final DateTimeFormatter FORMATTER = 
-		    new DateTimeFormatterBuilder().appendPattern(BASE_PATTERN)
-		        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).toFormatter();
-	
 	@Override
 	public EmployeeEntity findById(UUID employeeId) {
 		try {
@@ -47,8 +43,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 				employee.setRole(rs.getString("role"));
 				employee.setDepartment(rs.getString("department"));
 				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
-				employee.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
-				employee.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 			}
 			
 			return employee;
@@ -80,8 +76,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 				employee.setRole(rs.getString("role"));
 				employee.setDepartment(rs.getString("department"));
 				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
-				employee.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
-				employee.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 			}
 			
 			return employee;
@@ -145,8 +141,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 				employee.setRole(rs.getString("role"));
 				employee.setDepartment(rs.getString("department"));
 				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
-				employee.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
-				employee.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 				
 				employees.add(employee);
 			}

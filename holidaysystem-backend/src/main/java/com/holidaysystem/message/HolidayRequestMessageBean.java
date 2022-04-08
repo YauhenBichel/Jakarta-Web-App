@@ -1,5 +1,7 @@
 package com.holidaysystem.message;
 
+import java.util.UUID;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.enterprise.context.ApplicationScoped;
@@ -11,9 +13,12 @@ import javax.jms.MessageListener;
 
 import com.holidaysystem.Constants;
 import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.entity.RequestAlertEntity;
 import com.holidaysystem.mail.MailService;
 import com.holidaysystem.mapper.HolidayRequestMapper;
+import com.holidaysystem.mapper.RequestAlertMapper;
 import com.holidaysystem.repository.HolidayRequestRepository;
+import com.holidaysystem.repository.RequestAlertRepository;
 
 @ApplicationScoped
 @MessageDriven(
@@ -27,9 +32,11 @@ import com.holidaysystem.repository.HolidayRequestRepository;
 public class HolidayRequestMessageBean implements MessageListener {
 	
 	@Inject
-    private HolidayRequestRepository holidayRequestRepository;
+    private RequestAlertRepository requestAlertRepository;
 	@Inject
 	private HolidayRequestMapper holidayRequestMapper;
+	@Inject
+	private RequestAlertMapper requestAlertMapper;
 	@Inject
 	private MailService mailService;
 	
@@ -42,9 +49,9 @@ public class HolidayRequestMessageBean implements MessageListener {
 			System.out.println(String.format("The jsonRequest: %s ", jsonRequest));
 			
 			HolidayRequestMessage holidayRequestMessage = holidayRequestMapper.toMessage(jsonRequest);
-			HolidayRequestEntity entity = holidayRequestMapper.toEntity(holidayRequestMessage);
+			RequestAlertEntity entity = requestAlertMapper.toEntity(UUID.randomUUID(), holidayRequestMessage);
 			
-			holidayRequestRepository.save(entity);
+			requestAlertRepository.save(entity);
 			
 			mailService.send();
 			
@@ -53,6 +60,6 @@ public class HolidayRequestMessageBean implements MessageListener {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-    } 
+    }
 }
 

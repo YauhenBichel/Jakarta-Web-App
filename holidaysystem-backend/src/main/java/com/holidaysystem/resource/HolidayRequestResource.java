@@ -22,7 +22,7 @@ import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.repository.HolidayRequestRepository;
 
-@Path("holiday-request")
+@Path("/holiday-request")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class HolidayRequestResource {
@@ -62,7 +62,8 @@ public class HolidayRequestResource {
     @POST()
     public Response createHolidayRequest(HolidayRequest holidayRequest) { 
     	UUID id = UUID.randomUUID();
-    	
+    	HolidayRequestEntity entity = holidayRequestMapper.toEntity(id, holidayRequest);
+    	holidayRequestRepository.save(entity);
     	holidayRequestMQProducer.publish(id, holidayRequest);
         
         return Response.ok(id)

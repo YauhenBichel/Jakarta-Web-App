@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.holidaysystem.Constants;
+import com.holidaysystem.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
 
 import java.sql.Connection;
@@ -22,11 +23,6 @@ import java.util.List;
 @ApplicationScoped
 public class HolidayRequestRepository implements IHolidayRequestRepository {
 
-	private static final String BASE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	private static final DateTimeFormatter FORMATTER = 
-		    new DateTimeFormatterBuilder().appendPattern(BASE_PATTERN)
-		        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).toFormatter();
-	
 	@Override
 	public HolidayRequestEntity findById(UUID holidayRequestId) {
 		try {
@@ -44,10 +40,10 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 				entity.setId(UUID.fromString(rs.getString("id")));
 				entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
 				entity.setStatus(rs.getString("status"));
-				entity.setStartDate(LocalDateTime.parse(rs.getString("startdate"), FORMATTER));
-				entity.setEndDate(LocalDateTime.parse(rs.getString("enddate"), FORMATTER));
-				entity.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
-				entity.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				entity.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
+				entity.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
+				entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+				entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 			}
 			
 			return entity;
@@ -109,10 +105,10 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 				entity.setId(UUID.fromString(rs.getString("id")));
 				entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
 				entity.setStatus(rs.getString("status"));
-				entity.setStartDate(LocalDateTime.parse(rs.getString("startdate"), FORMATTER));
-				entity.setEndDate(LocalDateTime.parse(rs.getString("enddate"), FORMATTER));
-				entity.setCreated(LocalDateTime.parse(rs.getString("created"), FORMATTER));
-				entity.setModified(LocalDateTime.parse(rs.getString("modified"), FORMATTER));
+				entity.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
+				entity.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
+				entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+				entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 				
 				holidayRequests.add(entity);
 			}
