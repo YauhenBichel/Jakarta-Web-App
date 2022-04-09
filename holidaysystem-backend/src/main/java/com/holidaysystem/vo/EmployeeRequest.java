@@ -1,5 +1,6 @@
 package com.holidaysystem.vo;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -33,6 +34,10 @@ public class EmployeeRequest implements Serializable {
     @NotBlank
     private String department;
     
+    private Integer years;
+    
+    private Integer days;
+    
     public String getFirstName() {
     	return this.firstName;
     }
@@ -63,4 +68,8 @@ public class EmployeeRequest implements Serializable {
     public void setDepartment(String department) {
     	this.department = department;
     }
+    public void setYears(Integer years) {this.years = years; }
+    public Integer getYears() {return this.years;}
+    public void setDays(Integer days) {this.days = days; }
+    public Integer getDays() {return this.days;}
 }

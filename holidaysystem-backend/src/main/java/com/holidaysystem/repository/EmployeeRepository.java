@@ -14,9 +14,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +32,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
-			String sql = "SELECT id, firstname, lastname, role, department, accountid, created, modified FROM employee where id = ?";
+			String sql = "SELECT id, firstname, lastname, role, department, years, days, accountid, created, modified "
+					+ "FROM employee where id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setObject(1, employeeId);
 			
@@ -47,6 +45,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 				employee.setLastName(rs.getString("lastname"));
 				employee.setRole(rs.getString("role"));
 				employee.setDepartment(rs.getString("department"));
+				employee.setYears(rs.getInt("years"));
+				employee.setDays(rs.getInt("days"));
 				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
 				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
 				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
@@ -68,7 +68,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
-			String sql = "Select id, firstname, lastname, role, department, accountid, created, modified from employee where email = ?";
+			String sql = "Select id, firstname, lastname, role, department, accountid, years, days, "
+					+ "created, modified from employee where email = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, email);
 			
@@ -81,6 +82,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 				employee.setRole(rs.getString("role"));
 				employee.setDepartment(rs.getString("department"));
 				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+				employee.setYears(rs.getInt("years"));
+				employee.setDays(rs.getInt("days"));
 				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
 				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 			}
@@ -101,8 +104,9 @@ public class EmployeeRepository implements IEmployeeRepository {
 			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
-			String query = "INSERT INTO employee (id, firstname, lastname, role, department, accountid, created, modified) "
-					+ "VALUES (?,?,?,?,?,?,?,?);";
+			String query = "INSERT INTO employee (id, firstname, lastname, role, department, accountid, "
+					+ "years, days, created, modified) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setObject(1, employee.getId());
 			ps.setString(2, employee.getFirstName());
@@ -110,8 +114,10 @@ public class EmployeeRepository implements IEmployeeRepository {
 			ps.setObject(4, employee.getRole());
 			ps.setObject(5, employee.getDepartment());
 			ps.setObject(6, employee.getAccountId());
-			ps.setObject(7, employee.getCreated());
-			ps.setObject(8, employee.getModified());
+			ps.setObject(7, employee.getYears());
+			ps.setObject(8, employee.getDays());
+			ps.setObject(9, employee.getCreated());
+			ps.setObject(10, employee.getModified());
 			
 			if (ps.executeUpdate() == 1) {
 			     return true;
@@ -133,7 +139,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
-			String sql = "SELECT id, firstname, lastname, role, department, accountid, created, modified FROM employee;";
+			String sql = "SELECT id, firstname, lastname, role, department, accountid, "
+					+ "years, days, created, modified FROM employee;";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			
 			List<EmployeeEntity> employees = new ArrayList<>();
@@ -146,6 +153,8 @@ public class EmployeeRepository implements IEmployeeRepository {
 				employee.setRole(rs.getString("role"));
 				employee.setDepartment(rs.getString("department"));
 				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+				employee.setYears(rs.getInt("years"));
+				employee.setDays(rs.getInt("days"));
 				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
 				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 				

@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.holidaysystem.Constants;
+import com.holidaysystem.DateUtils;
 import com.holidaysystem.entity.AccountEntity;
 
 import java.sql.Connection;
@@ -62,16 +63,14 @@ public class AccountRepository implements IAccountRepository {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, email);
 			
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			
 			AccountEntity account = new AccountEntity();
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				account.setId(UUID.fromString(rs.getString("id")));
 				account.setPassword(rs.getString("password"));
 				account.setEmail(rs.getString("email"));
-				account.setCreated(LocalDateTime.parse(rs.getString("created"), formatter));
-				account.setModified(LocalDateTime.parse(rs.getString("modified"), formatter));
+				account.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+				account.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 			}
 			
 			return account;
@@ -90,11 +89,12 @@ public class AccountRepository implements IAccountRepository {
 			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
-			String sql = "Select id, email, password, created, modified from account where email = ?";
+			String sql = "SELECT id, email, password, created, modified "
+					+ "FROM account "
+					+ "WHERE email = ? AND password = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, email);
-			
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			stmt.setString(2, hashedPassword);
 			
 			AccountEntity account = new AccountEntity();
 			ResultSet rs = stmt.executeQuery();
@@ -102,8 +102,8 @@ public class AccountRepository implements IAccountRepository {
 				account.setId(UUID.fromString(rs.getString("id")));
 				account.setPassword(rs.getString("password"));
 				account.setEmail(rs.getString("email"));
-				account.setCreated(LocalDateTime.parse(rs.getString("created"), formatter));
-				account.setModified(LocalDateTime.parse(rs.getString("modified"), formatter));
+				account.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+				account.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 			}
 			
 			return account;

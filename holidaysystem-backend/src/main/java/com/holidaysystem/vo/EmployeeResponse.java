@@ -36,6 +36,10 @@ public class EmployeeResponse implements Serializable {
     @NotBlank
     private String department;
     
+    private Integer years;
+    
+    private Integer days;
+    
     private String modified;
     
     private String created;
@@ -76,6 +80,10 @@ public class EmployeeResponse implements Serializable {
     public void setDepartment(String department) {
     	this.department = department;
     }
+    public void setYears(Integer years) {this.years = years; }
+    public Integer getYears() {return this.years;}
+    public void setDays(Integer days) {this.days = days; }
+    public Integer getDays() {return this.days;}
     public String getCreated() {
     	return this.created;
     }

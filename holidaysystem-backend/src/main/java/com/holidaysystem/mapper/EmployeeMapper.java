@@ -24,6 +24,8 @@ public class EmployeeMapper {
     	entity.setDepartment(request.getDepartment());
     	entity.setFirstName(request.getFirstName());
     	entity.setLastName(request.getLastName());
+    	entity.setYears(request.getYears());
+    	entity.setDays(request.getDays());
     	entity.setCreated(LocalDateTime.now());
     	entity.setModified(LocalDateTime.now());
     	
@@ -38,6 +40,8 @@ public class EmployeeMapper {
 		employee.setLastName(entity.getLastName());
 		employee.setRole(entity.getRole());
 		employee.setDepartment(entity.getDepartment());
+		employee.setYears(entity.getYears());
+		employee.setDays(entity.getDays());
 		employee.setCreated(entity.getCreated().toString());
 		employee.setModified(entity.getModified().toString());
 		

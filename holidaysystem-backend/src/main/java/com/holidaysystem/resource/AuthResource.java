@@ -6,14 +6,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.holidaysystem.entity.AccountEntity;
+import com.holidaysystem.mapper.AccountMapper;
+import com.holidaysystem.vo.AccountResponse;
+import com.holidaysystem.vo.LoginRequest;
 import com.holidaysystem.vo.RegistrationRequest;
 import com.holidaysystem.repository.AccountRepository;
 import com.holidaysystem.repository.EmployeeRepository;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -31,6 +32,8 @@ public class AuthResource {
     AccountRepository accountRepository;
 	@Inject
     EmployeeRepository employeeRepository;
+	@Inject
+	AccountMapper accountMapper;
 
     @POST
     @Path("/register")
@@ -38,17 +41,37 @@ public class AuthResource {
     public Response register(RegistrationRequest registrationRequest) {
         
     	final String hashedPassWithSalt = generateHash(registrationRequest.getPassword());
-    	
-    	AccountEntity account = new AccountEntity();
-    	account.setId(UUID.randomUUID());
-    	account.setEmail(registrationRequest.getEmail());
-    	account.setPassword(hashedPassWithSalt);
-    	account.setCreated(LocalDateTime.now());
-		account.setModified(LocalDateTime.now());
-    	
+		AccountEntity account = accountMapper.toEntity(registrationRequest, hashedPassWithSalt);
+		
     	accountRepository.save(account);
     	
-    	return Response.ok(account)
+    	AccountResponse resp = accountMapper.toResponse(account);
+    	
+    	return Response.ok(resp)
+    			.header("Access-Control-Allow-Origin", "*")
+    			.status(Status.CREATED)
+    			.build();
+    }
+    
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response login(LoginRequest loginRequest) {
+        
+    	final String hashedPassWithSalt = generateHash(loginRequest.getPassword());
+    	AccountEntity accountEntity = accountRepository
+    			.findByEmailAndPassword(loginRequest.getEmail(), hashedPassWithSalt);
+    	
+    	if(accountEntity == null) {
+    		return Response.noContent()
+        			.header("Access-Control-Allow-Origin", "*")
+        			.status(Status.NOT_FOUND)
+        			.build();
+    	}
+    	
+    	AccountResponse resp = accountMapper.toResponse(accountEntity);
+    	
+    	return Response.ok(resp)
     			.header("Access-Control-Allow-Origin", "*")
     			.build();
     }

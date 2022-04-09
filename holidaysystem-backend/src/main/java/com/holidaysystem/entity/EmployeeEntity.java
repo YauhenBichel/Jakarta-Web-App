@@ -31,11 +31,14 @@ public class EmployeeEntity extends AuditEntity {
 	private String role;
 	@Column(name = "department")
 	private String department;
-
 	@Column(name = "firstname")
     private String firstName;
 	@Column(name = "lastname")
 	private String lastName;
+	@Column(name = "years")
+    private Integer years;
+	@Column(name = "days")
+    private Integer days;
 
     public void setId(UUID id) {this.id = id; }
     public UUID getId() {return this.id;}
@@ -49,4 +52,8 @@ public class EmployeeEntity extends AuditEntity {
     public String getFirstName() {return this.firstName;}
     public void setLastName(String lastName) {this.lastName = lastName; }
     public String getLastName() {return this.lastName;}
+    public void setYears(Integer years) {this.years = years; }
+    public Integer getYears() {return this.years;}
+    public void setDays(Integer days) {this.days = days; }
+    public Integer getDays() {return this.days;}
 }
