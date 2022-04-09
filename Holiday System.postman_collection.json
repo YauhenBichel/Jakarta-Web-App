@@ -164,7 +164,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Tom\",\n    \"lastName\": \"Litvin\",\n    \"accountId\": \"2e1293be-a549-4464-aa18-09a714a1ef1c\",\n    \"role\":\"HEAD\",\n    \"department\": \"ENGINEERING\" \n}",
+					"raw": "{\n    \"firstName\": \"Yauhen\",\n    \"lastName\": \"Bichel\",\n    \"accountId\": \"93328909-12f7-42e9-82fb-97a871f07f29\",\n    \"role\":\"MANAGER\",\n    \"department\": \"ENGINEERING\",\n    \"years\": 0,\n    \"days\": 30\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -255,7 +255,7 @@
 			"response": []
 		},
 		{
-			"name": "Add Account",
+			"name": "Register",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -264,7 +264,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"tom.litvin@belarus.com\",\n    \"password\": \"1234\"\n}\n",
+					"raw": "{\n    \"email\": \"yauhen.bichel@belarus.com\",\n    \"password\": \"1234\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -283,6 +283,40 @@
 						"api",
 						"auth",
 						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"yauhen.bichel@belarus.com\",\n    \"password\": \"1234\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"auth",
+						"login"
 					]
 				}
 			},

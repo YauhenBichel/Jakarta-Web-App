@@ -58,9 +58,8 @@ public class AuthResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginRequest loginRequest) {
         
-    	final String hashedPassWithSalt = generateHash(loginRequest.getPassword());
     	AccountEntity accountEntity = accountRepository
-    			.findByEmailAndPassword(loginRequest.getEmail(), hashedPassWithSalt);
+    			.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
     	
     	if(accountEntity == null) {
     		return Response.noContent()

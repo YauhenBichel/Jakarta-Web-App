@@ -83,18 +83,19 @@ public class AccountRepository implements IAccountRepository {
 	}
 	
 	@Override
-	public AccountEntity findByEmailAndPassword(String email, String hashedPassword) {
+	public AccountEntity findByEmailAndPassword(String email, String password) {
 		try {
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
 			Connection conn = ds.getConnection();
 			
-			String sql = "SELECT id, email, password, created, modified "
-					+ "FROM account "
-					+ "WHERE email = ? AND password = ?";
+			String sql = "SELECT acc.id, acc.email, acc.password, acc.created, acc.modified "
+					+ "FROM account acc "
+					+ "WHERE acc.email = ? AND "
+					+ "crypt(?, acc.password) = acc.password";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, email);
-			stmt.setString(2, hashedPassword);
+			stmt.setString(2, password);
 			
 			AccountEntity account = new AccountEntity();
 			ResultSet rs = stmt.executeQuery();
