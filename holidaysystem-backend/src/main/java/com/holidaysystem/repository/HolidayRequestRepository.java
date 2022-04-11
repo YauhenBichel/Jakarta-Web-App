@@ -6,6 +6,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.jboss.logging.Logger;
+
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
@@ -18,13 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * HolidayRequest Repository implementation using java.sql.PreparedStatement
  * @author yauhen bichel
  *
  */
 @ApplicationScoped
 public class HolidayRequestRepository implements IHolidayRequestRepository {
 
+	private static final Logger logger = Logger.getLogger(HolidayRequestRepository.class);
+	
 	@Override
 	public HolidayRequestEntity findById(UUID holidayRequestId) {
 		try {

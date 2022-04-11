@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * 
+ * Response model for employee
  * @author yauhen bichel
  *
  */

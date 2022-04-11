@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 import org.jboss.logging.Logger;
 
 /**
- * 
+ * Mail service for sending message to admin
  * @author yauhen bichel
  *
  */

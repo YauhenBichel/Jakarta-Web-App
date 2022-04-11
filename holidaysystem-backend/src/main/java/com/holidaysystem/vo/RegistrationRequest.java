@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
- * 
+ * Request model for registration
  * @author yauhen bichel
  *
  */
@@ -19,11 +19,13 @@ import java.io.Serializable;
 public class RegistrationRequest implements Serializable {
 
     @Email
-    @NotBlank
     private String email;
     
     @NotBlank
     private String password;
+    
+    @NotBlank
+    private String authRole;
     
     public String getEmail() {
     	return this.email;
@@ -36,5 +38,11 @@ public class RegistrationRequest implements Serializable {
     }
     public void setPassword(String password) {
     	this.password = password;
+    }
+    public String getAuthRole() {
+    	return this.authRole;
+    }
+    public void setAuthRole(String authRole) {
+    	this.authRole = authRole;
     }
 }

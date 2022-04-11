@@ -9,9 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 /**
- * 
+ * Employee entity
  * @author yauhen bichel
  *
  */
@@ -25,18 +28,31 @@ public class EmployeeEntity extends AuditEntity {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+	
 	@Column(name = "acountid")
     private UUID accountId;
+	
+	@NotBlank
 	@Column(name = "role")
 	private String role;
+	
+	@NotBlank
 	@Column(name = "department")
 	private String department;
+	
+	@NotBlank
 	@Column(name = "firstname")
     private String firstName;
+	
+	@NotBlank
 	@Column(name = "lastname")
 	private String lastName;
+	
+	@PositiveOrZero
 	@Column(name = "years")
     private Integer years;
+	
+	@PositiveOrZero
 	@Column(name = "days")
     private Integer days;
 

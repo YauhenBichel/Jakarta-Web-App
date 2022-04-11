@@ -1,6 +1,5 @@
 package com.holidaysystem.vo;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -11,7 +10,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * 
+ * Request model for employee
  * @author yauhen bichel
  *
  */

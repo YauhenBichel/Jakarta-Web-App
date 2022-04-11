@@ -6,9 +6,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.jboss.logging.Logger;
+
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.EmployeeEntity;
+import com.holidaysystem.resource.AuthResource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,13 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * Employee Repository implementation using java.sql.PreparedStatement
  * @author yauhen bichel
  *
  */
 @ApplicationScoped
 public class EmployeeRepository implements IEmployeeRepository {
 
+	private static final Logger logger = Logger.getLogger(EmployeeRepository.class);
+	
 	@Override
 	public EmployeeEntity findById(UUID employeeId) {
 		try {
@@ -55,7 +60,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 			return employee;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 		}
 		
 		return null;
@@ -91,7 +96,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 			return employee;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 		}
 		
 		return null;
@@ -126,7 +131,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 			}
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 		}
 		
 		return false;
@@ -164,7 +169,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 			return employees;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 		}
 		
 		return null;

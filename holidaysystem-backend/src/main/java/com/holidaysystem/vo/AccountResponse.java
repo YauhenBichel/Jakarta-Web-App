@@ -1,6 +1,8 @@
 package com.holidaysystem.vo;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -10,7 +12,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * 
+ * Response model for account
  * @author yauhen bichel
  *
  */
@@ -21,11 +23,16 @@ public class AccountResponse implements Serializable {
 	@NotBlank
 	private UUID id;
 	
-	@NotBlank
+	@Email
 	private String email;
+	
+	@NotBlank
+    private String authRole;
 
+	@PastOrPresent
 	private String modified;
     
+	@PastOrPresent
     private String created;
     
     public UUID getId() {
@@ -39,6 +46,12 @@ public class AccountResponse implements Serializable {
     }
     public void setEmail(String email) {
     	this.email = email;
+    }
+    public String getAuthRole() {
+    	return this.authRole;
+    }
+    public void setAuthRole(String authRole) {
+    	this.authRole = authRole;
     }
     public String getCreated() {
     	return this.created;

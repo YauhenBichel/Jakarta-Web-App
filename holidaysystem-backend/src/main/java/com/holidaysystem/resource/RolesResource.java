@@ -15,7 +15,7 @@ import java.util.List;
 import com.holidaysystem.model.EmployeeRoleEnum;
 
 /**
- * 
+ * REST API for roles resource
  * @author yauhen bichel
  *
  */

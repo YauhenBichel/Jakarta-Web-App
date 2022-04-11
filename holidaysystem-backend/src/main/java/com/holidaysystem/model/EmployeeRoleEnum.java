@@ -1,7 +1,7 @@
 package com.holidaysystem.model;
 
 /**
- * 
+ * Employee Role Enum
  * @author yauhen bichel
  *
  */

@@ -15,7 +15,7 @@ import java.util.List;
 import com.holidaysystem.model.DepartmentEnum;
 
 /**
- * 
+ * REST API for departments resource
  * @author yauhen bichel
  *
  */

@@ -23,7 +23,7 @@ import com.holidaysystem.vo.EmployeeResponse;
 import com.holidaysystem.repository.EmployeeRepository;
 
 /**
- * 
+ * REST API for employee resource
  * @author yauhen bichel
  *
  */

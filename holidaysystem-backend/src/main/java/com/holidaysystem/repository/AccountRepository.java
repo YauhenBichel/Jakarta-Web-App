@@ -4,7 +4,10 @@ import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import org.jboss.logging.Logger;
 
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
@@ -13,25 +16,31 @@ import com.holidaysystem.entity.AccountEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 /**
- * 
+ * Account Repository implementation using java.sql.PreparedStatement
  * @author yauhen bichel
- *
  */
 @ApplicationScoped
 public class AccountRepository implements IAccountRepository {
 
+	private static final Logger logger = Logger.getLogger(AccountRepository.class);
+	
 	@Override
 	public AccountEntity findById(UUID accountId) {
+		InitialContext initialContext = null;
+		Connection dsConnection = null;
+		
 		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+			
+			initialContext = new InitialContext();
+			DataSource ds = (DataSource)initialContext.lookup(Constants.DATASOURCE_LOOKUP_KEY);
+			dsConnection = ds.getConnection();
 			
 			String sql = "Select id, password, email from account where id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = dsConnection.prepareStatement(sql);
 			stmt.setObject(1, accountId);
 			
 			AccountEntity account = new AccountEntity();
@@ -45,7 +54,18 @@ public class AccountRepository implements IAccountRepository {
 			return account;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
+		} finally {
+			try {
+				if(dsConnection != null)
+					dsConnection.close();
+				if(initialContext != null)
+					initialContext.close();
+			}catch (SQLException ex) {
+				logger.error(ex.getMessage(), ex);
+			}catch (NamingException ex) {
+				logger.error(ex.getMessage(), ex);
+			}
 		}
 		
 		return null;
@@ -53,13 +73,18 @@ public class AccountRepository implements IAccountRepository {
 
 	@Override
 	public AccountEntity findByEmail(String email) {
+		
+		InitialContext initialContext = null;
+		Connection dsConnection = null;
+		
 		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+			
+			initialContext = new InitialContext();
+			DataSource ds = (DataSource)initialContext.lookup(Constants.DATASOURCE_LOOKUP_KEY);
+			dsConnection = ds.getConnection();
 			
 			String sql = "Select id, email, password, created, modified from account where email = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = dsConnection.prepareStatement(sql);
 			stmt.setString(1, email);
 			
 			AccountEntity account = new AccountEntity();
@@ -75,7 +100,18 @@ public class AccountRepository implements IAccountRepository {
 			return account;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
+		} finally {
+			try {
+				if(dsConnection != null)
+					dsConnection.close();
+				if(initialContext != null)
+					initialContext.close();
+			}catch (SQLException ex) {
+				logger.error(ex.getMessage(), ex);
+			}catch (NamingException ex) {
+				logger.error(ex.getMessage(), ex);
+			}
 		}
 		
 		return null;
@@ -83,16 +119,20 @@ public class AccountRepository implements IAccountRepository {
 	
 	@Override
 	public AccountEntity findByEmailAndPassword(String email, String password) {
+		InitialContext initialContext = null;
+		Connection dsConnection = null;
+		
 		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+			
+			initialContext = new InitialContext();
+			DataSource ds = (DataSource)initialContext.lookup(Constants.DATASOURCE_LOOKUP_KEY);
+			dsConnection = ds.getConnection();
 			
 			String sql = "SELECT acc.id, acc.email, acc.password, acc.created, acc.modified "
 					+ "FROM account acc "
 					+ "WHERE acc.email = ? AND "
 					+ "crypt(?, acc.password) = acc.password";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = dsConnection.prepareStatement(sql);
 			stmt.setString(1, email);
 			stmt.setString(2, password);
 			
@@ -109,7 +149,18 @@ public class AccountRepository implements IAccountRepository {
 			return account;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
+		} finally {
+			try {
+				if(dsConnection != null)
+					dsConnection.close();
+				if(initialContext != null)
+					initialContext.close();
+			}catch (SQLException ex) {
+				logger.error(ex.getMessage(), ex);
+			}catch (NamingException ex) {
+				logger.error(ex.getMessage(), ex);
+			}
 		}
 		
 		return null;
@@ -117,14 +168,18 @@ public class AccountRepository implements IAccountRepository {
 
 	@Override
 	public boolean save(AccountEntity account) {
+		InitialContext initialContext = null;
+		Connection dsConnection = null;
+		
 		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+			
+			initialContext = new InitialContext();
+			DataSource ds = (DataSource)initialContext.lookup(Constants.DATASOURCE_LOOKUP_KEY);
+			dsConnection = ds.getConnection();
 			
 			String query = "INSERT INTO account (id, email, password, created, modified) "
 					+ "VALUES (?,?,?,?,?);";
-			PreparedStatement ps = conn.prepareStatement(query);
+			PreparedStatement ps = dsConnection.prepareStatement(query);
 			ps.setObject(1, account.getId());
 			ps.setString(2, account.getEmail());
 			ps.setString(3, account.getPassword());
@@ -138,20 +193,35 @@ public class AccountRepository implements IAccountRepository {
 			}
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
+		} finally {
+			try {
+				if(dsConnection != null)
+					dsConnection.close();
+				if(initialContext != null)
+					initialContext.close();
+			}catch (SQLException ex) {
+				logger.error(ex.getMessage(), ex);
+			}catch (NamingException ex) {
+				logger.error(ex.getMessage(), ex);
+			}
 		}
 		
 		return false;
 	}
 
     public String generateHashedPassword(String password) {
+    	InitialContext initialContext = null;
+		Connection dsConnection = null;
+		
 		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+			
+			initialContext = new InitialContext();
+			DataSource ds = (DataSource)initialContext.lookup(Constants.DATASOURCE_LOOKUP_KEY);
+			dsConnection = ds.getConnection();
 			
 			String sql = "SELECT crypt(?, gen_salt('bf', 8))";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = dsConnection.prepareStatement(sql);
 			stmt.setObject(1, password);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -165,7 +235,18 @@ public class AccountRepository implements IAccountRepository {
 			return hashedPass;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
+		} finally {
+			try {
+				if(dsConnection != null)
+					dsConnection.close();
+				if(initialContext != null)
+					initialContext.close();
+			}catch (SQLException ex) {
+				logger.error(ex.getMessage(), ex);
+			}catch (NamingException ex) {
+				logger.error(ex.getMessage(), ex);
+			}
 		}
 		
 		return null;

@@ -9,9 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
 
 /**
- * 
+ * RequestAlert entity
  * @author yauhen bichel
  *
  */
@@ -26,6 +27,8 @@ public class RequestAlertEntity extends AuditEntity {
     private UUID id;
 	@Column(name = "requestid")
     private UUID requestId;
+	
+	@FutureOrPresent
 	@Column(name = "date")
 	private LocalDateTime date;
 

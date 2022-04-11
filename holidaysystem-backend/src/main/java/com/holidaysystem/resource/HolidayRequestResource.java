@@ -25,7 +25,7 @@ import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.repository.HolidayRequestRepository;
 
 /**
- * 
+ * REST API for holiday request resource
  * @author yauhen bichel
  *
  */

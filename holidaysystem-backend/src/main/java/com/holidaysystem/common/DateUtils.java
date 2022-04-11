@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 
 /**
- * 
+ * Utils for dates and time
  * @author yauhen bichel
  *
  */

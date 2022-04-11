@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * 
+ * Request model for holiday request
  * @author yauhen bichel
  *
  */

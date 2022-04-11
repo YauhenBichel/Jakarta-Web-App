@@ -21,7 +21,7 @@ import com.holidaysystem.vo.RequestAlertResponse;
 import com.holidaysystem.repository.RequestAlertRepository;
 
 /**
- * 
+ * REST API for request-alert resource
  * @author yauhen bichel
  *
  */

@@ -21,7 +21,7 @@ import com.holidaysystem.repository.EmployeeRepository;
 import javax.inject.Inject;
 
 /**
- * 
+ * REST API for auth resource
  * @author yauhen bichel
  *
  */

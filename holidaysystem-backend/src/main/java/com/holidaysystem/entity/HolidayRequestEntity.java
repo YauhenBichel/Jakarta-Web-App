@@ -9,10 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
 
 
 /**
- * 
+ * HolidayRequest entity
  * @author yauhen bichel
  *
  */
@@ -25,12 +26,18 @@ public class HolidayRequestEntity extends AuditEntity {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+	
 	@Column(name = "employeeid")
     private UUID employeeId;
+	
+	@FutureOrPresent
 	@Column(name = "startdate")
 	private LocalDateTime startDate;
+	
+	@FutureOrPresent
 	@Column(name = "enddate")
 	private LocalDateTime endDate;
+	
 	@Column(name = "status")
 	private String status;
 

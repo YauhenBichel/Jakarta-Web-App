@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * 
+ * Response model for request alert
  * @author yauhen bichel
  *
  */

@@ -8,10 +8,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import io.jsonwebtoken.io.IOException;
-
 /**
- * 
+ * REST API for checking the system is running
  * @author yauhen bichel
  *
  */
@@ -25,12 +23,9 @@ public class HelloResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get() {
 		
-		throw new IOException("test");
-		/*
 		return Response.status(Response.Status.OK)
 				.entity("Vacation system is running")
 				.header("Access-Control-Allow-Origin", "*")
 				.build();
-				*/
 	}
 }

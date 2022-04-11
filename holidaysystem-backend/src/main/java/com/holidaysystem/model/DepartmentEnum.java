@@ -1,7 +1,7 @@
 package com.holidaysystem.model;
 
 /**
- * 
+ * Department Enum
  * @author yauhen bichel
  *
  */

@@ -9,9 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 /**
- * 
+ * Account entity
  * @author yauhen bichel
  *
  */
@@ -25,9 +26,16 @@ public class AccountEntity extends AuditEntity {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+	
+	@Column(name = "auth_roleid")
+	private UUID authRoleId;
     
     @Email
+    @Column(name = "email")
     private String email;
+    
+    @NotBlank
+    @Column(name = "password")
     private String password;
 
     public void setId(UUID id) {this.id = id; }
@@ -36,4 +44,6 @@ public class AccountEntity extends AuditEntity {
     public String getEmail() {return this.email;}
     public void setPassword(String password) {this.password = password; }
     public String getPassword() {return this.password;}
+    public void setAuthRoleId(UUID authRoleId) {this.authRoleId = authRoleId; }
+    public UUID getAuthRoleId() {return this.authRoleId;}
 }

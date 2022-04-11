@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
- * 
+ * Request model for login
  * @author yauhen bichel
  *
  */
@@ -19,7 +19,6 @@ import java.io.Serializable;
 public class LoginRequest implements Serializable {
 
     @Email
-    @NotBlank
     private String email;
     
     @NotBlank
