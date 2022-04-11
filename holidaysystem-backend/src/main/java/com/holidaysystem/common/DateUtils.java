@@ -1,4 +1,4 @@
-package com.holidaysystem;
+package com.holidaysystem.common;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;

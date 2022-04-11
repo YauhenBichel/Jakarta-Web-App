@@ -11,6 +11,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.jboss.logging.Logger;
+
 /**
  * 
  * @author yauhen bichel
@@ -18,6 +20,9 @@ import javax.mail.internet.MimeMessage;
  */
 @ApplicationScoped
 public class MailService implements IMailService {
+	
+	private static final Logger logger = Logger.getLogger(MailService.class);
+	
 	public void send() {
 	      //provide recipient's email ID
 	      String to = "yb3129h@gre.ac.uk";
@@ -51,13 +56,13 @@ public class MailService implements IMailService {
 	            message.setSubject("COMP1610 Group 5 Notification for Admin!");
 			    message.setText("There is a new request!");
 
-	            //Transport.send(message, username, password);
 			    Transport.send(message);
 
-	            System.out.println("Email Message Sent Successfully");
+	            logger.debug("Email Message Sent Successfully");
 
 	        } catch (MessagingException e) {
 	            e.printStackTrace();
+	            logger.error(e.getMessage(), e);
 	        }	      
 	   }
 }

@@ -11,6 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +34,8 @@ import com.holidaysystem.repository.HolidayRequestRepository;
 @Consumes(MediaType.APPLICATION_JSON)
 public class HolidayRequestResource {
 
+	private static final Logger logger = Logger.getLogger(HolidayRequestResource.class);
+	
     @Inject
     private HolidayRequestRepository holidayRequestRepository;
     @Inject
@@ -42,6 +46,9 @@ public class HolidayRequestResource {
     @GET
     @Path("/all")
     public Response getHolidayRequests() {
+    	
+    	logger.debug("getHolidayRequests()");
+    	
     	List<HolidayRequestEntity> entities = holidayRequestRepository.getHolidayRequests();
     	List<HolidayResponse> holidayRequestResponses = new ArrayList<>();
     	for(HolidayRequestEntity entity: entities) {

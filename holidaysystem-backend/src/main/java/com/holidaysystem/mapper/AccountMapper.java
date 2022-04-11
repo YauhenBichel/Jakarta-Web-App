@@ -7,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 
 import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.vo.AccountResponse;
-import com.holidaysystem.vo.LoginRequest;
 import com.holidaysystem.vo.RegistrationRequest;
 
 /**

@@ -7,6 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,17 +24,20 @@ import com.holidaysystem.model.DepartmentEnum;
 @Consumes(MediaType.APPLICATION_JSON)
 public class DepartmentsResource {
     
+	private static final Logger logger = Logger.getLogger(DepartmentsResource.class);
+	
     @GET
     @Path("/all")
     public Response getDepartments() {
-    	List<String> roles = new ArrayList<>();
+    	logger.debug("getDepartments()");
+    	
+    	List<String> departments = new ArrayList<>();
     	
     	for(DepartmentEnum value: DepartmentEnum.values()) {
-    		roles.add(value.name());
+    		departments.add(value.name());
     	}
     	
-        return Response.ok(roles)
-        		.header("Access-Control-Allow-Origin", "*")
+        return Response.ok(departments)
         		.build();
     }
    

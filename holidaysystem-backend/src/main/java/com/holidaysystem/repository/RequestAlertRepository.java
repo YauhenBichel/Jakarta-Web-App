@@ -7,17 +7,13 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.holidaysystem.Constants;
-import com.holidaysystem.DateUtils;
-import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.RequestAlertEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 

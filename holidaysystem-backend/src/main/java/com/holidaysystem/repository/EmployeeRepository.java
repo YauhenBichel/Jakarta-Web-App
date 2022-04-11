@@ -7,7 +7,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.holidaysystem.Constants;
-import com.holidaysystem.DateUtils;
+import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.EmployeeEntity;
 
 import java.sql.Connection;

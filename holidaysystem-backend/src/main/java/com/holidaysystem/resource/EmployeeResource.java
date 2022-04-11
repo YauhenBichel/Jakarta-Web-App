@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +32,8 @@ import com.holidaysystem.repository.EmployeeRepository;
 @Consumes(MediaType.APPLICATION_JSON)
 public class EmployeeResource {
 
+	private static final Logger logger = Logger.getLogger(EmployeeResource.class);
+	
     @Inject
     EmployeeRepository employeeRepository;
     @Inject
@@ -38,6 +42,9 @@ public class EmployeeResource {
     @GET
     @Path("/all")
     public Response getEmployees() {
+    	
+    	logger.debug("getEmployees()");
+    	
     	List<EmployeeEntity> entities = employeeRepository.getEmployees();
     	List<EmployeeResponse> employees = new ArrayList<>();
     	for(EmployeeEntity entity: entities) {

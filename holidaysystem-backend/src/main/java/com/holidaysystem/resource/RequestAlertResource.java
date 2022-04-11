@@ -9,6 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +30,8 @@ import com.holidaysystem.repository.RequestAlertRepository;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RequestAlertResource {
 	
+	private static final Logger logger = Logger.getLogger(RequestAlertResource.class);
+	
     @Inject
     private RequestAlertRepository requestAlertRepository;
     @Inject
@@ -36,6 +40,8 @@ public class RequestAlertResource {
     @GET
     @Path("/all")
     public Response getRequestsAlerts() {
+    	logger.debug("getRequestsAlerts()");
+    	
     	List<RequestAlertEntity> entities = requestAlertRepository.getRequestAlerts();
     	List<RequestAlertResponse> requestAlertResponses = new ArrayList<>();
     	for(RequestAlertEntity entity: entities) {

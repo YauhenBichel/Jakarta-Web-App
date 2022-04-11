@@ -10,6 +10,7 @@ import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import org.jboss.logging.Logger;
 
 import com.holidaysystem.Constants;
 import com.holidaysystem.entity.HolidayRequestEntity;
@@ -36,6 +37,8 @@ import com.holidaysystem.repository.RequestAlertRepository;
 		mappedName = Constants.JMS_MESSAGE_QUEUE)
 public class HolidayRequestMessageBean implements MessageListener {
 	
+	private static final Logger logger = Logger.getLogger(HolidayRequestMessageBean.class);
+	
 	@Inject
     private RequestAlertRepository requestAlertRepository;
 	@Inject
@@ -46,12 +49,12 @@ public class HolidayRequestMessageBean implements MessageListener {
 	private MailService mailService;
 	
     public void onMessage(Message message) {
-    	System.out.println("Message received from message queue");
+    	logger.info("Message received from message queue");
     	
     	try {
     		MapMessage requestMsg = (MapMessage) message;
 			String jsonRequest = requestMsg.getString(Constants.QUEUE_KEY_MESSAGE);
-			System.out.println(String.format("The jsonRequest: %s ", jsonRequest));
+			logger.info(String.format("The jsonRequest: %s ", jsonRequest));
 			
 			HolidayRequestMessage holidayRequestMessage = holidayRequestMapper.toMessage(jsonRequest);
 			RequestAlertEntity entity = requestAlertMapper.toEntity(UUID.randomUUID(), holidayRequestMessage);
@@ -61,9 +64,9 @@ public class HolidayRequestMessageBean implements MessageListener {
 			mailService.send();
 			
 		} catch (JMSException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
     }
 }

@@ -11,6 +11,8 @@ user: comp1610y
 pass: password1
 
 
+
+
 ### JBoss Tools Plugin
 JBoss Tools provides, among others, integration between Eclipse and WildFly.
 
@@ -20,17 +22,25 @@ JBoss Tools provides, among others, integration between Eclipse and WildFly.
 ### URI
 http://localhost:8080/holidaysystem/api/hello
 
+context path: /holidaysystem
+servlet path: /api
+path info: /hello
+
 #### add a user
 add any changes for user (wildfly/bin)
 >sh ./add-user.sh
 user: comp1610y
 pass: password1
 server in browser
->http://127.0.0.1:9990/management
 http://127.0.0.1:9990/console/index.html	
 
 ### Logging
 Level is DEBUG
+<file relative-to="jboss.server.log.dir" path="holidaysystem.log"/>
+                <suffix value=".yyyy-MM-dd"/>
+                <append value="true"/>
+org.jboss.logging.Logger
+/wildfly-24.0.0.Final/standalone/log/holidaysystem.log
 
 ### Mail
 help.holiday.request@gmail.com
@@ -39,6 +49,9 @@ help.holiday.request@gmail.com
 ### Message system
 For the Message Broker, we use ActiveMQ Artemis 
 that comes embedded within WildFly.
+
+### Exception handling
+UncaughtExceptionMapper
 
 
 

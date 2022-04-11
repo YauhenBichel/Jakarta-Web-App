@@ -8,6 +8,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.jboss.logging.Logger;
+
 import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.mapper.AccountMapper;
 import com.holidaysystem.vo.AccountResponse;
@@ -28,6 +30,8 @@ import javax.inject.Inject;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
 	
+	private static final Logger logger = Logger.getLogger(AuthResource.class);
+	
 	@Inject
     AccountRepository accountRepository;
 	@Inject
@@ -39,6 +43,8 @@ public class AuthResource {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(RegistrationRequest registrationRequest) {
+    	
+    	logger.debug("register()");
         
     	final String hashedPassWithSalt = generateHash(registrationRequest.getPassword());
 		AccountEntity account = accountMapper.toEntity(registrationRequest, hashedPassWithSalt);
@@ -58,6 +64,8 @@ public class AuthResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginRequest loginRequest) {
         
+    	logger.debug("login()");
+    	
     	AccountEntity accountEntity = accountRepository
     			.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
     	

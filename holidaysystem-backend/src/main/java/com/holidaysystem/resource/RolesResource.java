@@ -7,10 +7,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.holidaysystem.model.DepartmentEnum;
 import com.holidaysystem.model.EmployeeRoleEnum;
 
 /**
@@ -23,9 +24,14 @@ import com.holidaysystem.model.EmployeeRoleEnum;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RolesResource {
     
+	private static final Logger logger = Logger.getLogger(RolesResource.class);
+	
     @GET
     @Path("/all")
     public Response getRoles() {
+    	
+    	logger.debug("getRoles()");
+    	
     	List<String> roles = new ArrayList<>();
     	
     	for(EmployeeRoleEnum value: EmployeeRoleEnum.values()) {

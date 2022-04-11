@@ -15,6 +15,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.jboss.logging.Logger;
+
 import com.holidaysystem.Constants;
 import com.holidaysystem.mapper.HolidayRequestMapper;
 import com.holidaysystem.vo.HolidayRequest;
@@ -26,6 +28,8 @@ import com.holidaysystem.vo.HolidayRequest;
  */
 @ApplicationScoped
 public class HolidayRequestMQProducer {
+	
+	private static final Logger logger = Logger.getLogger(HolidayRequestMQProducer.class);
 	
 	@Inject
     private HolidayRequestMapper holidayRequestMapper;
@@ -45,15 +49,18 @@ public class HolidayRequestMQProducer {
 			MessageProducer sender = session.createProducer(calculationQueue);
 			MapMessage message = session.createMapMessage();
 			message.setString(Constants.QUEUE_KEY_MESSAGE, jsonEntity);
-			System.out.println("Sending message");
+			
+			logger.debug("Sending message");
+			
 			sender.send(message);
 			connect.close();
+			
 		} catch (NamingException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		} catch (JMSException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 }
