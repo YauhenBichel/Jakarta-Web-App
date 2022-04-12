@@ -1,6 +1,9 @@
 package com.holidaysystem.resource;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,12 +25,14 @@ import com.holidaysystem.repository.RequestAlertRepository;
 
 /**
  * REST API for request-alert resource
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @Path("/request-alert")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequestScoped
+//@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"admin_role"}))
 public class RequestAlertResource {
 	
 	private static final Logger logger = Logger.getLogger(RequestAlertResource.class);

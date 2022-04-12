@@ -3,8 +3,8 @@ package com.holidaysystem.message;
 import java.util.UUID;
 
 /**
- * 
- * @author yauhen bichel
+ * Model of the message in message system
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 public class HolidayRequestMessage {

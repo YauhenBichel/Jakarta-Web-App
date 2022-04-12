@@ -2,8 +2,8 @@ package com.holidaysystem.repository;
 
 import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * RequestAlert Repository implementation using java.sql.PreparedStatement
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped
@@ -29,29 +29,30 @@ public class RequestAlertRepository implements IRequestAlertRepository {
 
 	private static final Logger logger = Logger.getLogger(RequestAlertRepository.class);
 	
+	@Resource(lookup = Constants.DATASOURCE_LOOKUP_KEY)
+    private DataSource dataSource;
+	
 	@Override
 	public RequestAlertEntity findById(UUID requestAlertId) {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+		try (Connection connection = dataSource.getConnection()) {
 			
-			String sql = "SELECT id, requestid, date, created, modified FROM request_alert_queue WHERE id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setObject(1, requestAlertId);
+			final String query = "SELECT id, requestid, date, created, modified FROM request_alert_queue WHERE id = ?";
 			
-			RequestAlertEntity entity = new RequestAlertEntity();
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				entity.setId(UUID.fromString(rs.getString("id")));
-				entity.setRequestId(UUID.fromString(rs.getString("requestid")));
-				entity.setDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
-				entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
-				entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, requestAlertId);
+				
+				RequestAlertEntity entity = new RequestAlertEntity();
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					entity.setId(UUID.fromString(rs.getString("id")));
+					entity.setRequestId(UUID.fromString(rs.getString("requestid")));
+					entity.setDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
+					entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+					entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+				}
+				
+				return entity;
 			}
-			
-			return entity;
-			
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
@@ -62,26 +63,24 @@ public class RequestAlertRepository implements IRequestAlertRepository {
 	
 	@Override
 	public boolean save(RequestAlertEntity requestAlertEntity) {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+		try (Connection connection = dataSource.getConnection()) {
 			
-			String query = "INSERT INTO request_alert_queue (id, requestid, date, created, modified) "
+			final String query = "INSERT INTO request_alert_queue (id, requestid, date, created, modified) "
 					+ "VALUES (?,?,?,?,?);";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setObject(1, requestAlertEntity.getId());
-			ps.setObject(2, requestAlertEntity.getRequestId());
-			ps.setObject(3, requestAlertEntity.getDate());
-			ps.setObject(4, requestAlertEntity.getCreated());
-			ps.setObject(5, requestAlertEntity.getModified());
 			
-			if (ps.executeUpdate() == 1) {
-			     return true;
-			} else {
-			     return false;
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, requestAlertEntity.getId());
+				stmt.setObject(2, requestAlertEntity.getRequestId());
+				stmt.setObject(3, requestAlertEntity.getDate());
+				stmt.setObject(4, requestAlertEntity.getCreated());
+				stmt.setObject(5, requestAlertEntity.getModified());
+				
+				if (stmt.executeUpdate() == 1) {
+				     return true;
+				} else {
+				     return false;
+				}	
 			}
-			
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
@@ -92,29 +91,26 @@ public class RequestAlertRepository implements IRequestAlertRepository {
 
 	@Override
 	public List<RequestAlertEntity> getRequestAlerts() {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+		try (Connection connection = dataSource.getConnection()) {
 			
-			String sql = "SELECT id, requestid, date, created, modified FROM request_alert_queue";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			final String query = "SELECT id, requestid, date, created, modified FROM request_alert_queue";
 			
-			List<RequestAlertEntity> requestAlerts = new ArrayList<>();
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				RequestAlertEntity entity = new RequestAlertEntity();
-				entity.setId(UUID.fromString(rs.getString("id")));
-				entity.setRequestId(UUID.fromString(rs.getString("requestid")));
-				entity.setDate(LocalDateTime.parse(rs.getString("date"), DateUtils.FORMATTER));
-				entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
-				entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				List<RequestAlertEntity> requestAlerts = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					RequestAlertEntity entity = new RequestAlertEntity();
+					entity.setId(UUID.fromString(rs.getString("id")));
+					entity.setRequestId(UUID.fromString(rs.getString("requestid")));
+					entity.setDate(LocalDateTime.parse(rs.getString("date"), DateUtils.FORMATTER));
+					entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+					entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+					
+					requestAlerts.add(entity);
+				}
 				
-				requestAlerts.add(entity);
+				return requestAlerts;
 			}
-			
-			return requestAlerts;
-			
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}

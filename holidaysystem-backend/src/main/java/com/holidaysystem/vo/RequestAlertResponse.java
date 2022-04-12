@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * Response model for request alert
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement

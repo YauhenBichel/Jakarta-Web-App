@@ -10,8 +10,8 @@ import com.holidaysystem.vo.AccountResponse;
 import com.holidaysystem.vo.RegistrationRequest;
 
 /**
- * 
- * @author yauhen bichel
+ * Account mapper
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped

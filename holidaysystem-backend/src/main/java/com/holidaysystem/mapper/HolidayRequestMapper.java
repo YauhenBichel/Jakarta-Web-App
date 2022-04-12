@@ -17,8 +17,8 @@ import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 
 /**
- * 
- * @author yauhen bichel
+ * Holiday Request mapper
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped
@@ -124,8 +124,6 @@ public class HolidayRequestMapper {
 		holidayRequest.setStatus(entity.getStatus());
 		holidayRequest.setStartDate(entity.getStartDate().toString());
 		holidayRequest.setEndDate(entity.getEndDate().toString());
-		holidayRequest.setCreated(entity.getCreated().toString());
-		holidayRequest.setModified(entity.getModified().toString());
 		
 		return holidayRequest;
 	}

@@ -1,6 +1,10 @@
 package com.holidaysystem.resource;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.security.enterprise.SecurityContext;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,12 +30,14 @@ import com.holidaysystem.repository.HolidayRequestRepository;
 
 /**
  * REST API for holiday request resource
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @Path("/holiday-request")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequestScoped
+//@ServletSecurity(@HttpConstraint(rolesAllowed = "USER_ROLE"))
 public class HolidayRequestResource {
 
 	private static final Logger logger = Logger.getLogger(HolidayRequestResource.class);
@@ -42,6 +48,8 @@ public class HolidayRequestResource {
     private HolidayRequestMapper holidayRequestMapper;
     @Inject
     private HolidayRequestMQProducer holidayRequestMQProducer;
+    @Inject
+    SecurityContext securityContext;
     
     @GET
     @Path("/all")

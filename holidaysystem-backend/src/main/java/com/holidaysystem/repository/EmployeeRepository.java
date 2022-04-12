@@ -2,8 +2,8 @@ package com.holidaysystem.repository;
 
 import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
@@ -11,7 +11,6 @@ import org.jboss.logging.Logger;
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.EmployeeEntity;
-import com.holidaysystem.resource.AuthResource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +21,7 @@ import java.util.List;
 
 /**
  * Employee Repository implementation using java.sql.PreparedStatement
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped
@@ -30,35 +29,35 @@ public class EmployeeRepository implements IEmployeeRepository {
 
 	private static final Logger logger = Logger.getLogger(EmployeeRepository.class);
 	
+	@Resource(lookup = Constants.DATASOURCE_LOOKUP_KEY)
+    private DataSource dataSource;
+	
 	@Override
 	public EmployeeEntity findById(UUID employeeId) {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+		try (Connection connection = dataSource.getConnection()) {
 			
-			String sql = "SELECT id, firstname, lastname, role, department, years, days, accountid, created, modified "
-					+ "FROM employee where id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setObject(1, employeeId);
+			final String query = "SELECT id, firstname, lastname, role, department, years, accountid, created, modified "
+					+ "FROM employee WHERE id = ?";
 			
-			EmployeeEntity employee = new EmployeeEntity();
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				employee.setId(UUID.fromString(rs.getString("id")));
-				employee.setFirstName(rs.getString("firstname"));
-				employee.setLastName(rs.getString("lastname"));
-				employee.setRole(rs.getString("role"));
-				employee.setDepartment(rs.getString("department"));
-				employee.setYears(rs.getInt("years"));
-				employee.setDays(rs.getInt("days"));
-				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
-				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
-				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, employeeId);
+				
+				EmployeeEntity employee = new EmployeeEntity();
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					employee.setId(UUID.fromString(rs.getString("id")));
+					employee.setFirstName(rs.getString("firstname"));
+					employee.setLastName(rs.getString("lastname"));
+					employee.setRole(rs.getString("role"));
+					employee.setDepartment(rs.getString("department"));
+					employee.setYears(rs.getInt("years"));
+					employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+					employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+					employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+				}
+				
+				return employee;
 			}
-			
-			return employee;
-			
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
@@ -68,33 +67,32 @@ public class EmployeeRepository implements IEmployeeRepository {
 
 	@Override
 	public EmployeeEntity findByEmail(String email) {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+		try (Connection connection = dataSource.getConnection()) {
 			
-			String sql = "Select id, firstname, lastname, role, department, accountid, years, days, "
-					+ "created, modified from employee where email = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, email);
+			final String query = "SELECT id, firstname, lastname, role, department, accountid, years, "
+					+ "created, modified "
+					+ "FROM employee "
+					+ "WHERE email = ?";
 			
-			EmployeeEntity employee = new EmployeeEntity();
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				employee.setId(UUID.fromString(rs.getString("id")));
-				employee.setFirstName(rs.getString("firstname"));
-				employee.setLastName(rs.getString("lastname"));
-				employee.setRole(rs.getString("role"));
-				employee.setDepartment(rs.getString("department"));
-				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
-				employee.setYears(rs.getInt("years"));
-				employee.setDays(rs.getInt("days"));
-				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
-				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setString(1, email);
+				
+				EmployeeEntity employee = new EmployeeEntity();
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					employee.setId(UUID.fromString(rs.getString("id")));
+					employee.setFirstName(rs.getString("firstname"));
+					employee.setLastName(rs.getString("lastname"));
+					employee.setRole(rs.getString("role"));
+					employee.setDepartment(rs.getString("department"));
+					employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+					employee.setYears(rs.getInt("years"));
+					employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+					employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+				}
+				
+				return employee;	
 			}
-			
-			return employee;
-			
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
@@ -104,32 +102,29 @@ public class EmployeeRepository implements IEmployeeRepository {
 
 	@Override
 	public boolean save(EmployeeEntity employee) {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+		try (Connection connection = dataSource.getConnection()) {
 			
-			String query = "INSERT INTO employee (id, firstname, lastname, role, department, accountid, "
-					+ "years, days, created, modified) "
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?);";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setObject(1, employee.getId());
-			ps.setString(2, employee.getFirstName());
-			ps.setString(3, employee.getLastName());
-			ps.setObject(4, employee.getRole());
-			ps.setObject(5, employee.getDepartment());
-			ps.setObject(6, employee.getAccountId());
-			ps.setObject(7, employee.getYears());
-			ps.setObject(8, employee.getDays());
-			ps.setObject(9, employee.getCreated());
-			ps.setObject(10, employee.getModified());
-			
-			if (ps.executeUpdate() == 1) {
-			     return true;
-			} else {
-			     return false;
+			final String query = "INSERT INTO employee (id, firstname, lastname, role, department, accountid, "
+					+ "years, created, modified) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?);";
+
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, employee.getId());
+				stmt.setString(2, employee.getFirstName());
+				stmt.setString(3, employee.getLastName());
+				stmt.setObject(4, employee.getRole());
+				stmt.setObject(5, employee.getDepartment());
+				stmt.setObject(6, employee.getAccountId());
+				stmt.setObject(7, employee.getYears());
+				stmt.setObject(8, employee.getCreated());
+				stmt.setObject(9, employee.getModified());
+				
+				if (stmt.executeUpdate() == 1) {
+				     return true;
+				} else {
+				     return false;
+				}
 			}
-			
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
@@ -139,35 +134,33 @@ public class EmployeeRepository implements IEmployeeRepository {
 
 	@Override
 	public List<EmployeeEntity> getEmployees() {
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource)ic.lookup(Constants.DATASOURCE_LOOKUP_KEY);
-			Connection conn = ds.getConnection();
+		try (Connection connection = dataSource.getConnection()) {
+			final String query = "SELECT empl.id, empl.firstname, empl.lastname,"
+					+ " empl.role, empl.department, empl.accountid, "
+					+ "empl.years, empl.created, .modified, acc.email "
+					+ "FROM employee empl;";
 			
-			String sql = "SELECT id, firstname, lastname, role, department, accountid, "
-					+ "years, days, created, modified FROM employee;";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			
-			List<EmployeeEntity> employees = new ArrayList<>();
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				EmployeeEntity employee = new EmployeeEntity();
-				employee.setId(UUID.fromString(rs.getString("id")));
-				employee.setFirstName(rs.getString("firstname"));
-				employee.setLastName(rs.getString("lastname"));
-				employee.setRole(rs.getString("role"));
-				employee.setDepartment(rs.getString("department"));
-				employee.setAccountId(UUID.fromString(rs.getString("accountid")));
-				employee.setYears(rs.getInt("years"));
-				employee.setDays(rs.getInt("days"));
-				employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
-				employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				List<EmployeeEntity> employees = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
 				
-				employees.add(employee);
+				while(rs.next()) {
+					EmployeeEntity employee = new EmployeeEntity();
+					employee.setId(UUID.fromString(rs.getString("id")));
+					employee.setFirstName(rs.getString("firstname"));
+					employee.setLastName(rs.getString("lastname"));
+					employee.setRole(rs.getString("role"));
+					employee.setDepartment(rs.getString("department"));
+					employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+					employee.setYears(rs.getInt("years"));
+					employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+					employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+					
+					employees.add(employee);
+				}
+				
+				return employees;
 			}
-			
-			return employees;
-			
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}

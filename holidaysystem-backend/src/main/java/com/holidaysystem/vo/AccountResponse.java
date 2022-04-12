@@ -13,7 +13,7 @@ import java.util.UUID;
 
 /**
  * Response model for account
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement

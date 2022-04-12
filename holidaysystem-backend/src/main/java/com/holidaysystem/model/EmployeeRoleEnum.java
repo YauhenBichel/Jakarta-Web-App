@@ -2,7 +2,7 @@ package com.holidaysystem.model;
 
 /**
  * Employee Role Enum
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 public enum EmployeeRoleEnum {

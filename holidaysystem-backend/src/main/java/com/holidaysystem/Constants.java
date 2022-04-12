@@ -1,8 +1,8 @@
 package com.holidaysystem;
 
 /**
- * 
- * @author yauhen bichel
+ * Constants
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 public final class Constants {

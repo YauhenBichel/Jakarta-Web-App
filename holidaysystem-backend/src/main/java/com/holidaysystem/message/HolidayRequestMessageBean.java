@@ -22,8 +22,8 @@ import com.holidaysystem.repository.HolidayRequestRepository;
 import com.holidaysystem.repository.RequestAlertRepository;
 
 /**
- * 
- * @author yauhen bichel
+ * HolidayRequestMessageBean listener of the new messages in message queue
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped

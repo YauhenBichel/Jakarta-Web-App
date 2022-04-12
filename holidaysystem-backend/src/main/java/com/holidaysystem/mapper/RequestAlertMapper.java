@@ -10,8 +10,8 @@ import com.holidaysystem.message.HolidayRequestMessage;
 import com.holidaysystem.vo.RequestAlertResponse;
 
 /**
- * 
- * @author yauhen bichel
+ * Request Alert mapper
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped

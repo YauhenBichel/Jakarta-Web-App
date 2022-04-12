@@ -5,13 +5,18 @@ import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.entity.EmployeeEntity;
+import com.holidaysystem.entity.HolidayDetailsEntity;
+import com.holidaysystem.model.DepartmentEnum;
+import com.holidaysystem.model.EmployeeModel;
+import com.holidaysystem.model.EmployeeRoleEnum;
 import com.holidaysystem.vo.EmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
 
 /**
- * 
- * @author yauhen bichel
+ * Employee mapper
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped
@@ -25,7 +30,6 @@ public class EmployeeMapper {
     	entity.setFirstName(request.getFirstName());
     	entity.setLastName(request.getLastName());
     	entity.setYears(request.getYears());
-    	entity.setDays(request.getDays());
     	entity.setCreated(LocalDateTime.now());
     	entity.setModified(LocalDateTime.now());
     	
@@ -41,9 +45,51 @@ public class EmployeeMapper {
 		employee.setRole(entity.getRole());
 		employee.setDepartment(entity.getDepartment());
 		employee.setYears(entity.getYears());
-		employee.setDays(entity.getDays());
-		employee.setCreated(entity.getCreated().toString());
-		employee.setModified(entity.getModified().toString());
+		
+		return employee;
+	}
+	
+	public EmployeeModel toEmployeeModel(EmployeeEntity entity) {
+		EmployeeModel employee = new EmployeeModel();
+		employee.setId(entity.getId());
+		employee.setAccountId(entity.getAccountId());
+		employee.setFirstName(entity.getFirstName());
+		employee.setLastName(entity.getLastName());
+		employee.setRole(EmployeeRoleEnum.valueOf(entity.getRole()));
+		employee.setDepartment(DepartmentEnum.valueOf(entity.getDepartment()));
+		employee.setYears(entity.getYears());
+		
+		return employee;
+	}
+	
+	public EmployeeModel toEmployeeModel(EmployeeEntity employeeEntity, AccountEntity accountEntity, HolidayDetailsEntity holidayDetailsEntity) {
+		EmployeeModel employee = new EmployeeModel();
+		employee.setId(employeeEntity.getId());
+		employee.setAccountId(employeeEntity.getAccountId());
+		employee.setEmail(accountEntity.getEmail());
+		employee.setFirstName(employeeEntity.getFirstName());
+		employee.setLastName(employeeEntity.getLastName());
+		employee.setRole(EmployeeRoleEnum.valueOf(employeeEntity.getRole()));
+		employee.setDepartment(DepartmentEnum.valueOf(employeeEntity.getDepartment()));
+		employee.setYears(employeeEntity.getYears());
+		employee.setTotalDays(holidayDetailsEntity.getTotalDays());
+		employee.setTakenDays(holidayDetailsEntity.getTakenDays());
+		
+		return employee;
+	}
+	
+	public EmployeeResponse toResponse(EmployeeModel model) {
+		EmployeeResponse employee = new EmployeeResponse();
+		employee.setId(model.getId());
+		employee.setAccountId(model.getAccountId());
+		employee.setEmail(model.getEmail());
+		employee.setFirstName(model.getFirstName());
+		employee.setLastName(model.getLastName());
+		employee.setRole(model.getRole().name());
+		employee.setDepartment(model.getDepartment().name());
+		employee.setYears(model.getYears());
+		employee.setTotalDays(model.getTotalDays());
+		employee.setTakenDays(model.getTakenDays());
 		
 		return employee;
 	}

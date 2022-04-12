@@ -1,6 +1,7 @@
 package com.holidaysystem.vo;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 /**
  * Response model for employee
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement
@@ -23,6 +24,8 @@ public class EmployeeResponse implements Serializable {
 	
 	@NotBlank
 	private UUID accountId;
+	
+    private String email;
 	
     @NotBlank
     private String firstName;
@@ -36,13 +39,15 @@ public class EmployeeResponse implements Serializable {
     @NotBlank
     private String department;
     
+    @PositiveOrZero
     private Integer years;
     
-    private Integer days;
+    @PositiveOrZero
+    private Integer totalDays;
     
-    private String modified;
+    @PositiveOrZero
+    private Integer takenDays;
     
-    private String created;
     
     public UUID getId() {
     	return this.id;
@@ -55,6 +60,12 @@ public class EmployeeResponse implements Serializable {
     }
     public void setAccountId(UUID accountId) {
     	this.accountId = accountId;
+    }
+    public String getEmail() {
+    	return this.email;
+    }
+    public void setEmail(String email) {
+    	this.email = email;
     }
     public String getFirstName() {
     	return this.firstName;
@@ -82,18 +93,8 @@ public class EmployeeResponse implements Serializable {
     }
     public void setYears(Integer years) {this.years = years; }
     public Integer getYears() {return this.years;}
-    public void setDays(Integer days) {this.days = days; }
-    public Integer getDays() {return this.days;}
-    public String getCreated() {
-    	return this.created;
-    }
-    public void setCreated(String created) {
-    	this.created = created;
-    }
-    public String getModified() {
-    	return this.modified;
-    }
-    public void setModified(String modified) {
-    	this.modified = modified;
-    }
+    public void setTotalDays(Integer totalDays) {this.totalDays = totalDays; }
+    public Integer getTotalDays() {return this.totalDays;}
+    public void setTakenDays(Integer takenDays) {this.takenDays = takenDays; }
+    public Integer getTakenDays() {return this.takenDays;}
 }

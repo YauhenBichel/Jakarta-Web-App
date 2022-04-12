@@ -6,6 +6,11 @@ import javax.ws.rs.ext.Provider;
 import org.jboss.logging.Logger;
 import com.holidaysystem.Constants;
 
+/**
+ * Handle exception and return user friendly message about error in server side
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
+ *
+ */
 @Provider
 public class UncaughtExceptionMapper implements ExceptionMapper<Throwable> {
     

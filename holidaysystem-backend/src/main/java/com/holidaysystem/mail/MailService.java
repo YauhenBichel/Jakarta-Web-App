@@ -15,7 +15,7 @@ import org.jboss.logging.Logger;
 
 /**
  * Mail service for sending message to admin
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped

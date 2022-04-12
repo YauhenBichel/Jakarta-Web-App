@@ -18,16 +18,18 @@ import com.holidaysystem.vo.RegistrationRequest;
 import com.holidaysystem.repository.AccountRepository;
 import com.holidaysystem.repository.EmployeeRepository;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**
  * REST API for auth resource
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class AuthResource {
 	
 	private static final Logger logger = Logger.getLogger(AuthResource.class);

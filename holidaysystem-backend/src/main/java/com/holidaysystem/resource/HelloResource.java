@@ -1,23 +1,20 @@
 package com.holidaysystem.resource;
 
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 /**
  * REST API for checking the system is running
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @Path("/hello")
+@RequestScoped
 public class HelloResource {
-
-	@Context
-    private UriInfo context;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

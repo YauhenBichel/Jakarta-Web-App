@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 /**
  * Request model for login
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement

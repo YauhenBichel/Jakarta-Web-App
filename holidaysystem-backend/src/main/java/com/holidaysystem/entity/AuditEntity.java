@@ -8,8 +8,8 @@ import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 
 /**
- * Entity with created timestamp and modified timestamp
- * @author yauhen bichel
+ * Entity with created and modified timestamps for tracing changes
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @MappedSuperclass

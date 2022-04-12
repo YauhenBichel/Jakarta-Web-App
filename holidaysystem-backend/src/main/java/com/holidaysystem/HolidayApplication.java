@@ -8,8 +8,8 @@ import org.jboss.logging.Logger;
 
 
 /**
- * 
- * @author yauhen bichel
+ * Entry Point of the application 
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationPath("/api")

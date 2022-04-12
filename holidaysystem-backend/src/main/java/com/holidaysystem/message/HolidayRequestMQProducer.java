@@ -22,8 +22,8 @@ import com.holidaysystem.mapper.HolidayRequestMapper;
 import com.holidaysystem.vo.HolidayRequest;
 
 /**
- * 
- * @author yauhen bichel
+ * Sends a message to message system
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped

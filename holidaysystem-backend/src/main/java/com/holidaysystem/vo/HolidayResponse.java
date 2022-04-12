@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * Response model for holiday request
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement
@@ -32,10 +32,6 @@ public class HolidayResponse implements Serializable {
     
     @NotBlank
     private String endDate;
-    
-    private String modified;
-    
-    private String created;
     
     public UUID getId() {
     	return this.id;
@@ -67,17 +63,5 @@ public class HolidayResponse implements Serializable {
     }
     public void setStartDate(String startDate) {
     	this.startDate = startDate;
-    }
-    public String getCreated() {
-    	return this.created;
-    }
-    public void setCreated(String created) {
-    	this.created = created;
-    }
-    public String getModified() {
-    	return this.modified;
-    }
-    public void setModified(String modified) {
-    	this.modified = modified;
     }
 }

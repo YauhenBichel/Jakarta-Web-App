@@ -1,5 +1,6 @@
 package com.holidaysystem.resource;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,28 +17,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.mapper.EmployeeMapper;
+import com.holidaysystem.model.EmployeeModel;
 import com.holidaysystem.vo.EmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
 import com.holidaysystem.repository.EmployeeRepository;
+import com.holidaysystem.service.EmployeeService;
 
 /**
  * REST API for employee resource
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @Path("/employee")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class EmployeeResource {
 
 	private static final Logger logger = Logger.getLogger(EmployeeResource.class);
 	
-    @Inject
-    EmployeeRepository employeeRepository;
-    @Inject
+	@Inject
     EmployeeMapper employeeMapper;
+	@Inject
+    EmployeeRepository employeeRepository;
+	@Inject
+    EmployeeService employeeService;
 
     @GET
     @Path("/all")
@@ -45,10 +50,10 @@ public class EmployeeResource {
     	
     	logger.debug("getEmployees()");
     	
-    	List<EmployeeEntity> entities = employeeRepository.getEmployees();
+    	List<EmployeeModel> empployeeModels = employeeService.getEmployees();
     	List<EmployeeResponse> employees = new ArrayList<>();
-    	for(EmployeeEntity entity: entities) {
-    		EmployeeResponse employee = employeeMapper.toResponse(entity);
+    	for(EmployeeModel empployeeModel: empployeeModels) {
+    		EmployeeResponse employee = employeeMapper.toResponse(empployeeModel);
     		employees.add(employee);
     	}
     	
@@ -60,8 +65,8 @@ public class EmployeeResource {
     @GET()
     @Path("/{id}")
     public Response getEmployee(@PathParam("id") UUID id) {
-    	EmployeeEntity entity = employeeRepository.findById(id);
-    	EmployeeResponse employee = employeeMapper.toResponse(entity);
+    	EmployeeModel empployeeModel = employeeService.findById(id);
+    	EmployeeResponse employee = employeeMapper.toResponse(empployeeModel);
         return Response.ok(employee)
         		.header("Access-Control-Allow-Origin", "*")
         		.build();
@@ -69,9 +74,8 @@ public class EmployeeResource {
     
     @POST()
     public Response createEmployee(EmployeeRequest employeeRequest) {    	
-    	EmployeeEntity entity = employeeMapper.toEntity(employeeRequest);
-    	employeeRepository.save(entity);
-    	EmployeeResponse employee = employeeMapper.toResponse(entity);
+    	EmployeeModel employeeModel = employeeService.create(employeeRequest);
+    	EmployeeResponse employee = employeeMapper.toResponse(employeeModel);
     	
         return Response.ok(employee)
         		.header("Access-Control-Allow-Origin", "*")

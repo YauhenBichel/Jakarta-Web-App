@@ -15,7 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 /**
  * Employee entity
- * @author yauhen bichel
+ * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @Entity
@@ -51,10 +51,6 @@ public class EmployeeEntity extends AuditEntity {
 	@PositiveOrZero
 	@Column(name = "years")
     private Integer years;
-	
-	@PositiveOrZero
-	@Column(name = "days")
-    private Integer days;
 
     public void setId(UUID id) {this.id = id; }
     public UUID getId() {return this.id;}
@@ -70,6 +66,4 @@ public class EmployeeEntity extends AuditEntity {
     public String getLastName() {return this.lastName;}
     public void setYears(Integer years) {this.years = years; }
     public Integer getYears() {return this.years;}
-    public void setDays(Integer days) {this.days = days; }
-    public Integer getDays() {return this.days;}
 }

@@ -1,4 +1,4 @@
-package com.holidaysystem.vo;
+package com.holidaysystem.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
@@ -11,14 +11,20 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * Request model for employee
+ * Employee model includes data from different entities
  * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EmployeeRequest implements Serializable {
-     
+public class EmployeeModel implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@NotBlank
+    private UUID id;
+	
+    private String email;
+	
     @NotBlank
     private String firstName;
     
@@ -29,15 +35,26 @@ public class EmployeeRequest implements Serializable {
     private UUID accountId;
     
     @NotBlank
-    private String role;
+    private EmployeeRoleEnum role;
     
     @NotBlank
-    private String department;
+    private DepartmentEnum department;
     
     @PositiveOrZero
     private Integer years;
     
+    @PositiveOrZero
+    private Integer totalDays;
     
+    @PositiveOrZero
+    private Integer takenDays;
+    
+    public UUID getId() {
+    	return this.id;
+    }
+    public void setId(UUID id) {
+    	this.id = id;
+    }
     public String getFirstName() {
     	return this.firstName;
     }
@@ -46,6 +63,12 @@ public class EmployeeRequest implements Serializable {
     }
     public String getLastName() {
     	return this.lastName;
+    }
+    public void setEmail(String email) {
+    	this.email = email;
+    }
+    public String getEmail() {
+    	return this.email;
     }
     public void setLastName(String lastName) {
     	this.lastName = lastName;
@@ -56,18 +79,22 @@ public class EmployeeRequest implements Serializable {
     public void setAccountId(UUID accountId) {
     	this.accountId = accountId;
     }
-    public String getRole() {
+    public EmployeeRoleEnum getRole() {
     	return this.role;
     }
-    public void setRole(String role) {
+    public void setRole(EmployeeRoleEnum role) {
     	this.role = role;
     }
-    public String getDepartment() {
+    public DepartmentEnum getDepartment() {
     	return this.department;
     }
-    public void setDepartment(String department) {
+    public void setDepartment(DepartmentEnum department) {
     	this.department = department;
     }
     public void setYears(Integer years) {this.years = years; }
     public Integer getYears() {return this.years;}
+    public void setTotalDays(Integer totalDays) {this.totalDays = totalDays; }
+    public Integer getTotalDays() {return this.totalDays;}
+    public void setTakenDays(Integer takenDays) {this.takenDays = takenDays; }
+    public Integer getTakenDays() {return this.takenDays;}
 }
