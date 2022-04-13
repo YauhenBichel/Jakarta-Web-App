@@ -11,13 +11,13 @@ import com.holidaysystem.Constants;
  * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
-@Provider
-public class UncaughtExceptionMapper implements ExceptionMapper<Throwable> {
+//@Provider
+public class UncaughtExceptionMapper implements ExceptionMapper<Exception> {
     
     private static final Logger logger = Logger.getLogger(UncaughtExceptionMapper.class);
   
     @Override
-    public Response toResponse(Throwable ex) {
+    public Response toResponse(Exception ex) {
     	logger.error(ex.getMessage(), ex);
     	
         return Response

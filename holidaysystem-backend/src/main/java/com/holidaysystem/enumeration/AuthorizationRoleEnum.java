@@ -1,4 +1,4 @@
-package com.holidaysystem.model;
+package com.holidaysystem.enumeration;
 
 /**
  * Authorization Role Enum
@@ -7,5 +7,5 @@ package com.holidaysystem.model;
  */
 public enum AuthorizationRoleEnum {
 	USER,
-	ADMINISTRATOR
+	ADMIN
 }

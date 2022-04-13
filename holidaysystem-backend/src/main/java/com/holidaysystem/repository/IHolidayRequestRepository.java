@@ -3,6 +3,7 @@ package com.holidaysystem.repository;
 import java.util.UUID;
 import java.util.List;
 import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 
 /**
  * Interface for Holiday Request repository, which can be supported by
@@ -12,6 +13,8 @@ import com.holidaysystem.entity.HolidayRequestEntity;
  */
 public interface IHolidayRequestRepository {
 	List<HolidayRequestEntity> getHolidayRequests();
+	
+	List<HolidayRequestEntity> getHolidayRequestsByStatus(HolidayRequestStatusEnum requestStatus);
 	
 	HolidayRequestEntity findById(UUID holidayRequestId);
 	

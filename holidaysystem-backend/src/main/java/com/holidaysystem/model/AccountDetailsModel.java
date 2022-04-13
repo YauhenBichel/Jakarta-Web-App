@@ -1,8 +1,9 @@
-package com.holidaysystem.vo;
+package com.holidaysystem.model;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.NotNull;
+
+import com.holidaysystem.enumeration.AuthorizationRoleEnum;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -12,26 +13,27 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * Response model for account
+ * Account details model
  * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AccountResponse implements Serializable {
-    
-	@NotBlank
-	private UUID id;
-	
-	@Email
-	private String email;
-	
-	@NotBlank
-    private String authRole;
-	
-	@NotBlank
-    private Boolean active;
+public class AccountDetailsModel implements Serializable {
+	private static final long serialVersionUID = 1L;
 
+	@NotBlank
+    private UUID id;
+	
+	@NotBlank
+    private String email;
+	
+	@NotNull
+    private Boolean active;
+	
+	@NotNull
+    private AuthorizationRoleEnum authRole;
+    
     public UUID getId() {
     	return this.id;
     }
@@ -44,16 +46,16 @@ public class AccountResponse implements Serializable {
     public void setEmail(String email) {
     	this.email = email;
     }
-    public String getAuthRole() {
-    	return this.authRole;
-    }
-    public void setAuthRole(String authRole) {
-    	this.authRole = authRole;
-    }
     public Boolean getActive() {
     	return this.active;
     }
     public void setActive(Boolean active) {
     	this.active = active;
+    }
+    public AuthorizationRoleEnum getAuthRole() {		
+    	return this.authRole;
+    }
+    public void setAuthRole(AuthorizationRoleEnum authRole) {
+    	this.authRole = authRole;
     }
 }

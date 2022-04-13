@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Account entity
@@ -37,6 +38,10 @@ public class AccountEntity extends AuditEntity {
     @NotBlank
     @Column(name = "password")
     private String password;
+    
+    @NotNull
+    @Column(name = "active")
+    private Boolean active;
 
     public void setId(UUID id) {this.id = id; }
     public UUID getId() {return this.id;}
@@ -46,4 +51,6 @@ public class AccountEntity extends AuditEntity {
     public String getPassword() {return this.password;}
     public void setAuthRoleId(UUID authRoleId) {this.authRoleId = authRoleId; }
     public UUID getAuthRoleId() {return this.authRoleId;}
+    public void setActive(Boolean active) {this.active = active; }
+    public Boolean getActive() {return this.active;}
 }

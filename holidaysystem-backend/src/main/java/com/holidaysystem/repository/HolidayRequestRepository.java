@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
@@ -12,6 +13,7 @@ import org.jboss.logging.Logger;
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +28,7 @@ import java.util.List;
  *
  */
 @ApplicationScoped
+@Default
 public class HolidayRequestRepository implements IHolidayRequestRepository {
 
 	private static final Logger logger = Logger.getLogger(HolidayRequestRepository.class);
@@ -150,6 +153,42 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 				} else {
 				     return null;
 				}	
+			}
+		} catch(Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+		
+		return null;
+	}
+
+
+	@Override
+	public List<HolidayRequestEntity> getHolidayRequestsByStatus(HolidayRequestStatusEnum requestStatus) {
+try (Connection connection = dataSource.getConnection()) {
+			
+			final String query = "SELECT id, employeeid, status, startdate, enddate, created, modified "
+					+ "FROM holiday_request "
+					+ "WHERE status = ?";
+			
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, requestStatus.name());
+				
+				List<HolidayRequestEntity> holidayRequests = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					HolidayRequestEntity entity = new HolidayRequestEntity();
+					entity.setId(UUID.fromString(rs.getString("id")));
+					entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
+					entity.setStatus(rs.getString("status"));
+					entity.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
+					entity.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
+					entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
+					entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+					
+					holidayRequests.add(entity);
+				}
+				
+				return holidayRequests;	
 			}
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);

@@ -1,4 +1,4 @@
-package com.holidaysystem.model;
+package com.holidaysystem.enumeration;
 
 /**
  * Department Enum

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -14,9 +15,9 @@ import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.entity.HolidayDetailsEntity;
 import com.holidaysystem.mapper.EmployeeMapper;
 import com.holidaysystem.model.EmployeeModel;
-import com.holidaysystem.repository.AccountRepository;
-import com.holidaysystem.repository.EmployeeRepository;
-import com.holidaysystem.repository.HolidayDetailsRepository;
+import com.holidaysystem.repository.IAccountRepository;
+import com.holidaysystem.repository.IEmployeeRepository;
+import com.holidaysystem.repository.IHolidayDetailsRepository;
 import com.holidaysystem.vo.EmployeeRequest;
 
 /**
@@ -25,27 +26,21 @@ import com.holidaysystem.vo.EmployeeRequest;
  *
  */
 @ApplicationScoped
-public class EmployeeService {
+@Default
+public class EmployeeService implements IEmployeeService {
 	@Inject
-    EmployeeRepository employeeRepository;
+	IEmployeeRepository employeeRepository;
 	@Inject
-    AccountRepository accountRepository;
+	IAccountRepository accountRepository;
 	@Inject
-    HolidayDetailsRepository holidayDetailsRepository;
-    @Inject
-    EmployeeMapper employeeMapper;
+	IHolidayDetailsRepository holidayDetailsRepository;
+	@Inject
+	EmployeeMapper employeeMapper;
     
     @Transactional
     public List<EmployeeModel> getEmployees() {
     	
-    	List<EmployeeEntity> entities = employeeRepository.getEmployees();
-    	
-    	List<EmployeeModel> employeeModels = new ArrayList<>();
-    	
-    	for(EmployeeEntity entity: entities) {
-    		EmployeeModel empployeeModel = employeeMapper.toEmployeeModel(entity);
-    		employeeModels.add(empployeeModel);
-    	}
+    	List<EmployeeModel> employeeModels = employeeRepository.getEmployeeModels();
     	
     	return employeeModels;
     }

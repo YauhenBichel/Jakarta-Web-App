@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
@@ -11,6 +12,8 @@ import org.jboss.logging.Logger;
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayDetailsEntity;
+
+import jakarta.inject.Named;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,12 +28,13 @@ import java.util.List;
  *
  */
 @ApplicationScoped
+@Default
 public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 
 	private static final Logger logger = Logger.getLogger(HolidayDetailsRepository.class);
 	
 	@Resource(lookup = Constants.DATASOURCE_LOOKUP_KEY)
-    private DataSource dataSource;
+    DataSource dataSource;
 	
 	@Override
 	public HolidayDetailsEntity findById(UUID id) {

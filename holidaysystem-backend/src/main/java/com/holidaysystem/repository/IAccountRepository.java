@@ -19,4 +19,6 @@ public interface IAccountRepository {
 	AccountEntity findByEmailAndPassword(String email, String hashedPassword); 
     
     boolean save(AccountEntity user);
+    
+    String generateHashedPassword(String password);
 }

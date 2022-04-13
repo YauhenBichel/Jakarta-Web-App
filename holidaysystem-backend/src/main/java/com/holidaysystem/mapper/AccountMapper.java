@@ -6,6 +6,9 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 
 import com.holidaysystem.entity.AccountEntity;
+import com.holidaysystem.entity.AuthorizationRoleEntity;
+import com.holidaysystem.enumeration.AuthorizationRoleEnum;
+import com.holidaysystem.model.AccountDetailsModel;
 import com.holidaysystem.vo.AccountResponse;
 import com.holidaysystem.vo.RegistrationRequest;
 
@@ -22,19 +25,30 @@ public class AccountMapper {
     	account.setId(UUID.randomUUID());
     	account.setEmail(registrationRequest.getEmail());
     	account.setPassword(hashedPassWithSalt);
+    	account.setActive(true);
     	account.setCreated(LocalDateTime.now());
 		account.setModified(LocalDateTime.now());
     	
     	return account;
 	}
 	
-	public AccountResponse toResponse(AccountEntity account) {
+	public AccountResponse toResponse(AccountDetailsModel model) {
 		AccountResponse resp = new AccountResponse();
-    	resp.setId(account.getId());
-    	resp.setEmail(account.getEmail());
-    	resp.setCreated(account.getCreated().toString());
-    	resp.setModified(account.getModified().toString());
+    	resp.setId(model.getId());
+    	resp.setEmail(model.getEmail());
+    	resp.setActive(model.getActive());
+    	resp.setAuthRole(model.getAuthRole().name());
 		
 		return resp;
+	}
+	
+	public AccountDetailsModel toModel(AccountEntity account, AuthorizationRoleEntity authRole) {
+		AccountDetailsModel accountDetails = new AccountDetailsModel();
+    	accountDetails.setId(account.getId());
+    	accountDetails.setEmail(account.getEmail());
+    	accountDetails.setActive(account.getActive());
+    	accountDetails.setAuthRole(AuthorizationRoleEnum.valueOf(authRole.getName()));
+    	
+    	return accountDetails;
 	}
 }

@@ -13,7 +13,7 @@ import org.jboss.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.holidaysystem.model.EmployeeRoleEnum;
+import com.holidaysystem.enumeration.EmployeeRoleEnum;
 
 /**
  * REST API for roles resource
@@ -24,6 +24,7 @@ import com.holidaysystem.model.EmployeeRoleEnum;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequestScoped
+//@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"admin_role"}))
 public class RolesResource {
     
 	private static final Logger logger = Logger.getLogger(RolesResource.class);

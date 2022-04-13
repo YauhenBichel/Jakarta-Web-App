@@ -13,12 +13,15 @@ import javax.mail.internet.MimeMessage;
 
 import org.jboss.logging.Logger;
 
+import jakarta.inject.Named;
+
 /**
  * Mail service for sending message to admin
  * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @ApplicationScoped
+@Named("DeafultMailService")
 public class MailService implements IMailService {
 	
 	private static final Logger logger = Logger.getLogger(MailService.class);

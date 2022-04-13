@@ -8,9 +8,9 @@ import javax.enterprise.context.ApplicationScoped;
 import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.entity.HolidayDetailsEntity;
-import com.holidaysystem.model.DepartmentEnum;
+import com.holidaysystem.enumeration.DepartmentEnum;
 import com.holidaysystem.model.EmployeeModel;
-import com.holidaysystem.model.EmployeeRoleEnum;
+import com.holidaysystem.enumeration.EmployeeRoleEnum;
 import com.holidaysystem.vo.EmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
 

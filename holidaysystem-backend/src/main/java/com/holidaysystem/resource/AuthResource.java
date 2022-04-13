@@ -10,13 +10,12 @@ import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 
-import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.mapper.AccountMapper;
+import com.holidaysystem.model.AccountDetailsModel;
 import com.holidaysystem.vo.AccountResponse;
 import com.holidaysystem.vo.LoginRequest;
 import com.holidaysystem.vo.RegistrationRequest;
-import com.holidaysystem.repository.AccountRepository;
-import com.holidaysystem.repository.EmployeeRepository;
+import com.holidaysystem.service.IAuthService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -35,25 +34,21 @@ public class AuthResource {
 	private static final Logger logger = Logger.getLogger(AuthResource.class);
 	
 	@Inject
-    AccountRepository accountRepository;
+	private IAuthService authService;
 	@Inject
-    EmployeeRepository employeeRepository;
-	@Inject
-	AccountMapper accountMapper;
+	private AccountMapper accountMapper;
 
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(RegistrationRequest registrationRequest) {
     	
-    	logger.debug("register()");
+    	logger.debug("register");
         
-    	final String hashedPassWithSalt = generateHash(registrationRequest.getPassword());
-		AccountEntity account = accountMapper.toEntity(registrationRequest, hashedPassWithSalt);
-		
-    	accountRepository.save(account);
+    	AccountDetailsModel accountModel = authService
+    			.register(registrationRequest);
     	
-    	AccountResponse resp = accountMapper.toResponse(account);
+    	AccountResponse resp = accountMapper.toResponse(accountModel);
     	
     	return Response.ok(resp)
     			.header("Access-Control-Allow-Origin", "*")
@@ -65,28 +60,22 @@ public class AuthResource {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginRequest loginRequest) {
-        
-    	logger.debug("login()");
     	
-    	AccountEntity accountEntity = accountRepository
-    			.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+    	AccountDetailsModel accountModel = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
     	
-    	if(accountEntity == null) {
+    	if(accountModel == null) {
+    		logger.info("account not found");
+    		
     		return Response.noContent()
         			.header("Access-Control-Allow-Origin", "*")
         			.status(Status.NOT_FOUND)
         			.build();
     	}
     	
-    	AccountResponse resp = accountMapper.toResponse(accountEntity);
+    	AccountResponse resp = accountMapper.toResponse(accountModel);
     	
     	return Response.ok(resp)
     			.header("Access-Control-Allow-Origin", "*")
     			.build();
     }
-    
-    private String generateHash(String password) {
-        return accountRepository.generateHashedPassword(password);
-    }
-
 }

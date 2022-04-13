@@ -1,3 +1,5 @@
+###### Author: yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
+
 ### Wildfly
 v: 26.0.1.Final
 https://www.wildfly.org/downloads/
@@ -10,8 +12,9 @@ https://www.wildfly.org/downloads/
 user: comp1610y
 pass: password1
 
-
-
+#### application users
+admin: admin.admin@holidaysystem.org/1234
+users1: 
 
 ### JBoss Tools Plugin
 JBoss Tools provides, among others, integration between Eclipse and WildFly.
@@ -55,13 +58,14 @@ UncaughtExceptionMapper
 
 ### Security
 The Jakarta EE 8 Security API 
+Using my own implementation of Principal and HttpAuthenticationMechanism
 
 ### Enterprise Session Beans
 Stateless Session Beans
 @RequestScoped for API controllers
 
 ### Transactions
-@Transactional
+Using @Transactional annotation for services, which aggregate repository calls
 
 ### Validation
 

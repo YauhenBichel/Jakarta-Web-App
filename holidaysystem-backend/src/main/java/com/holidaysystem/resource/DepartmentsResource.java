@@ -13,7 +13,7 @@ import org.jboss.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.holidaysystem.model.DepartmentEnum;
+import com.holidaysystem.enumeration.DepartmentEnum;
 
 /**
  * REST API for departments resource
@@ -24,6 +24,7 @@ import com.holidaysystem.model.DepartmentEnum;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequestScoped
+//@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"USER", "ADMIN"}))
 public class DepartmentsResource {
     
 	private static final Logger logger = Logger.getLogger(DepartmentsResource.class);

@@ -3,6 +3,7 @@ package com.holidaysystem.repository;
 import java.util.UUID;
 import java.util.List;
 import com.holidaysystem.entity.EmployeeEntity;
+import com.holidaysystem.model.EmployeeModel;
 
 /**
  * Interface for Employee repository, which can be supported by
@@ -19,4 +20,6 @@ public interface IEmployeeRepository {
     boolean save(EmployeeEntity user);
     
     List<EmployeeEntity> getEmployees();
+    
+    List<EmployeeModel> getEmployeeModels();
 }

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
@@ -11,6 +12,9 @@ import org.jboss.logging.Logger;
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.EmployeeEntity;
+import com.holidaysystem.enumeration.DepartmentEnum;
+import com.holidaysystem.enumeration.EmployeeRoleEnum;
+import com.holidaysystem.model.EmployeeModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,12 +29,13 @@ import java.util.List;
  *
  */
 @ApplicationScoped
+@Default
 public class EmployeeRepository implements IEmployeeRepository {
 
 	private static final Logger logger = Logger.getLogger(EmployeeRepository.class);
 	
 	@Resource(lookup = Constants.DATASOURCE_LOOKUP_KEY)
-    private DataSource dataSource;
+    DataSource dataSource;
 	
 	@Override
 	public EmployeeEntity findById(UUID employeeId) {
@@ -137,7 +142,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 		try (Connection connection = dataSource.getConnection()) {
 			final String query = "SELECT empl.id, empl.firstname, empl.lastname,"
 					+ " empl.role, empl.department, empl.accountid, "
-					+ "empl.years, empl.created, .modified, acc.email "
+					+ "empl.years, empl.created, empl.modified "
 					+ "FROM employee empl;";
 			
 			try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -155,6 +160,47 @@ public class EmployeeRepository implements IEmployeeRepository {
 					employee.setYears(rs.getInt("years"));
 					employee.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
 					employee.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+					
+					employees.add(employee);
+				}
+				
+				return employees;
+			}
+		} catch(Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<EmployeeModel> getEmployeeModels() {
+		try (Connection connection = dataSource.getConnection()) {
+			final String query = "SELECT empl.id, empl.firstname, empl.lastname, " +
+					"empl.role, empl.department, empl.accountid, hd.totaldays, " + 
+					"hd.takendays, empl.years, acc.email " + 
+					"FROM employee empl " + 
+					"inner join account acc " + 
+					"on empl.accountid = acc.id " + 
+					"inner join holiday_details hd " + 
+					"on hd.employeeid = empl.id;";
+			
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				List<EmployeeModel> employees = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
+				
+				while(rs.next()) {
+					EmployeeModel employee = new EmployeeModel();
+					employee.setId(UUID.fromString(rs.getString("id")));
+					employee.setFirstName(rs.getString("firstname"));
+					employee.setLastName(rs.getString("lastname"));
+					employee.setRole(EmployeeRoleEnum.valueOf(rs.getString("role")));
+					employee.setDepartment(DepartmentEnum.valueOf(rs.getString("department")));
+					employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+					employee.setEmail(rs.getString("email"));
+					employee.setYears(rs.getInt("years"));
+					employee.setTotalDays(rs.getInt("totaldays"));
+					employee.setTakenDays(rs.getInt("takendays"));
 					
 					employees.add(employee);
 				}

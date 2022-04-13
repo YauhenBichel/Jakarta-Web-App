@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
  *
  */
 @Entity
-@Table(name = "authorization_role_lookup", schema = "public")
+@Table(name = "authorization_role", schema = "public")
 public class AuthorizationRoleEntity {
 
 	private static final long serialVersionUID = 1L;

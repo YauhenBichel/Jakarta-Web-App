@@ -21,8 +21,7 @@ import com.holidaysystem.mapper.EmployeeMapper;
 import com.holidaysystem.model.EmployeeModel;
 import com.holidaysystem.vo.EmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
-import com.holidaysystem.repository.EmployeeRepository;
-import com.holidaysystem.service.EmployeeService;
+import com.holidaysystem.service.IEmployeeService;
 
 /**
  * REST API for employee resource
@@ -33,16 +32,16 @@ import com.holidaysystem.service.EmployeeService;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequestScoped
+//@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"admin_role"}))
 public class EmployeeResource {
 
 	private static final Logger logger = Logger.getLogger(EmployeeResource.class);
 	
 	@Inject
-    EmployeeMapper employeeMapper;
+	private EmployeeMapper employeeMapper;
 	@Inject
-    EmployeeRepository employeeRepository;
-	@Inject
-    EmployeeService employeeService;
+	private IEmployeeService employeeService;
+
 
     @GET
     @Path("/all")

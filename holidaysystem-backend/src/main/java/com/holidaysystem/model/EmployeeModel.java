@@ -3,6 +3,9 @@ package com.holidaysystem.model;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.holidaysystem.enumeration.DepartmentEnum;
+import com.holidaysystem.enumeration.EmployeeRoleEnum;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;

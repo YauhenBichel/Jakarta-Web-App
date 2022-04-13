@@ -22,11 +22,14 @@ import java.util.List;
 import java.util.UUID;
 
 import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 import com.holidaysystem.mapper.HolidayRequestMapper;
 import com.holidaysystem.message.HolidayRequestMQProducer;
 import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.repository.HolidayRequestRepository;
+import com.holidaysystem.repository.IHolidayRequestRepository;
+import com.holidaysystem.service.IHolidayRequestService;
 
 /**
  * REST API for holiday request resource
@@ -37,19 +40,13 @@ import com.holidaysystem.repository.HolidayRequestRepository;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequestScoped
-//@ServletSecurity(@HttpConstraint(rolesAllowed = "USER_ROLE"))
+//@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"admin_role"}))
 public class HolidayRequestResource {
 
 	private static final Logger logger = Logger.getLogger(HolidayRequestResource.class);
 	
-    @Inject
-    private HolidayRequestRepository holidayRequestRepository;
-    @Inject
-    private HolidayRequestMapper holidayRequestMapper;
-    @Inject
-    private HolidayRequestMQProducer holidayRequestMQProducer;
-    @Inject
-    SecurityContext securityContext;
+	@Inject
+	private IHolidayRequestService holidayRequestService;
     
     @GET
     @Path("/all")
@@ -57,12 +54,20 @@ public class HolidayRequestResource {
     	
     	logger.debug("getHolidayRequests()");
     	
-    	List<HolidayRequestEntity> entities = holidayRequestRepository.getHolidayRequests();
-    	List<HolidayResponse> holidayRequestResponses = new ArrayList<>();
-    	for(HolidayRequestEntity entity: entities) {
-    		HolidayResponse holidayResponse = holidayRequestMapper.toResponse(entity);
-    		holidayRequestResponses.add(holidayResponse);
-    	}
+    	List<HolidayResponse> holidayRequestResponses = holidayRequestService.getHolidayRequests();
+    	
+        return Response.ok(holidayRequestResponses)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
+    }
+    
+    @GET
+    @Path("/all/{status}")
+    public Response getHolidayRequests(@PathParam("status") HolidayRequestStatusEnum status) {
+    	
+    	logger.info("getHolidayRequests() with status " + status.name());
+    	
+    	List<HolidayResponse> holidayRequestResponses = holidayRequestService.getHolidayRequestsByStatus(status);
     	
         return Response.ok(holidayRequestResponses)
         		.header("Access-Control-Allow-Origin", "*")

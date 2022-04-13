@@ -2,6 +2,9 @@ package com.holidaysystem.vo;
 
 import javax.validation.constraints.NotBlank;
 
+import com.holidaysystem.validation.ValueOfEnum;
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -22,6 +25,7 @@ public class HolidayRequest implements Serializable {
     private UUID employeeId;
 
     @NotBlank
+    @ValueOfEnum(enumClass = HolidayRequestStatusEnum.class)
     private String status;
     
     @NotBlank

@@ -1,4 +1,4 @@
-package com.holidaysystem.vo;
+package com.holidaysystem.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -9,17 +9,19 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Response model for holiday request
+ * Holiday Request model includes data from different entities
  * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HolidayResponse implements Serializable {
-    
+public class HolidayRequestModel implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@NotBlank
     private UUID id;
 	
@@ -32,11 +34,11 @@ public class HolidayResponse implements Serializable {
     @PositiveOrZero
     private Integer requestedDays;
     
-    @NotBlank
-    private String startDate;
+    @NotNull
+    private LocalDateTime startDate;
     
-    @NotBlank
-    private String endDate;
+    @NotNull
+    private LocalDateTime endDate;
     
     @PositiveOrZero
     private Integer years;
@@ -65,16 +67,16 @@ public class HolidayResponse implements Serializable {
     public void setStatus(String status) {
     	this.status = status;
     }
-    public String getStartDate() {
+    public LocalDateTime getStartDate() {
     	return this.startDate;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDateTime startDate) {
     	this.startDate = startDate;
     }
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDateTime endDate) {
     	this.endDate = endDate;
     }
-    public String getEndDate() {
+    public LocalDateTime getEndDate() {
     	return this.endDate;
     }
     public void setYears(Integer years) {this.years = years; }
