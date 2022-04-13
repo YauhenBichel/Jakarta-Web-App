@@ -36,7 +36,14 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "yauhen.bichel@belarus.com&1234",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
 					"raw": "http://localhost:8080/holidaysystem/api/employee/all",
 					"protocol": "http",
@@ -74,6 +81,32 @@
 						"api",
 						"holiday-request",
 						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Holiday Requests By Status",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/all/PENDING",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"all",
+						"PENDING"
 					]
 				}
 			},
@@ -164,7 +197,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Yauhen\",\n    \"lastName\": \"Bichel\",\n    \"accountId\": \"93328909-12f7-42e9-82fb-97a871f07f29\",\n    \"role\":\"MANAGER\",\n    \"department\": \"ENGINEERING\",\n    \"years\": 0,\n    \"days\": 30\n}",
+					"raw": "{\n    \"firstName\": \"Eugene\",\n    \"lastName\": \"Bichel\",\n    \"accountId\": \"2fdbb630-2660-4b26-9db5-3bcafd85df9b\",\n    \"role\":\"HEAD\",\n    \"department\": \"BRICKLAYING\",\n    \"years\": 0\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -264,7 +297,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"yauhen.bichel@belarus.com\",\n    \"password\": \"1234\"\n}\n",
+					"raw": "{\n    \"email\": \"admin.admin@holidaysystem.org\",\n    \"password\": \"1234\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -298,7 +331,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"yauhen.bichel@belarus.com\",\n    \"password\": \"1234\"\n}\n",
+					"raw": "{\n    \"email\": \"admin.admin@holidaysystem.org\",\n    \"password\": \"1234\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
