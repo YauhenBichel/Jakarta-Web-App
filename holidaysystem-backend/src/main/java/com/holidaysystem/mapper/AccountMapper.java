@@ -20,9 +20,9 @@ import com.holidaysystem.vo.RegistrationRequest;
 @ApplicationScoped
 public class AccountMapper {
 	
-	public AccountEntity toEntity(RegistrationRequest registrationRequest, String hashedPassWithSalt) {
+	public AccountEntity toEntity(UUID id, RegistrationRequest registrationRequest, String hashedPassWithSalt) {
 		AccountEntity account = new AccountEntity();
-    	account.setId(UUID.randomUUID());
+    	account.setId(id);
     	account.setEmail(registrationRequest.getEmail());
     	account.setPassword(hashedPassWithSalt);
     	account.setActive(true);

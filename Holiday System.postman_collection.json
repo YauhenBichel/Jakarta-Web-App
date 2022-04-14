@@ -62,6 +62,48 @@
 			"response": []
 		},
 		{
+			"name": "Get All Employees By Date",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "yauhen.bichel@belarus.com&1234",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2022-10-02 00:00:00.000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/employee/all/date",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"employee",
+						"all",
+						"date"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get All Holiday Requests",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}

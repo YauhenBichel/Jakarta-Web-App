@@ -1,7 +1,10 @@
 package com.holidaysystem.vo;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+
+import com.holidaysystem.enumeration.HolidayStatusEnum;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -47,6 +50,9 @@ public class EmployeeResponse implements Serializable {
     
     @PositiveOrZero
     private Integer takenDays;
+    
+    @NotBlank
+    private String holidayStatus;
     
     
     public UUID getId() {
@@ -97,4 +103,10 @@ public class EmployeeResponse implements Serializable {
     public Integer getTotalDays() {return this.totalDays;}
     public void setTakenDays(Integer takenDays) {this.takenDays = takenDays; }
     public Integer getTakenDays() {return this.takenDays;}
+    public String getHolidayStatus() {
+    	return this.holidayStatus;
+    }
+    public void setHolidayStatus(String holidayStatus) {
+    	this.holidayStatus = holidayStatus;
+    }
 }

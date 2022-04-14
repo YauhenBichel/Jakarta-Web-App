@@ -13,14 +13,17 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.mapper.EmployeeMapper;
 import com.holidaysystem.model.EmployeeModel;
-import com.holidaysystem.vo.EmployeeRequest;
+import com.holidaysystem.vo.NewEmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
+import com.holidaysystem.vo.FindEmployeesByDateRequest;
 import com.holidaysystem.service.IEmployeeService;
 
 /**
@@ -72,11 +75,31 @@ public class EmployeeResource {
     }
     
     @POST()
-    public Response createEmployee(EmployeeRequest employeeRequest) {    	
+    public Response createEmployee(NewEmployeeRequest employeeRequest) {    	
     	EmployeeModel employeeModel = employeeService.create(employeeRequest);
     	EmployeeResponse employee = employeeMapper.toResponse(employeeModel);
     	
         return Response.ok(employee)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
+    }
+    
+    @POST()
+    @Path("all/date")
+    public Response findEmployees(FindEmployeesByDateRequest request) {  
+    	
+    	String strDate = request.getDate();
+    	LocalDateTime date = LocalDateTime.parse(strDate, DateUtils.FORMATTER);
+    	
+    	List<EmployeeModel> employeeModels = employeeService.getEmployeesByDate(date);
+    	
+    	List<EmployeeResponse> employees = new ArrayList<>();
+    	for(EmployeeModel empployeeModel: employeeModels) {
+    		EmployeeResponse employee = employeeMapper.toResponse(empployeeModel);
+    		employees.add(employee);
+    	}
+    	
+        return Response.ok(employees)
         		.header("Access-Control-Allow-Origin", "*")
         		.build();
     }

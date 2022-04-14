@@ -1,7 +1,6 @@
 package com.holidaysystem.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ import com.holidaysystem.model.EmployeeModel;
 import com.holidaysystem.repository.IAccountRepository;
 import com.holidaysystem.repository.IEmployeeRepository;
 import com.holidaysystem.repository.IHolidayDetailsRepository;
-import com.holidaysystem.vo.EmployeeRequest;
+import com.holidaysystem.vo.NewEmployeeRequest;
 
 /**
  * Employee service provides employee details
@@ -46,6 +45,14 @@ public class EmployeeService implements IEmployeeService {
     }
     
     @Transactional
+    public List<EmployeeModel> getEmployeesByDate(LocalDateTime date) {
+    	
+    	List<EmployeeModel> employeeModels = employeeRepository.getEmployeeModelsByDate(date);
+    	
+    	return employeeModels;
+    }
+    
+    @Transactional
     public EmployeeModel findById(UUID employeeId) {
     	
     	EmployeeEntity employeeEntity = employeeRepository.findById(employeeId);
@@ -62,7 +69,7 @@ public class EmployeeService implements IEmployeeService {
     }
     
     @Transactional
-    public EmployeeModel create(EmployeeRequest employeeRequest) {
+    public EmployeeModel create(NewEmployeeRequest employeeRequest) {
     	
     	EmployeeEntity employeeEntity = employeeMapper.toEntity(employeeRequest);
     	boolean saved = employeeRepository.save(employeeEntity);

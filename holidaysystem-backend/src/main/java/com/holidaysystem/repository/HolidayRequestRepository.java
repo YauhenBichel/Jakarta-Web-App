@@ -5,7 +5,6 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
@@ -14,6 +13,7 @@ import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
+import com.holidaysystem.model.HolidayRequestModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -164,7 +164,7 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 
 	@Override
 	public List<HolidayRequestEntity> getHolidayRequestsByStatus(HolidayRequestStatusEnum requestStatus) {
-try (Connection connection = dataSource.getConnection()) {
+		try (Connection connection = dataSource.getConnection()) {
 			
 			final String query = "SELECT id, employeeid, status, startdate, enddate, created, modified "
 					+ "FROM holiday_request "
@@ -189,6 +189,91 @@ try (Connection connection = dataSource.getConnection()) {
 				}
 				
 				return holidayRequests;	
+			}
+		} catch(Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<HolidayRequestModel> getHolidayRequestModels() {
+		try (Connection connection = dataSource.getConnection()) {
+			final String query = "SELECT hr.id, hr.employeeid, hr.status, " +
+					"hr.startdate, hr.enddate, " +
+					"hd.totaldays, hd.takendays, empl.years " + 
+					"FROM holiday_request hr " +
+					"inner join employee empl " + 
+					"on empl.id = hr.employeeid " + 
+					"inner join holiday_details hd " +  
+					"on hd.employeeid = empl.id;";
+			
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				List<HolidayRequestModel> models = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					HolidayRequestModel model = new HolidayRequestModel();
+					model.setId(UUID.fromString(rs.getString("id")));
+					model.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
+					model.setStatus(rs.getString("status"));
+					model.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
+					model.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
+					model.setYears(rs.getInt("years"));
+					model.setTotalDays(rs.getInt("totaldays"));
+					model.setTakenDays(rs.getInt("takendays"));
+					
+					models.add(model);
+				}
+				
+				return models;
+			}
+		} catch(Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+		
+		return null;
+	}
+
+
+	@Override
+	public List<HolidayRequestModel> getHolidayRequestModelsByStatus(HolidayRequestStatusEnum requestStatus) {
+		try (Connection connection = dataSource.getConnection()) {
+			
+			final String query = "SELECT hr.id, hr.employeeid, hr.status, " +
+					"hr.startdate, hr.enddate, " +
+					"hd.totaldays, hd.takendays, empl.years " + 
+					"FROM holiday_request hr " +
+					"inner join employee empl " + 
+					"on empl.id = hr.employeeid " + 
+					"inner join holiday_details hd " +  
+					"on hd.employeeid = empl.id " +
+					"WHERE hr.status = ?;";
+			
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, requestStatus.name());
+				
+				List<HolidayRequestModel> models = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					HolidayRequestModel model = new HolidayRequestModel();
+					model.setId(UUID.fromString(rs.getString("id")));
+					model.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
+					model.setStatus(rs.getString("status"));
+					model.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
+					model.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
+					model.setYears(rs.getInt("years"));
+					model.setTotalDays(rs.getInt("totaldays"));
+					model.setTakenDays(rs.getInt("takendays"));
+					
+					models.add(model);
+				}
+				
+				return models;	
 			}
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);

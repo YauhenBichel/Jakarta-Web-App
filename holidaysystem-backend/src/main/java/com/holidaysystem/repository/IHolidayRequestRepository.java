@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.List;
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
+import com.holidaysystem.model.HolidayRequestModel;
 
 /**
  * Interface for Holiday Request repository, which can be supported by
@@ -14,7 +15,11 @@ import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 public interface IHolidayRequestRepository {
 	List<HolidayRequestEntity> getHolidayRequests();
 	
+	List<HolidayRequestModel> getHolidayRequestModels();
+	
 	List<HolidayRequestEntity> getHolidayRequestsByStatus(HolidayRequestStatusEnum requestStatus);
+	
+	List<HolidayRequestModel> getHolidayRequestModelsByStatus(HolidayRequestStatusEnum requestStatus);
 	
 	HolidayRequestEntity findById(UUID holidayRequestId);
 	

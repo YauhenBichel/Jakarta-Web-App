@@ -1,10 +1,11 @@
 package com.holidaysystem.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import com.holidaysystem.model.EmployeeModel;
-import com.holidaysystem.vo.EmployeeRequest;
+import com.holidaysystem.vo.NewEmployeeRequest;
 
 /**
  * Interface for Employee service provides employee details
@@ -14,7 +15,9 @@ import com.holidaysystem.vo.EmployeeRequest;
 public interface IEmployeeService {
     List<EmployeeModel> getEmployees();
     
+    List<EmployeeModel> getEmployeesByDate(LocalDateTime date);
+    
     EmployeeModel findById(UUID employeeId);
 
-    EmployeeModel create(EmployeeRequest employeeRequest);
+    EmployeeModel create(NewEmployeeRequest employeeRequest);
 }

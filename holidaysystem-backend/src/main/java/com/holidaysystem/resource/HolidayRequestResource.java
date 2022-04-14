@@ -2,9 +2,6 @@ package com.holidaysystem.resource;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.security.enterprise.SecurityContext;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,6 +22,7 @@ import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 import com.holidaysystem.mapper.HolidayRequestMapper;
 import com.holidaysystem.message.HolidayRequestMQProducer;
+import com.holidaysystem.model.HolidayRequestModel;
 import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 import com.holidaysystem.repository.HolidayRequestRepository;
@@ -47,6 +45,8 @@ public class HolidayRequestResource {
 	
 	@Inject
 	private IHolidayRequestService holidayRequestService;
+	@Inject
+    private HolidayRequestMapper holidayRequestMapper;
     
     @GET
     @Path("/all")
@@ -54,7 +54,13 @@ public class HolidayRequestResource {
     	
     	logger.debug("getHolidayRequests()");
     	
-    	List<HolidayResponse> holidayRequestResponses = holidayRequestService.getHolidayRequests();
+    	List<HolidayRequestModel> models = holidayRequestService.getHolidayRequests();
+    	
+    	List<HolidayResponse> holidayRequestResponses = new ArrayList<>();
+    	for(HolidayRequestModel model: models) {
+    		HolidayResponse holidayResponse = holidayRequestMapper.toResponse(model);
+    		holidayRequestResponses.add(holidayResponse);
+    	}
     	
         return Response.ok(holidayRequestResponses)
         		.header("Access-Control-Allow-Origin", "*")
@@ -67,7 +73,14 @@ public class HolidayRequestResource {
     	
     	logger.info("getHolidayRequests() with status " + status.name());
     	
-    	List<HolidayResponse> holidayRequestResponses = holidayRequestService.getHolidayRequestsByStatus(status);
+    	List<HolidayRequestModel> models = holidayRequestService.getHolidayRequestsByStatus(status);
+    	
+    	List<HolidayResponse> holidayRequestResponses = new ArrayList<>();
+    	
+    	for(HolidayRequestModel model: models) {
+    		HolidayResponse holidayResponse = holidayRequestMapper.toResponse(model);
+    		holidayRequestResponses.add(holidayResponse);
+    	}
     	
         return Response.ok(holidayRequestResponses)
         		.header("Access-Control-Allow-Origin", "*")
@@ -77,8 +90,11 @@ public class HolidayRequestResource {
     @GET()
     @Path("/{id}")
     public Response getHolidayRequestById(@PathParam("id") UUID id) {
-    	HolidayRequestEntity entity = holidayRequestRepository.findById(id);
-    	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
+    	
+    	HolidayRequestModel model = holidayRequestService.fetchModelById(id);
+    	
+    	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(model);
+    	
         return Response.ok(holidayRequestResp)
         		.header("Access-Control-Allow-Origin", "*")
         		.build();
@@ -87,10 +103,8 @@ public class HolidayRequestResource {
     @POST()
     public Response createHolidayRequest(HolidayRequest holidayRequest) { 
     	UUID id = UUID.randomUUID();
-    	HolidayRequestEntity entity = holidayRequestMapper.toEntity(id, holidayRequest);
-    	holidayRequestRepository.save(entity);
-    	holidayRequestMQProducer.publish(id, holidayRequest);
-        
+    	
+    	holidayRequestService.addHolidayRequest(id, holidayRequest);
         return Response.ok(id)
         		.header("Access-Control-Allow-Origin", "*")
         		.build();
@@ -99,12 +113,10 @@ public class HolidayRequestResource {
     @PUT()
     @Path("/{id}")
     public Response updateHolidayRequest(@PathParam("id") UUID id, HolidayRequest holidayRequest) {
-    	HolidayRequestEntity dbEntity = holidayRequestRepository.findById(id);
+    	HolidayRequestEntity updatedEntity = holidayRequestService.update(id, holidayRequest);
     	
-    	if(dbEntity != null) {
-    		HolidayRequestEntity entity = holidayRequestMapper.toEntity(holidayRequest, dbEntity);
-        	holidayRequestRepository.update(id, entity);
-        	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(entity);
+    	if(updatedEntity != null) {
+        	HolidayResponse holidayRequestResp = holidayRequestMapper.toResponse(updatedEntity);
         	
         	return Response.ok(holidayRequestResp)
         			.header("Access-Control-Allow-Origin", "*")

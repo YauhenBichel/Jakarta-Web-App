@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EmployeeRequest implements Serializable {
+public class NewEmployeeRequest implements Serializable {
      
     @NotBlank
     private String firstName;

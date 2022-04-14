@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.message.HolidayRequestMessage;
+import com.holidaysystem.model.HolidayRequestModel;
 import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
 
@@ -117,14 +118,40 @@ public class HolidayRequestMapper {
     	return entity;
 	}
 	
-	public HolidayResponse toResponse(HolidayRequestEntity entity) {
-		HolidayResponse holidayRequest = new HolidayResponse();
-		holidayRequest.setId(entity.getId());
-		holidayRequest.setEmployeeId(entity.getEmployeeId());
-		holidayRequest.setStatus(entity.getStatus());
-		holidayRequest.setStartDate(entity.getStartDate().toString());
-		holidayRequest.setEndDate(entity.getEndDate().toString());
+	public HolidayResponse toResponse(HolidayRequestModel model) {
+		HolidayResponse holidayResponse = new HolidayResponse();
+		holidayResponse.setId(model.getId());
+		holidayResponse.setEmployeeId(model.getEmployeeId());
+		holidayResponse.setStatus(model.getStatus());
+		holidayResponse.setStartDate(model.getStartDate().toString());
+		holidayResponse.setEndDate(model.getEndDate().toString());
+		holidayResponse.setTakenDays(model.getTakenDays());
+		holidayResponse.setTotalDays(model.getTotalDays());
+		holidayResponse.setRequestedDays(model.getRequestedDays());
+		holidayResponse.setYears(model.getYears());
 		
-		return holidayRequest;
+		return holidayResponse;
+	}
+	
+	public HolidayResponse toResponse(HolidayRequestEntity entity) {
+		HolidayResponse holidayResponse = new HolidayResponse();
+		holidayResponse.setId(entity.getId());
+		holidayResponse.setEmployeeId(entity.getEmployeeId());
+		holidayResponse.setStatus(entity.getStatus());
+		holidayResponse.setStartDate(entity.getStartDate().toString());
+		holidayResponse.setEndDate(entity.getEndDate().toString());
+		
+		return holidayResponse;
+	}
+	
+	public HolidayRequestModel toModel(HolidayRequestEntity entity) {
+		HolidayRequestModel model = new HolidayRequestModel();
+		model.setId(entity.getId());
+		model.setEmployeeId(entity.getEmployeeId());
+		model.setStatus(entity.getStatus());
+		model.setEndDate(entity.getEndDate());
+		model.setStartDate(entity.getStartDate());
+		
+		return model;
 	}
 }

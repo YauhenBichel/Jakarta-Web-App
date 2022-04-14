@@ -40,25 +40,27 @@ public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 	public HolidayDetailsEntity findById(UUID id) {
 		try (Connection connection = dataSource.getConnection()) {
 			
-			final String query = "SELECT id, employeeid, totaldays, takendays, created, modified "
+			final String query = "SELECT id, employeeid, status, totaldays, takendays, created, modified "
 					+ "FROM holiday_details "
 					+ "WHERE id = ?";
 			
 			try (PreparedStatement stmt = connection.prepareStatement(query)) {
 				stmt.setObject(1, id);
 				
-				HolidayDetailsEntity entity = new HolidayDetailsEntity();
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
+					HolidayDetailsEntity entity = new HolidayDetailsEntity();
 					entity.setId(UUID.fromString(rs.getString("id")));
 					entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
 					entity.setTotalDays(rs.getInt("totaldays"));
 					entity.setTakenDays(rs.getInt("takendays"));
+					entity.setStatus(rs.getString("status"));
 					entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
 					entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+					return entity;
 				}
 				
-				return entity;
+				return null;
 			}
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -71,25 +73,28 @@ public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 	public HolidayDetailsEntity findByEmployeeId(UUID employeeId) {
 		try (Connection connection = dataSource.getConnection()) {
 			
-			final String query = "SELECT id, employeeid, totaldays, takendays, created, modified "
+			final String query = "SELECT id, employeeid, status, totaldays, takendays, created, modified "
 					+ "FROM holiday_details "
 					+ "WHERE employeeId = ?";
 			
 			try (PreparedStatement stmt = connection.prepareStatement(query)) {
 				stmt.setObject(1, employeeId);
 				
-				HolidayDetailsEntity entity = new HolidayDetailsEntity();
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
+					HolidayDetailsEntity entity = new HolidayDetailsEntity();
 					entity.setId(UUID.fromString(rs.getString("id")));
 					entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
 					entity.setTotalDays(rs.getInt("totaldays"));
 					entity.setTakenDays(rs.getInt("takendays"));
+					entity.setStatus(rs.getString("status"));
 					entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
 					entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
+					
+					return entity;
 				}
 				
-				return entity;
+				return null;
 			}
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -103,16 +108,17 @@ public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 		try (Connection connection = dataSource.getConnection()) {
 			
 			final String query = "INSERT INTO holiday_details (id, employeeid, totaldays, takendays, "
-					+ " created, modified) "
-					+ "VALUES (?,?,?,?,?,?);";
+					+ " status, created, modified) "
+					+ "VALUES (?,?,?,?,?,?,?);";
 			
 			try (PreparedStatement stmt = connection.prepareStatement(query)) {
 				stmt.setObject(1, entity.getId());
 				stmt.setObject(2, entity.getEmployeeId());
 				stmt.setObject(3, entity.getTotalDays());
 				stmt.setObject(4, entity.getTakenDays());
-				stmt.setObject(5, entity.getCreated());
-				stmt.setObject(6, entity.getModified());
+				stmt.setObject(5, entity.getStatus());
+				stmt.setObject(6, entity.getCreated());
+				stmt.setObject(7, entity.getModified());
 				
 				if (stmt.executeUpdate() == 1) {
 				     return true;
@@ -131,7 +137,7 @@ public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 	public List<HolidayDetailsEntity> getHolidayDetails() {
 		try (Connection connection = dataSource.getConnection()) {
 			
-			final String query = "SELECT id, employeeid, totaldays, takendays, created, modified "
+			final String query = "SELECT id, employeeid, totaldays, takendays, status, created, modified "
 					+ " FROM holiday_details;";
 			
 			try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -144,6 +150,7 @@ public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 					entity.setEmployeeId(UUID.fromString(rs.getString("firstname")));
 					entity.setTotalDays(rs.getInt("totaldays"));
 					entity.setTakenDays(rs.getInt("takendays"));
+					entity.setStatus(rs.getString("status"));
 					entity.setCreated(LocalDateTime.parse(rs.getString("created"), DateUtils.FORMATTER));
 					entity.setModified(LocalDateTime.parse(rs.getString("modified"), DateUtils.FORMATTER));
 					

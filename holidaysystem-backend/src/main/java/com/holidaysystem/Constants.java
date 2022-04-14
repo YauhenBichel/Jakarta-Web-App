@@ -18,4 +18,7 @@ public final class Constants {
 	public static final String DATASOURCE_LOOKUP_KEY = "java:/PostgresDS";
 	
 	public static final String UNCAUGHT_EXCEPTION_MESSAGE = "We are sorry. We are working to fix the issue. Please try later again.";
+	
+	public static final Integer PERCENT_MEMBERS_ON_DUTY = 60;
+	public static final Integer PERCENT_MEMBERS_AUGUST_ON_DUTY = 40;
 }

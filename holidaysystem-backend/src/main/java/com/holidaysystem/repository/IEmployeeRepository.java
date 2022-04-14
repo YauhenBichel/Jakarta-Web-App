@@ -1,6 +1,7 @@
 package com.holidaysystem.repository;
 
 import java.util.UUID;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.model.EmployeeModel;
@@ -22,4 +23,7 @@ public interface IEmployeeRepository {
     List<EmployeeEntity> getEmployees();
     
     List<EmployeeModel> getEmployeeModels();
+    
+    List<EmployeeModel> getEmployeeModelsByDepartmentId(String department);
+    List<EmployeeModel> getEmployeeModelsByDate(LocalDateTime date);
 }

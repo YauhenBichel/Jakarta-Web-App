@@ -1,5 +1,7 @@
 package com.holidaysystem.service;
 
+import java.util.UUID;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
 import javax.transaction.Transactional;
@@ -53,9 +55,14 @@ public class AuthService implements IAuthService {
 	@Transactional
 	public AccountDetailsModel register(RegistrationRequest registrationRequest) {
 		
+		AccountEntity dbEntity = accountRepository.findByEmail(registrationRequest.getEmail());
+		if(dbEntity != null)
+			throw new RuntimeException("duplicate");
+		
+		final UUID id = UUID.randomUUID();
 		final String hashedPassWithSalt = generateHash(registrationRequest.getPassword());
 		
-		AccountEntity account = accountMapper.toEntity(registrationRequest, hashedPassWithSalt);
+		AccountEntity account = accountMapper.toEntity(id, registrationRequest, hashedPassWithSalt);
 		AuthorizationRoleEntity authRole = authRoleRepository.findByName(AuthorizationRoleEnum.USER.name());
 		account.setAuthRoleId(authRole.getId());
 		

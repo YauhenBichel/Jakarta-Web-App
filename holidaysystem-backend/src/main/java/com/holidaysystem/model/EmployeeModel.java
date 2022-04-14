@@ -1,10 +1,12 @@
 package com.holidaysystem.model;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import com.holidaysystem.enumeration.DepartmentEnum;
 import com.holidaysystem.enumeration.EmployeeRoleEnum;
+import com.holidaysystem.enumeration.HolidayStatusEnum;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -51,6 +53,9 @@ public class EmployeeModel implements Serializable {
     
     @PositiveOrZero
     private Integer takenDays;
+    
+    @NotNull
+    private HolidayStatusEnum holidayStatus;
     
     public UUID getId() {
     	return this.id;
@@ -100,4 +105,6 @@ public class EmployeeModel implements Serializable {
     public Integer getTotalDays() {return this.totalDays;}
     public void setTakenDays(Integer takenDays) {this.takenDays = takenDays; }
     public Integer getTakenDays() {return this.takenDays;}
+    public void setHolidayStatus(HolidayStatusEnum holidayStatus) {this.holidayStatus = holidayStatus; }
+    public HolidayStatusEnum getHolidayStatus() {return this.holidayStatus;}
 }

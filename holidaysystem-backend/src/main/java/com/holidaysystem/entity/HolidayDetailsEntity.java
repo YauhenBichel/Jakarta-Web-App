@@ -37,6 +37,9 @@ public class HolidayDetailsEntity extends AuditEntity {
 	@PositiveOrZero
 	@Column(name = "takendays")
 	private Integer takenDays;
+	
+	@Column(name = "status")
+	private String status;
 
     public void setId(UUID id) {this.id = id; }
     public UUID getId() {return this.id;}
@@ -46,4 +49,6 @@ public class HolidayDetailsEntity extends AuditEntity {
     public Integer getTotalDays() {return this.totalDays;}
     public void setTakenDays(Integer takenDays) {this.takenDays = takenDays; }
     public Integer getTakenDays() {return this.takenDays;}
+    public void setStatus(String status) {this.status = status; }
+    public String getStatus() {return this.status;}
 }

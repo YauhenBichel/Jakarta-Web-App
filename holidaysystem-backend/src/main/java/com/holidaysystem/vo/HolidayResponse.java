@@ -29,7 +29,6 @@ public class HolidayResponse implements Serializable {
     @NotBlank
     private String status;
     
-    @PositiveOrZero
     private Integer requestedDays;
     
     @NotBlank
@@ -38,13 +37,10 @@ public class HolidayResponse implements Serializable {
     @NotBlank
     private String endDate;
     
-    @PositiveOrZero
     private Integer years;
     
-    @PositiveOrZero
     private Integer totalDays;
     
-    @PositiveOrZero
     private Integer takenDays;
     
     public UUID getId() {

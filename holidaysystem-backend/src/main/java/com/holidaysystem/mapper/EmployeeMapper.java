@@ -11,7 +11,7 @@ import com.holidaysystem.entity.HolidayDetailsEntity;
 import com.holidaysystem.enumeration.DepartmentEnum;
 import com.holidaysystem.model.EmployeeModel;
 import com.holidaysystem.enumeration.EmployeeRoleEnum;
-import com.holidaysystem.vo.EmployeeRequest;
+import com.holidaysystem.vo.NewEmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
 
 /**
@@ -21,7 +21,7 @@ import com.holidaysystem.vo.EmployeeResponse;
  */
 @ApplicationScoped
 public class EmployeeMapper {
-	public EmployeeEntity toEntity(EmployeeRequest request) {
+	public EmployeeEntity toEntity(NewEmployeeRequest request) {
 		EmployeeEntity entity = new EmployeeEntity();
     	entity.setId(UUID.randomUUID());
     	entity.setAccountId(request.getAccountId());
@@ -90,6 +90,7 @@ public class EmployeeMapper {
 		employee.setYears(model.getYears());
 		employee.setTotalDays(model.getTotalDays());
 		employee.setTakenDays(model.getTakenDays());
+		employee.setHolidayStatus(model.getHolidayStatus().name());
 		
 		return employee;
 	}
