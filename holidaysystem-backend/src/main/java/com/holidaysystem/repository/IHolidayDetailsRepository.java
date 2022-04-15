@@ -17,8 +17,11 @@
 package com.holidaysystem.repository;
 
 import java.util.UUID;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.holidaysystem.entity.HolidayDetailsEntity;
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
+import com.holidaysystem.model.HolidayRequestModel;
 
 /**
  * Interface for Holiday Details repository, which can be supported by
@@ -50,4 +53,11 @@ public interface IHolidayDetailsRepository {
      * @return
      */
     List<HolidayDetailsEntity> getHolidayDetails();
+    /**
+     * 
+     * @param date
+     * @param requestStatus
+     * @return
+     */
+    List<HolidayRequestModel> getApprovedAndByDate(LocalDateTime date, HolidayRequestStatusEnum requestStatus);
 }

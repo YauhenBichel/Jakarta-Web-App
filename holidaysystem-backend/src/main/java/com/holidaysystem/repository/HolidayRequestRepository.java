@@ -234,7 +234,7 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 					HolidayRequestModel model = new HolidayRequestModel();
 					model.setId(UUID.fromString(rs.getString("id")));
 					model.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
-					model.setStatus(rs.getString("status"));
+					model.setRequestStatus(HolidayRequestStatusEnum.valueOf(rs.getString("status")));
 					model.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
 					model.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
 					model.setYears(rs.getInt("years"));
@@ -279,7 +279,7 @@ public class HolidayRequestRepository implements IHolidayRequestRepository {
 					HolidayRequestModel model = new HolidayRequestModel();
 					model.setId(UUID.fromString(rs.getString("id")));
 					model.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
-					model.setStatus(rs.getString("status"));
+					model.setRequestStatus(HolidayRequestStatusEnum.valueOf(rs.getString("status")));
 					model.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
 					model.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
 					model.setYears(rs.getInt("years"));

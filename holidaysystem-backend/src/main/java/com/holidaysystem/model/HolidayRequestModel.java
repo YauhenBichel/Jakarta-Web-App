@@ -20,6 +20,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
+import com.holidaysystem.enumeration.HolidayStatusEnum;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -44,8 +47,11 @@ public class HolidayRequestModel implements Serializable {
     @NotBlank
     private UUID employeeId;
 
-    @NotBlank
-    private String status;
+    @NotNull
+    private HolidayStatusEnum holidayStatus;
+    
+    @NotNull
+    private HolidayRequestStatusEnum requestStatus;
     
     @PositiveOrZero
     private Integer requestedDays;
@@ -77,11 +83,17 @@ public class HolidayRequestModel implements Serializable {
     public void setEmployeeId(UUID employeeId) {
     	this.employeeId = employeeId;
     }
-    public String getStatus() {
-    	return this.status;
+    public HolidayStatusEnum getHolidayStatus() {
+    	return this.holidayStatus;
     }
-    public void setStatus(String status) {
-    	this.status = status;
+    public void setHolidayStatus(HolidayStatusEnum holidayStatus) {
+    	this.holidayStatus = holidayStatus;
+    }
+    public HolidayRequestStatusEnum getRequestStatus() {
+    	return this.requestStatus;
+    }
+    public void setRequestStatus(HolidayRequestStatusEnum requestStatus) {
+    	this.requestStatus = requestStatus;
     }
     public LocalDateTime getStartDate() {
     	return this.startDate;

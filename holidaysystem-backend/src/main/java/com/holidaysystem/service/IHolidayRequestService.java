@@ -16,12 +16,15 @@
  */
 package com.holidaysystem.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
+import com.holidaysystem.model.AlternativeDatesModel;
 import com.holidaysystem.model.HolidayRequestModel;
+import com.holidaysystem.model.PrioritizedRequestModel;
 import com.holidaysystem.vo.HolidayRequest;
 
 /**
@@ -72,4 +75,14 @@ public interface IHolidayRequestService {
 	 * @return
 	 */
 	boolean validate(UUID requestId);
+	/**
+	 * 
+	 * @return
+	 */
+	List<PrioritizedRequestModel> getPrioritizedHolidayRequests(LocalDateTime date, HolidayRequestStatusEnum requestStatus);
+	/**
+	 * 
+	 * @return
+	 */
+	List<AlternativeDatesModel> getAlternativeDates(UUID requestId);
 }

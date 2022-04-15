@@ -28,8 +28,9 @@ import org.jboss.logging.Logger;
 import com.holidaysystem.Constants;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayDetailsEntity;
-
-import jakarta.inject.Named;
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
+import com.holidaysystem.enumeration.HolidayStatusEnum;
+import com.holidaysystem.model.HolidayRequestModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -163,7 +164,7 @@ public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 					HolidayDetailsEntity entity = new HolidayDetailsEntity();
 					
 					entity.setId(UUID.fromString(rs.getString("id")));
-					entity.setEmployeeId(UUID.fromString(rs.getString("firstname")));
+					entity.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
 					entity.setTotalDays(rs.getInt("totaldays"));
 					entity.setTakenDays(rs.getInt("takendays"));
 					entity.setStatus(rs.getString("status"));
@@ -174,6 +175,48 @@ public class HolidayDetailsRepository implements IHolidayDetailsRepository {
 				}
 				
 				return entities;
+			}
+		} catch(Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<HolidayRequestModel> getApprovedAndByDate(LocalDateTime date, HolidayRequestStatusEnum requestStatus) {
+		try (Connection connection = dataSource.getConnection()) {
+			final String query = "SELECT hr.id, hd.employeeid, hd.takendays, hd.totaldays, " +
+						"hr.startdate, hr.enddate, hd.status as holidaystatus, "
+						+ "hr.status as requeststatus " +  
+					"FROM holiday_request hr " +  
+						"inner join holiday_details hd " + 
+						"on hd.employeeid = hr.employeeid " +
+					"WHERE hr.startdate <= ? AND hr.enddate >= ? AND " + 
+						"hr.status = ?;";
+			
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, date);
+				stmt.setObject(2, date);
+				stmt.setObject(3, requestStatus.name());
+				List<HolidayRequestModel> requestModels = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
+				
+				while(rs.next()) {
+					HolidayRequestModel model = new HolidayRequestModel();
+					model.setId(UUID.fromString(rs.getString("id")));
+					model.setEmployeeId(UUID.fromString(rs.getString("employeeid")));
+					model.setTotalDays(rs.getInt("totaldays"));
+					model.setTakenDays(rs.getInt("takendays"));
+					model.setHolidayStatus(HolidayStatusEnum.valueOf(rs.getString("holidaystatus")));
+					model.setRequestStatus(HolidayRequestStatusEnum.valueOf(rs.getString("requeststatus")));
+					model.setStartDate(LocalDateTime.parse(rs.getString("startdate"), DateUtils.FORMATTER));
+					model.setEndDate(LocalDateTime.parse(rs.getString("enddate"), DateUtils.FORMATTER));
+					
+					requestModels.add(model);
+				}
+				
+				return requestModels;
 			}
 		} catch(Exception ex) {
 			logger.error(ex.getMessage(), ex);

@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 import com.holidaysystem.message.HolidayRequestMessage;
 import com.holidaysystem.model.HolidayRequestModel;
 import com.holidaysystem.vo.HolidayRequest;
@@ -138,7 +139,7 @@ public class HolidayRequestMapper {
 		HolidayResponse holidayResponse = new HolidayResponse();
 		holidayResponse.setId(model.getId());
 		holidayResponse.setEmployeeId(model.getEmployeeId());
-		holidayResponse.setStatus(model.getStatus());
+		holidayResponse.setStatus(model.getRequestStatus().name());
 		holidayResponse.setStartDate(model.getStartDate().toString());
 		holidayResponse.setEndDate(model.getEndDate().toString());
 		holidayResponse.setTakenDays(model.getTakenDays());
@@ -164,7 +165,7 @@ public class HolidayRequestMapper {
 		HolidayRequestModel model = new HolidayRequestModel();
 		model.setId(entity.getId());
 		model.setEmployeeId(entity.getEmployeeId());
-		model.setStatus(entity.getStatus());
+		model.setRequestStatus(HolidayRequestStatusEnum.valueOf(entity.getStatus()));
 		model.setEndDate(entity.getEndDate());
 		model.setStartDate(entity.getStartDate());
 		

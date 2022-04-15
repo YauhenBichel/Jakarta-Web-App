@@ -30,19 +30,20 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.holidaysystem.common.DateUtils;
 import com.holidaysystem.entity.HolidayRequestEntity;
 import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 import com.holidaysystem.mapper.HolidayRequestMapper;
-import com.holidaysystem.message.HolidayRequestMQProducer;
 import com.holidaysystem.model.HolidayRequestModel;
+import com.holidaysystem.model.PrioritizedRequestModel;
 import com.holidaysystem.vo.HolidayRequest;
 import com.holidaysystem.vo.HolidayResponse;
-import com.holidaysystem.repository.HolidayRequestRepository;
-import com.holidaysystem.repository.IHolidayRequestRepository;
+import com.holidaysystem.vo.PrioritizedRecordsRequest;
 import com.holidaysystem.service.IHolidayRequestService;
 
 /**
@@ -99,6 +100,38 @@ public class HolidayRequestResource {
     	}
     	
         return Response.ok(holidayRequestResponses)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
+    }
+    
+    @GET
+    @Path("/all/prioritized")
+    public Response getPrioritizedHolidayRequests(PrioritizedRecordsRequest request) {
+    	
+    	LocalDateTime date = LocalDateTime.parse(request.getDate(), DateUtils.FORMATTER);
+    	HolidayRequestStatusEnum requestStatus = HolidayRequestStatusEnum.valueOf(request.getRequestStatus());
+    	
+    	List<PrioritizedRequestModel> models = holidayRequestService
+    			.getPrioritizedHolidayRequests(date, requestStatus);
+    	
+    	List<UUID> requestIds = new ArrayList<>();
+    	
+    	for(PrioritizedRequestModel model: models) {
+    		requestIds.add(model.getRequestId());
+    	}
+    	
+        return Response.ok(requestIds)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
+    }
+    
+    @GET
+    @Path("/{id}/alternative-dates")
+    public Response getAlternativeDates(@PathParam("id") UUID id) {
+    	
+    	//holidayRequestService.getAlternativeDates(id);
+    	
+        return Response.ok()
         		.header("Access-Control-Allow-Origin", "*")
         		.build();
     }

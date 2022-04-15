@@ -18,13 +18,8 @@ package com.holidaysystem.resource;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.security.enterprise.SecurityContext;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -33,17 +28,10 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import com.holidaysystem.entity.HolidayRequestEntity;
-import com.holidaysystem.mapper.HolidayRequestMapper;
-import com.holidaysystem.message.HolidayRequestMQProducer;
-import com.holidaysystem.vo.HolidayRequest;
-import com.holidaysystem.vo.HolidayResponse;
-import com.holidaysystem.repository.HolidayRequestRepository;
-import com.holidaysystem.repository.IHolidayRequestRepository;
+import com.holidaysystem.vo.RequestValidationResponse;
+import com.holidaysystem.service.IHolidayRequestService;
 
 /**
  * REST API for holiday request resource
@@ -60,24 +48,21 @@ public class RequestProcessingResource {
 	private static final Logger logger = Logger.getLogger(RequestProcessingResource.class);
 	
     @Inject
-    private IHolidayRequestRepository holidayRequestRepository;
-    @Inject
-    private HolidayRequestMapper holidayRequestMapper;
+    private IHolidayRequestService holidayRequestService;
     
     @GET()
     @Path("/{id}/validate")
     public Response validate(@PathParam("id") UUID holidayRequestId) {
     	
-    	logger.debug("validate()");
+    	logger.debug("validate request id " + holidayRequestId);
     	
-    	List<HolidayRequestEntity> entities = holidayRequestRepository.getHolidayRequests();
-    	List<HolidayResponse> holidayRequestResponses = new ArrayList<>();
-    	for(HolidayRequestEntity entity: entities) {
-    		HolidayResponse holidayResponse = holidayRequestMapper.toResponse(entity);
-    		holidayRequestResponses.add(holidayResponse);
-    	}
+    	boolean valid = holidayRequestService.validate(holidayRequestId);
     	
-        return Response.ok(holidayRequestResponses)
+    	RequestValidationResponse resp = new RequestValidationResponse();
+    	resp.setRequestId(holidayRequestId);
+    	resp.setValid(valid);
+    	
+        return Response.ok(resp)
         		.header("Access-Control-Allow-Origin", "*")
         		.build();
     }

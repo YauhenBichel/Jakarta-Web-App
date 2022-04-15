@@ -18,6 +18,10 @@ package com.holidaysystem.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,15 +32,19 @@ import javax.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 import com.holidaysystem.Constants;
+import com.holidaysystem.comparator.HolidayRequestModelComparator;
 import com.holidaysystem.constraints.IConstraintsValidator;
 import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.entity.HolidayRequestEntity;
+import com.holidaysystem.model.AlternativeDatesModel;
 import com.holidaysystem.model.EmployeeModel;
 import com.holidaysystem.model.HolidayRequestModel;
+import com.holidaysystem.model.PrioritizedRequestModel;
 import com.holidaysystem.enumeration.HolidayRequestStatusEnum;
 import com.holidaysystem.mapper.HolidayRequestMapper;
 import com.holidaysystem.message.HolidayRequestMQProducer;
 import com.holidaysystem.repository.IEmployeeRepository;
+import com.holidaysystem.repository.IHolidayDetailsRepository;
 import com.holidaysystem.repository.IHolidayRequestRepository;
 import com.holidaysystem.vo.HolidayRequest;
 
@@ -56,6 +64,8 @@ public class HolidayRequestService implements IHolidayRequestService {
 	@Inject
     private IHolidayRequestRepository holidayRequestRepository;
 	@Inject
+    private IHolidayDetailsRepository holidayDetailsRepository;
+	@Inject
     private IEmployeeRepository employeeRepository;
     @Inject
     private HolidayRequestMapper holidayRequestMapper;
@@ -63,6 +73,8 @@ public class HolidayRequestService implements IHolidayRequestService {
     private HolidayRequestMQProducer holidayRequestMQProducer;
     @Inject
     private IConstraintsValidator constraintValidator;
+    @Inject
+    private HolidayRequestModelComparator comparator;
 	
 	@Transactional
 	public List<HolidayRequestModel> getHolidayRequests() {
@@ -127,11 +139,13 @@ public class HolidayRequestService implements IHolidayRequestService {
 		}
 		
 		List<EmployeeModel> employeeModels = employeeRepository.getEmployeeModelsByDepartmentId(dbEmployeeEntity.getDepartment());
-		
 		LocalDateTime now = LocalDateTime.now();
+		int year = LocalDate.now().getYear();
+		LocalDate dec22 = LocalDate.of(year, 12, 22);
+		LocalDate jan3 = LocalDate.of(year + 1, 1, 3);
 		
-		if(now.isAfter(LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), 12, 22), null)) && 
-				now.isBefore(LocalDateTime.of(LocalDate.of(LocalDate.now().getYear() + 1, 01, 3), null))) {
+		if(now.isAfter(LocalDateTime.of(dec22, LocalTime.of(0, 0))) && 
+				now.isBefore(LocalDateTime.of(jan3, LocalTime.of(0, 0)))) {
 		
 			final int percentOnDuty = LocalDate.now().getMonthValue() == 8 ? 
 					Constants.PERCENT_MEMBERS_AUGUST_ON_DUTY:
@@ -143,5 +157,36 @@ public class HolidayRequestService implements IHolidayRequestService {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public List<PrioritizedRequestModel> getPrioritizedHolidayRequests(LocalDateTime date, HolidayRequestStatusEnum requestStatus) {
+		List<PrioritizedRequestModel> prioritizedRequests = new LinkedList<>();
+		
+		List<HolidayRequestModel> holidayRequests = holidayDetailsRepository
+				.getApprovedAndByDate(date, requestStatus);
+		
+		holidayRequests.forEach(model -> {
+			int days = (int)model.getStartDate().until(model.getEndDate(), ChronoUnit.DAYS);
+			model.setRequestedDays(days);
+		});
+		
+		Collections.sort(holidayRequests, comparator);
+		holidayRequests.forEach(holidayRequest -> {
+			PrioritizedRequestModel model = new PrioritizedRequestModel();
+			model.setRequestId(holidayRequest.getId());
+			model.setRequestedDays(model.getRequestedDays());
+			model.setTakenDays(model.getTakenDays());
+			
+			prioritizedRequests.add(model); 
+		});
+		
+		return prioritizedRequests;
+	}
+
+	@Override
+	public List<AlternativeDatesModel> getAlternativeDates(UUID requestId) {
+		
+		return null;
 	}
 }

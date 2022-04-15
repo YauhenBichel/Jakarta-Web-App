@@ -213,6 +213,68 @@
 			"response": []
 		},
 		{
+			"name": "Get Prioritized Holiday Requests",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2022-07-02 00:00:00.000\",\n    \"requestStatus\": \"APPROVED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/all/prioritized",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"all",
+						"prioritized"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Alternative Dates",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/1c0e7611-4869-45cc-b08a-140f12fdfa39/alternative-dates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"1c0e7611-4869-45cc-b08a-140f12fdfa39",
+						"alternative-dates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get All Holiday Requests By Status",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
@@ -308,6 +370,32 @@
 						"api",
 						"holiday-request",
 						"1c0e7611-4869-45cc-b08a-140f12fdfa39"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Holiday Request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/request-processing/1c0e7611-4869-45cc-b08a-140f12fdfa39/validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"request-processing",
+						"1c0e7611-4869-45cc-b08a-140f12fdfa39",
+						"validate"
 					]
 				}
 			},
