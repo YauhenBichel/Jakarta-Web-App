@@ -72,6 +72,8 @@ Using @Transactional annotation for services, which aggregate repository calls
 
 ### Unit tests
 
+### Javadoc
+doc folder
 
 ### database
 

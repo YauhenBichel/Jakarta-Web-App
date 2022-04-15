@@ -1,3 +1,19 @@
+/*
+ *     Copyright 2022-2022 Yauhen Bichel yb3129h@gre.ac.uk OR bichel.eugen@gmail.com 
+ *     Student Id 001185491
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.holidaysystem.repository;
 
 import java.util.UUID;
@@ -279,6 +295,55 @@ public class EmployeeRepository implements IEmployeeRepository {
 			try (PreparedStatement stmt = connection.prepareStatement(query)) {
 				stmt.setObject(1, date);
 				stmt.setObject(2, date);
+				List<EmployeeModel> employees = new ArrayList<>();
+				ResultSet rs = stmt.executeQuery();
+				
+				while(rs.next()) {
+					EmployeeModel employee = new EmployeeModel();
+					employee.setId(UUID.fromString(rs.getString("id")));
+					employee.setFirstName(rs.getString("firstname"));
+					employee.setLastName(rs.getString("lastname"));
+					employee.setRole(EmployeeRoleEnum.valueOf(rs.getString("role")));
+					employee.setDepartment(DepartmentEnum.valueOf(rs.getString("department")));
+					employee.setAccountId(UUID.fromString(rs.getString("accountid")));
+					employee.setEmail(rs.getString("email"));
+					employee.setYears(rs.getInt("years"));
+					employee.setTotalDays(rs.getInt("totaldays"));
+					employee.setTakenDays(rs.getInt("takendays"));
+					employee.setHolidayStatus(HolidayStatusEnum.valueOf(rs.getString("status")));
+					
+					employees.add(employee);
+				}
+				
+				return employees;
+			}
+		} catch(Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<EmployeeModel> getEmployeeModelsByDateAndHolidayStatus(LocalDateTime date, HolidayStatusEnum holidayStatus) {
+		try (Connection connection = dataSource.getConnection()) {
+			final String query = "SELECT empl.id, empl.firstname, empl.lastname, " +
+					"empl.role, empl.department, empl.accountid, hd.totaldays, " + 
+					"hd.takendays, hd.status, empl.years, acc.email " + 
+					"FROM employee empl " + 
+					"inner join account acc " + 
+					"on empl.accountid = acc.id " + 
+					"inner join holiday_details hd " + 
+					"on hd.employeeid = empl.id " +
+					"inner join holiday_request hr " + 
+					"on hr.employeeid = empl.id " +
+					"WHERE hr.startdate <= ? AND hr.enddate >= ? AND "
+					+ "hd.status = ?;";
+			
+			try (PreparedStatement stmt = connection.prepareStatement(query)) {
+				stmt.setObject(1, date);
+				stmt.setObject(2, date);
+				stmt.setObject(3, holidayStatus.name());
 				List<EmployeeModel> employees = new ArrayList<>();
 				ResultSet rs = stmt.executeQuery();
 				
