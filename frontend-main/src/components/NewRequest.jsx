@@ -45,7 +45,6 @@ export function NewRequest() {
   	});
 	}
 
-	// console.log(state);
 	return (
 		<ComponentsLayout>
 			<h3 className='text-lg leading-6 font-bold text-gray-900'>New Request</h3>
