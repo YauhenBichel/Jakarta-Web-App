@@ -30,36 +30,43 @@ import com.holidaysystem.vo.HolidayRequest;
 /**
  * Interface for HolidayRequest service provides user register and login
  * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
- *
  */
 public interface IHolidayRequestService {
 	/**
-	 * 
-	 * @return
+	 * Gets a list of holiday request models 
+	 * limit 100
+	 * @return list of HolidayRequestModel
 	 */
 	List<HolidayRequestModel> getHolidayRequests();
 	/**
-	 * 
-	 * @param status
-	 * @return
+	 * Gets a list of holiday request models sorted by created
+	 * @param offset skip records
+	 * @param limit size of the page
+	 * @return list of HolidayRequestModel
+	 */
+	List<HolidayRequestModel> getHolidayRequests(int offset, int limit);
+	/**
+	 * Gets a list of holiday request models by request status
+	 * @param status HolidayRequestStatusEnum status
+	 * @return list of HolidayRequestModel
 	 */
 	List<HolidayRequestModel> getHolidayRequestsByStatus(HolidayRequestStatusEnum status);
 	/**
-	 * 
-	 * @param requestId
-	 * @return
+	 * Finds holiday request model, which extended data, by request id
+	 * @param requestId UUID request Id
+	 * @return holiday request model
 	 */
 	HolidayRequestModel fetchModelById(UUID requestId);
 	/**
-	 * 
-	 * @param requestId
-	 * @return
+	 * Finds entity by request Id
+	 * @param requestId UUID request id
+	 * @return holiday request entity
 	 */
 	HolidayRequestEntity findEntityById(UUID requestId);
 	/**
-	 * 
-	 * @param requestId
-	 * @param holidayRequest
+	 * Adds a new holiday request
+	 * @param requestId UUID holiday request
+	 * @param holidayRequest the model request
 	 */
 	void addHolidayRequest(UUID requestId, HolidayRequest holidayRequest);
 	/**
@@ -70,19 +77,22 @@ public interface IHolidayRequestService {
 	 */
 	HolidayRequestEntity update(UUID requestId, HolidayRequest holidayRequest);
 	/**
-	 * 
-	 * @param requestId
-	 * @return
+	 * Validates the request for supporting constraints
+	 * @param requestId UUID of the request
+	 * @return boolean: true is valid, false is not valid
 	 */
 	boolean validate(UUID requestId);
 	/**
-	 * 
-	 * @return
+	 * Sorts requests by taken days and requested days
+	 * @param date
+	 * @param requestStatus
+	 * @return list of prioritized requests 
 	 */
 	List<PrioritizedRequestModel> getPrioritizedHolidayRequests(LocalDateTime date, HolidayRequestStatusEnum requestStatus);
 	/**
-	 * 
-	 * @return
+	 * Calculates alternative dates for broken requests
+	 * @param requestId UUID of the broken request
+	 * @return list of alternative dates
 	 */
 	List<AlternativeDatesModel> getAlternativeDates(UUID requestId);
 }

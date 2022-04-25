@@ -25,6 +25,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import com.holidaysystem.common.exception.RecordNotFoundException;
 import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.entity.EmployeeEntity;
 import com.holidaysystem.entity.HolidayDetailsEntity;
@@ -64,7 +65,7 @@ public class EmployeeService implements IEmployeeService {
     @Transactional
     public List<EmployeeModel> getEmployeesByDate(LocalDateTime date) {
     	
-    	List<EmployeeModel> employeeModels = employeeRepository.getEmployeeModelsByDate(date);
+    	List<EmployeeModel> employeeModels = employeeRepository.getEmployeeModelsOnHolidaysByDate(date);
     	
     	return employeeModels;
     }
@@ -83,7 +84,7 @@ public class EmployeeService implements IEmployeeService {
     	EmployeeEntity employeeEntity = employeeRepository.findById(employeeId);
     	
     	if(employeeEntity == null) 
-    		throw new RuntimeException("Employee not found");
+    		throw new RecordNotFoundException("Employee not found");
     	
     	AccountEntity accountEntity = accountRepository.findById(employeeEntity.getAccountId());
     	HolidayDetailsEntity holidayDetailsEntity = holidayDetailsRepository.findByEmployeeId(employeeId);

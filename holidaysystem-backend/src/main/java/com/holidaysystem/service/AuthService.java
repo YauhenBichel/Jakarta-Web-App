@@ -22,6 +22,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
 import javax.transaction.Transactional;
 
+import com.holidaysystem.common.exception.RecordDuplicateException;
+import com.holidaysystem.common.exception.RecordNotFoundException;
 import com.holidaysystem.entity.AccountEntity;
 import com.holidaysystem.entity.AuthorizationRoleEntity;
 import com.holidaysystem.model.AccountDetailsModel;
@@ -54,7 +56,7 @@ public class AuthService implements IAuthService {
 		AccountEntity account = accountRepository.findByEmailAndPassword(email, password);
     	
     	if(account == null)
-    		throw new RuntimeException("account not found");
+    		throw new RecordNotFoundException("account not found");
     	
     	AuthorizationRoleEntity authRole = authRoleRepository.findById(account.getAuthRoleId());
     	
@@ -73,7 +75,7 @@ public class AuthService implements IAuthService {
 		
 		AccountEntity dbEntity = accountRepository.findByEmail(registrationRequest.getEmail());
 		if(dbEntity != null)
-			throw new RuntimeException("duplicate");
+			throw new RecordDuplicateException("Email is used by other account");
 		
 		final UUID id = UUID.randomUUID();
 		final String hashedPassWithSalt = generateHash(registrationRequest.getPassword());

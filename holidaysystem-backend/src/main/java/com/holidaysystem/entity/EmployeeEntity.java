@@ -24,9 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 /**
@@ -38,8 +36,6 @@ import javax.validation.constraints.PositiveOrZero;
 @Table(name = "employee", schema = "public")
 public class EmployeeEntity extends AuditEntity {
 
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

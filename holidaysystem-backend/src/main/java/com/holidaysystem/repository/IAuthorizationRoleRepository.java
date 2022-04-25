@@ -29,20 +29,20 @@ import com.holidaysystem.entity.AuthorizationRoleEntity;
  */
 public interface IAuthorizationRoleRepository {
 	/**
-	 * 
-	 * @return
+	 * Gets all authorization roles
+	 * @return list of AuthorizationRoleEntity
 	 */
 	List<AuthorizationRoleEntity> getAll();
 	/**
-	 * 
-	 * @param id
-	 * @return
+	 * Gets authorization role by id
+	 * @param id authorization role id
+	 * @return AuthorizationRoleEntity
 	 */
 	AuthorizationRoleEntity findById(UUID id);
 	/**
-	 * 
-	 * @param name
-	 * @return
+	 * Gets authorization role by name
+	 * @param name authorization role name
+	 * @return AuthorizationRoleEntity
 	 */
 	AuthorizationRoleEntity findByName(String name);
 }

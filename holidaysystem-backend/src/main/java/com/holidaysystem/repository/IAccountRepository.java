@@ -28,34 +28,34 @@ import com.holidaysystem.entity.AccountEntity;
  */
 public interface IAccountRepository {
 	/**
-	 * 
-	 * @param userId
-	 * @return
+	 * Finds account by account id
+	 * @param accountId UUID account id
+	 * @return account entity
 	 */
-	AccountEntity findById(UUID userId);
+	AccountEntity findById(UUID accountId);
     /**
-     * 
-     * @param email
-     * @return
+     * Finds account by email
+     * @param email account email
+     * @return account entity
      */
 	AccountEntity findByEmail(String email);
 	/**
-	 * 
-	 * @param email
-	 * @param password
-	 * @return
+	 * Finds account by email and password
+	 * @param email account email
+	 * @param password account password
+	 * @return account entity
 	 */
 	AccountEntity findByEmailAndPassword(String email, String password); 
     /**
-     * 
-     * @param user
-     * @return
+     * Adds a new account into persistence storage
+     * @param account new account entity
+     * @return saved account entity
      */
-    boolean save(AccountEntity user);
+    boolean save(AccountEntity account);
     /**
-     * 
-     * @param password
-     * @return
+     * Generated hashed password of the password
+     * @param password account password
+     * @return hashed password
      */
     String generateHashedPassword(String password);
 }

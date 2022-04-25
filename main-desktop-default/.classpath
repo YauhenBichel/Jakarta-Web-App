@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-16">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/fluent-hc-4.5.13.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/httpclient-4.5.13.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/httpclient-cache-4.5.13.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/httpclient-osgi-4.5.13.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/httpclient-win-4.5.13.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/httpcore-4.4.13.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/httpmime-4.5.13.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/jna-4.5.2.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/jna-platform-4.5.2.jar"/>
+	<classpathentry kind="lib" path="/Users/yauhenbichel/Downloads/main-desktop-default/libs/json-simple-1.1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

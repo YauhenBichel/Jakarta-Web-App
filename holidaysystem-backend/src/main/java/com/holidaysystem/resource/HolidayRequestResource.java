@@ -25,6 +25,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -65,13 +66,40 @@ public class HolidayRequestResource {
 	@Inject
     private HolidayRequestMapper holidayRequestMapper;
     
+	/**
+	 * Gets all holiday requests
+	 * limit 100
+	 * @return
+	 */
     @GET
     @Path("/all")
     public Response getHolidayRequests() {
     	
-    	logger.debug("getHolidayRequests()");
-    	
     	List<HolidayRequestModel> models = holidayRequestService.getHolidayRequests();
+    	
+    	List<HolidayResponse> holidayRequestResponses = new ArrayList<>();
+    	for(HolidayRequestModel model: models) {
+    		HolidayResponse holidayResponse = holidayRequestMapper.toResponse(model);
+    		holidayRequestResponses.add(holidayResponse);
+    	}
+    	
+        return Response.ok(holidayRequestResponses)
+        		.header("Access-Control-Allow-Origin", "*")
+        		.build();
+    }
+    
+    /**
+     * Gets pages of holiday requests sorted by created by default
+     * @param offset skip number of requests
+     * @param limit size of the page
+     * @return list of HolidayResponse
+     */
+    @GET
+    @Path("/query")
+    public Response getHolidayRequestPages(@QueryParam("offset") int offset,
+    		@QueryParam("limit") int limit) {
+    	
+    	List<HolidayRequestModel> models = holidayRequestService.getHolidayRequests(offset, limit);
     	
     	List<HolidayResponse> holidayRequestResponses = new ArrayList<>();
     	for(HolidayRequestModel model: models) {

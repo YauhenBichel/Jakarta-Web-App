@@ -1,6 +1,7 @@
 com.holidaysystem
 com.holidaysystem.common
 com.holidaysystem.common.exception
+com.holidaysystem.comparator
 com.holidaysystem.config
 com.holidaysystem.constraints
 com.holidaysystem.entity

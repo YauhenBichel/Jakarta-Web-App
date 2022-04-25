@@ -26,22 +26,22 @@ import com.holidaysystem.vo.RegistrationRequest;
  */
 public interface IAuthService {
 	/**
-	 * 
-	 * @param email
-	 * @param password
-	 * @return
+	 * Login
+	 * @param email user email
+	 * @param password user password
+	 * @return AccountDetailsModel model
 	 */
 	AccountDetailsModel login(String email, String password);
 	/**
-	 * 
-	 * @param password
-	 * @return
+	 * Generates hash of the password
+	 * @param password user password
+	 * @return hash of the password
 	 */
 	String generateHash(String password);
 	/**
-	 * 
-	 * @param registrationRequest
-	 * @return
+	 * Registers the new account
+	 * @param registrationRequest RegistrationRequest request model
+	 * @return AccountDetailsModel model
 	 */
 	AccountDetailsModel register(RegistrationRequest registrationRequest);	
 }

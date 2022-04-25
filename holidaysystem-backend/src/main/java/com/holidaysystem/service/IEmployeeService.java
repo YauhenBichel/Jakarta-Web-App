@@ -31,12 +31,12 @@ import com.holidaysystem.vo.NewEmployeeRequest;
  */
 public interface IEmployeeService {
 	/**
-	 * 
-	 * @return
+	 * Gets employees from all departments
+	 * @return list of EmployeeModel models
 	 */
     List<EmployeeModel> getEmployees();
     /**
-     * 
+     * Gets employees from all departments
      * @param date
      * @return
      */

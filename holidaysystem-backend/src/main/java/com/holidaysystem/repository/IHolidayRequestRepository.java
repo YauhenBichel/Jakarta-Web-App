@@ -29,45 +29,12 @@ import com.holidaysystem.model.HolidayRequestModel;
  *
  */
 public interface IHolidayRequestRepository {
-	/**
-	 * 
-	 * @return
-	 */
 	List<HolidayRequestEntity> getHolidayRequests();
-	/**
-	 * 
-	 * @return
-	 */
 	List<HolidayRequestModel> getHolidayRequestModels();
-	/**
-	 * 
-	 * @param requestStatus
-	 * @return
-	 */
+	List<HolidayRequestModel> getHolidayRequestModels(int offset, int limit);
 	List<HolidayRequestEntity> getHolidayRequestsByStatus(HolidayRequestStatusEnum requestStatus);
-	/**
-	 * 
-	 * @param requestStatus
-	 * @return
-	 */
 	List<HolidayRequestModel> getHolidayRequestModelsByStatus(HolidayRequestStatusEnum requestStatus);
-	/**
-	 * 
-	 * @param holidayRequestId
-	 * @return
-	 */
 	HolidayRequestEntity findById(UUID holidayRequestId);
-	/**
-	 * 
-	 * @param holidayRequestEntity
-	 * @return
-	 */
 	boolean save(HolidayRequestEntity holidayRequestEntity); 
-	/**
-	 * 
-	 * @param id
-	 * @param holidayRequestEntity
-	 * @return
-	 */
 	HolidayRequestEntity update(UUID id, HolidayRequestEntity holidayRequestEntity); 
 }

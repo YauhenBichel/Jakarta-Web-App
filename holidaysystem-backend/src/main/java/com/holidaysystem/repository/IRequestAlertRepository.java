@@ -27,21 +27,7 @@ import com.holidaysystem.entity.RequestAlertEntity;
  *
  */
 public interface IRequestAlertRepository {
-	/**
-	 * 
-	 * @return
-	 */
 	List<RequestAlertEntity> getRequestAlerts();
-	/**
-	 * 
-	 * @param holidayRequestId
-	 * @return
-	 */
 	RequestAlertEntity findById(UUID holidayRequestId);
-	/**
-	 * 
-	 * @param holidayRequestEntity
-	 * @return
-	 */
 	boolean save(RequestAlertEntity holidayRequestEntity);  
 }

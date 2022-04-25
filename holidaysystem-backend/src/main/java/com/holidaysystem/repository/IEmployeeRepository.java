@@ -31,50 +31,50 @@ import com.holidaysystem.model.EmployeeModel;
  */
 public interface IEmployeeRepository {
 	/**
-	 * 
-	 * @param userId
-	 * @return
+	 * Finds employee entity by id
+	 * @param employeeId UUID employee id
+	 * @return employee entity
 	 */
-	EmployeeEntity findById(UUID userId);
+	EmployeeEntity findById(UUID employeeId);
     /**
-     * 
+     * Finds employee entity by email
      * @param email
-     * @return
+     * @return employee entity
      */
     EmployeeEntity findByEmail(String email);
     /**
-     * 
-     * @param user
-     * @return
+     * Adds a new employee
+     * @param employeeEntity employee entity
+     * @return true is added, false is failed
      */
-    boolean save(EmployeeEntity user);
+    boolean save(EmployeeEntity employeeEntity);
     /**
-     * 
-     * @return
+     * Gets all employee entities
+     * @return list of employee entities
      */
     List<EmployeeEntity> getEmployees();
     /**
-     * 
-     * @return
+     * Gets all employee models
+     * @return list of employee models
      */
     List<EmployeeModel> getEmployeeModels();
     /**
-     * 
-     * @param department
-     * @return
+     * Gets employees from specific department
+     * @param department department
+     * @return list of employee models
      */
     List<EmployeeModel> getEmployeeModelsByDepartmentId(String department);
     /**
-     * 
-     * @param date
-     * @return
+     * Gets employees on holidays on specific date
+     * @param date the date
+     * @return list of employee models on holidays
      */
-    List<EmployeeModel> getEmployeeModelsByDate(LocalDateTime date);
+    List<EmployeeModel> getEmployeeModelsOnHolidaysByDate(LocalDateTime date);
     /**
-     * 
-     * @param date
-     * @param holidayStatus
-     * @return
+     * Gets employees on holidays or on duty on specific date
+     * @param date the date
+     * @param holidayStatus the status of HolidayStatusEnum
+     * @return list of employee models
      */
     List<EmployeeModel> getEmployeeModelsByDateAndHolidayStatus(LocalDateTime date, HolidayStatusEnum holidayStatus);
 }

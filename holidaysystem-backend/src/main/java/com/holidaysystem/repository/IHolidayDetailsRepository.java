@@ -31,33 +31,33 @@ import com.holidaysystem.model.HolidayRequestModel;
  */
 public interface IHolidayDetailsRepository {
 	/**
-	 * 
-	 * @param Id
-	 * @return
+	 * Finds holiday details entity by id
+	 * @param Id UUID of holiday details entity
+	 * @return HolidayDetailsEntity entity
 	 */
 	HolidayDetailsEntity findById(UUID Id);
 	/**
-	 * 
+	 * Finds employee by employee Id
 	 * @param employeeId
-	 * @return
+	 * @return HolidayDetailsEntity entity
 	 */
 	HolidayDetailsEntity findByEmployeeId(UUID employeeId);
     /**
-     * 
+     * Adds a new holiday detail entity
      * @param holidayDetails
-     * @return
+     * @return true is saved, false is failed
      */
     boolean save(HolidayDetailsEntity holidayDetails);
     /**
-     * 
-     * @return
+     * Fetches all holiday detail entities
+     * @return list of HolidayDetailsEntity entities
      */
     List<HolidayDetailsEntity> getHolidayDetails();
     /**
-     * 
-     * @param date
-     * @param requestStatus
-     * @return
+     * Fetches HolidayRequest models
+     * @param date LocalDateTime
+     * @param requestStatus HolidayRequestStatusEnum enumeration
+     * @return list of HolidayRequestModel models
      */
     List<HolidayRequestModel> getApprovedAndByDate(LocalDateTime date, HolidayRequestStatusEnum requestStatus);
 }

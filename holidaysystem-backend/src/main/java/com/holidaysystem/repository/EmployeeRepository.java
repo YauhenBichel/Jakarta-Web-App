@@ -36,7 +36,6 @@ import com.holidaysystem.model.EmployeeModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -278,7 +277,7 @@ public class EmployeeRepository implements IEmployeeRepository {
 	}
 
 	@Override
-	public List<EmployeeModel> getEmployeeModelsByDate(LocalDateTime date) {
+	public List<EmployeeModel> getEmployeeModelsOnHolidaysByDate(LocalDateTime date) {
 		try (Connection connection = dataSource.getConnection()) {
 			final String query = "SELECT empl.id, empl.firstname, empl.lastname, " +
 					"empl.role, empl.department, empl.accountid, hd.totaldays, " + 

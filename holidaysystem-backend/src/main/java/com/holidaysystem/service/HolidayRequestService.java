@@ -32,6 +32,7 @@ import javax.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 import com.holidaysystem.Constants;
+import com.holidaysystem.common.exception.RecordNotFoundException;
 import com.holidaysystem.comparator.HolidayRequestModelComparator;
 import com.holidaysystem.constraints.IConstraintsValidator;
 import com.holidaysystem.entity.EmployeeEntity;
@@ -76,9 +77,15 @@ public class HolidayRequestService implements IHolidayRequestService {
     @Inject
     private HolidayRequestModelComparator comparator;
 	
-	@Transactional
+    @Transactional
 	public List<HolidayRequestModel> getHolidayRequests() {
 		List<HolidayRequestModel> models = holidayRequestRepository.getHolidayRequestModels();
+    	return models;
+	}
+    
+	@Transactional
+	public List<HolidayRequestModel> getHolidayRequests(int offset, int limit) {
+		List<HolidayRequestModel> models = holidayRequestRepository.getHolidayRequestModels(offset, limit);
     	return models;
 	}
 	
@@ -120,7 +127,7 @@ public class HolidayRequestService implements IHolidayRequestService {
     	}
     	
     	logger.info("request with id: " + requestId + " not found");
-    	return null;
+    	throw new RecordNotFoundException("Holiday request is not found");
 	}
 	
 	@Transactional
@@ -129,13 +136,13 @@ public class HolidayRequestService implements IHolidayRequestService {
 		HolidayRequestEntity dbHolidayRequestEntity = this.findEntityById(requestId);
 		if(dbHolidayRequestEntity == null) {
 			logger.error("holiday request not found");
-			throw new RuntimeException("holiday request not found");
+			throw new RecordNotFoundException("holiday request not found");
 		}
 		
 		EmployeeEntity dbEmployeeEntity = employeeRepository.findById(dbHolidayRequestEntity.getEmployeeId());
 		if(dbEmployeeEntity == null) {
 			logger.error("employee not found");
-			throw new RuntimeException("employee not found");
+			throw new RecordNotFoundException("employee not found");
 		}
 		
 		List<EmployeeModel> employeeModels = employeeRepository.getEmployeeModelsByDepartmentId(dbEmployeeEntity.getDepartment());

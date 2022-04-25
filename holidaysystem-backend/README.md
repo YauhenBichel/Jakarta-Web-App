@@ -68,9 +68,7 @@ Stateless Session Beans
 Using @Transactional annotation for services, which aggregate repository calls
 
 ### Validation
-
-
-### Unit tests
+javax.validation.constraints
 
 ### Javadoc
 doc folder
@@ -80,6 +78,9 @@ doc folder
 - In [WILDFLY_HOME]/modules add /org/postgresql/main
 - In main folder add module.xml and postgresql-42.3.3.jar from [poject root]/wildfly folder
 - Using Wildfly deployment add postgresql-42.3.3.jar
+
+module:org.postgresql
+driver: postgresql-42.3.3.jar
 
 postgresql 42.3.3
 > https://jdbc.postgresql.org/download.html
