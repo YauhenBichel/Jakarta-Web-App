@@ -28,6 +28,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 
@@ -84,7 +85,6 @@ public class HolidayRequestResource {
     	}
     	
         return Response.ok(holidayRequestResponses)
-        		.header("Access-Control-Allow-Origin", "*")
         		.build();
     }
     
@@ -178,12 +178,15 @@ public class HolidayRequestResource {
     }
     
     @POST()
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createHolidayRequest(HolidayRequest holidayRequest) { 
     	UUID id = UUID.randomUUID();
     	
     	holidayRequestService.addHolidayRequest(id, holidayRequest);
+        
         return Response.ok(id)
-        		.header("Access-Control-Allow-Origin", "*")
+        		//.header("Access-Control-Allow-Origin", "*")
+        		.status(Status.CREATED)
         		.build();
     }
     

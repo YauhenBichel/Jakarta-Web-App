@@ -27,6 +27,7 @@ import com.holidaysystem.entity.HolidayDetailsEntity;
 import com.holidaysystem.enumeration.DepartmentEnum;
 import com.holidaysystem.model.EmployeeModel;
 import com.holidaysystem.enumeration.EmployeeRoleEnum;
+import com.holidaysystem.enumeration.HolidayStatusEnum;
 import com.holidaysystem.vo.NewEmployeeRequest;
 import com.holidaysystem.vo.EmployeeResponse;
 
@@ -106,7 +107,8 @@ public class EmployeeMapper {
 		employee.setYears(model.getYears());
 		employee.setTotalDays(model.getTotalDays());
 		employee.setTakenDays(model.getTakenDays());
-		employee.setHolidayStatus(model.getHolidayStatus().name());
+		employee.setHolidayStatus(model.getHolidayStatus() == null? HolidayStatusEnum.ON_DUTY.name() 
+				: model.getHolidayStatus().name());
 		
 		return employee;
 	}

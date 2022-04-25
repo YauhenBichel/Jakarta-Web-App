@@ -155,6 +155,7 @@
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
+                    <driver name="postgresql-42.3.3.jar" module="org.postgresql"/>
                 </drivers>
             </datasources>
         </subsystem>
@@ -523,6 +524,13 @@
                 <https-listener name="https" socket-binding="https" ssl-context="applicationSSC" enable-http2="true"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
+                    <filter-ref name="server-header"/>
+                    <filter-ref name="x-powered-by-header"/>
+                    <filter-ref name="Access-Control-Allow-Origin"/>
+                    <filter-ref name="Access-Control-Allow-Methods"/>
+                    <filter-ref name="Access-Control-Allow-Headers"/>
+                    <filter-ref name="Access-Control-Allow-Credentials"/>
+                    <filter-ref name="Access-Control-Max-Age"/>
                     <http-invoker http-authentication-factory="application-http-authentication"/>
                 </host>
             </server>
@@ -533,6 +541,15 @@
             <handlers>
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
             </handlers>
+            <filters>
+                <response-header name="server-header" header-name="Server" header-value="WildFly/10"/>
+                <response-header name="x-powered-by-header" header-name="X-Powered-By" header-value="Undertow/1"/>
+                <response-header name="Access-Control-Allow-Origin" header-name="Access-Control-Allow-Origin" header-value="*"/>
+                <response-header name="Access-Control-Allow-Methods" header-name="Access-Control-Allow-Methods" header-value="GET, POST, OPTIONS, PUT"/>
+                <response-header name="Access-Control-Allow-Headers" header-name="Access-Control-Allow-Headers" header-value="accept, authorization, content-type, x-requested-with"/>
+                <response-header name="Access-Control-Allow-Credentials" header-name="Access-Control-Allow-Credentials" header-value="true"/>
+                <response-header name="Access-Control-Max-Age" header-name="Access-Control-Max-Age" header-value="1"/>
+            </filters>
             <application-security-domains>
                 <application-security-domain name="other" security-domain="ApplicationDomain"/>
             </application-security-domains>
@@ -574,9 +591,4 @@
             <remote-destination host="${jboss.mail.server.host:localhost}" port="${jboss.mail.server.port:25}"/>
         </outbound-socket-binding>
     </socket-binding-group>
-    <deployments>
-        <deployment name="postgresql-42.3.3.jar" runtime-name="postgresql-42.3.3.jar">
-            <content sha1="6f639af368afda4c5a3e77a6299262c501e67076"/>
-        </deployment>
-    </deployments>
 </server>

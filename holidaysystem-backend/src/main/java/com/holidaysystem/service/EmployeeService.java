@@ -108,12 +108,16 @@ public class EmployeeService implements IEmployeeService {
     	holidayDetails.setEmployeeId(employeeEntity.getId());
     	holidayDetails.setTotalDays(30);
     	holidayDetails.setTakenDays(0);
+    	holidayDetails.setStatus(HolidayStatusEnum.ON_DUTY.name());
     	holidayDetails.setCreated(LocalDateTime.now());
     	holidayDetails.setModified(LocalDateTime.now());
     	
     	holidayDetailsRepository.save(holidayDetails);
     	
     	AccountEntity accountEntity = accountRepository.findById(employeeEntity.getAccountId());
+    	
+    	if(accountEntity == null) 
+    		throw new RecordNotFoundException("Account not found");
     	
     	EmployeeModel empployeeModel = employeeMapper.toEmployeeModel(employeeEntity, accountEntity, holidayDetails);
     	

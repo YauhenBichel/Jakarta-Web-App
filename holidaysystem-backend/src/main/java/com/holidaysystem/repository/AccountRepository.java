@@ -52,9 +52,10 @@ public class AccountRepository implements IAccountRepository {
 	@Override
 	public AccountEntity findById(UUID accountId) {
 		try (Connection connection = dataSource.getConnection()) {
-			final String query = "SELECT acc.id, acc.email, acc.password, acc.active, acc.auth_roleid, acc.created, acc.modified "
+			final String query = "SELECT acc.id, acc.email, acc.password, acc.active, "
+					+ "acc.auth_roleid, acc.created, acc.modified "
 					+ "FROM account acc "
-					+ "WHERE id = ?;"; 
+					+ "WHERE acc.id = ?"; 
 			
 			try (PreparedStatement stmt = connection.prepareStatement(query)) {
 				stmt.setObject(1, accountId);

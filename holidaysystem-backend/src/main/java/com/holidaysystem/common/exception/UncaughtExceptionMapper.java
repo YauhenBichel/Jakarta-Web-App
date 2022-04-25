@@ -26,7 +26,7 @@ import org.jboss.logging.Logger;
  * @author yauhen bichel yb3129h@gre.ac.uk Student Id 001185491
  *
  */
-@Provider
+//@Provider
 public class UncaughtExceptionMapper implements ExceptionMapper<Exception> {
     
     private static final Logger logger = Logger.getLogger(UncaughtExceptionMapper.class);

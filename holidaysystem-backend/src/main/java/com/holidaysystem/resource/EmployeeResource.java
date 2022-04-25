@@ -26,6 +26,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 
@@ -96,9 +97,7 @@ public class EmployeeResource {
     	EmployeeModel employeeModel = employeeService.create(employeeRequest);
     	EmployeeResponse employee = employeeMapper.toResponse(employeeModel);
     	
-        return Response.ok(employee)
-        		.header("Access-Control-Allow-Origin", "*")
-        		.build();
+        return Response.status(Status.CREATED).entity(employee).build();
     }
     
     @POST()
