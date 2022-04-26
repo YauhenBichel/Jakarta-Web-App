@@ -1,0 +1,623 @@
+{
+	"info": {
+		"_postman_id": "ac24ec97-5dd2-4500-b2cd-8669b4c044b8",
+		"name": "Holiday System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Employees",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "yauhen.bichel@belarus.com&1234",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/employee/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"employee",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Employees By Date",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "yauhen.bichel@belarus.com&1234",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2022-10-02 00:00:00.000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/employee/all/date",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"employee",
+						"all",
+						"date"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get On Duty Employees By Date",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "yauhen.bichel@belarus.com&1234",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2022-10-02 00:00:00.000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/employee/on-duty/date",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"employee",
+						"on-duty",
+						"date"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get On Holiday Employees By Date",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "yauhen.bichel@belarus.com&1234",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2022-10-02 00:00:00.000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/employee/on-holiday/date",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"employee",
+						"on-holiday",
+						"date"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Holiday Requests",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Prioritized Holiday Requests",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2022-07-02 00:00:00.000\",\n    \"requestStatus\": \"APPROVED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/all/prioritized",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"all",
+						"prioritized"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Alternative Dates",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/1c0e7611-4869-45cc-b08a-140f12fdfa39/alternative-dates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"1c0e7611-4869-45cc-b08a-140f12fdfa39",
+						"alternative-dates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Holiday Requests By Status",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/all/PENDING",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"all",
+						"PENDING"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Request Alerts",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/request-alert/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"request-alert",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Employee By Id",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/employee/e51b3404-810f-49ba-a725-2f0a1e7d1180",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"employee",
+						"e51b3404-810f-49ba-a725-2f0a1e7d1180"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Holiday Request By Id",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/1c0e7611-4869-45cc-b08a-140f12fdfa39",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"1c0e7611-4869-45cc-b08a-140f12fdfa39"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Holiday Request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/request-processing/1c0e7611-4869-45cc-b08a-140f12fdfa39/validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"request-processing",
+						"1c0e7611-4869-45cc-b08a-140f12fdfa39",
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Employee",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Eugene\",\n    \"lastName\": \"Bichel\",\n    \"accountId\": \"2fdbb630-2660-4b26-9db5-3bcafd85df9b\",\n    \"role\":\"HEAD\",\n    \"department\": \"BRICKLAYING\",\n    \"years\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/employee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Holiday Request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"employeeId\": \"e51b3404-810f-49ba-a725-2f0a1e7d1180\",\n    \"status\": \"PENDING\",\n    \"startDate\": \"2022-11-01 00:00:00\",\n    \"endDate\":\"2022-11-15 00:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Holiday Request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"employeeId\": \"e51b3404-810f-49ba-a725-2f0a1e7d1180\",\n    \"status\": \"BROKEN\",\n    \"startDate\": \"2022-06-01 00:00:00\",\n    \"endDate\":\"2022-06-15 00:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/holiday-request/674dbcb7-9fd1-48d4-b976-713375306db0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"holiday-request",
+						"674dbcb7-9fd1-48d4-b976-713375306db0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin.admin@holidaysystem.org\",\n    \"password\": \"1234\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin.admin@holidaysystem.org\",\n    \"password\": \"1234\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Roles",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/role/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"role",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Departments",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holidaysystem/api/department/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holidaysystem",
+						"api",
+						"department",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
